@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Kontaktieren Sie 3NC für Smart Home, 3D-Druck, Galvanik und technische Wohnraumoptimierung in Dresden.">
+    <title>Kontakt | 3NC</title>
+    <link rel="stylesheet" href="style_v2.css">
+    <link rel="stylesheet" href="fonts/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 0;
+        }
+
+        .form-box {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            border-color: var(--gold-primary);
+            outline: none;
+        }
+
+        @media(max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Leistungen</a></li>
+                <li><a href="about.html" class="nav-link">Manufaktur</a></li>
+                <li><a href="contact.html" class="nav-link active">Kontakt</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger"><span class="bar"></span><span class="bar"></span><span
+                    class="bar"></span></div>
+        </div>
+    </nav>
+
+    <div style="padding-top: 10rem; text-align: center;">
+        <div class="container">
+            <h1>Starten Sie Ihr <span class="text-gold">Projekt</span></h1>
+        </div>
+    </div>
+
+    <section class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <p class="text-gold" style="margin-bottom: 1rem;">KONTAKT AUFNEHMEN</p>
+                <h2 style="margin-bottom: 2rem;">Lassen Sie uns über Ihre Ideen sprechen.</h2>
+                <p style="color: var(--text-muted); margin-bottom: 3rem;">
+                    Ob komplexes Smart-Home-Upgrade, eine individuelle Anfertigung oder ein technisches Makeover Ihrer
+                    Immobilie –
+                    ich berate Sie gerne persönlich und vor Ort.
+                </p>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color:white; margin-bottom:0.5rem;">E-Mail</h4>
+                    <p style="color:var(--text-muted);"><a href="mailto:3ncsoloutions@gmail.com"
+                            style="color:var(--text-muted);">3ncsoloutions@gmail.com</a></p>
+                </div>
+                <div>
+                    <h4 style="color:white; margin-bottom:0.5rem;">Region</h4>
+                    <p style="color:var(--text-muted);">Großraum Dresden & Remote (3D-Druck)</p>
+                </div>
+            </div>
+
+            <div class="form-box">
+                <form id="contactForm" action="mailto:3ncsoloutions@gmail.com" method="POST" enctype="text/plain">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Ihr Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Thema</label>
+                        <select class="form-control">
+                            <option>Smart Living Konzept</option>
+                            <option>Custom Design / 3D-Druck</option>
+                            <option>Wohnungs-Makeover</option>
+                            <option>Sonstiges</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nachricht</label>
+                        <textarea class="form-control" rows="5" placeholder="Wie kann ich helfen?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-gold" style="width: 100%;">Anfrage senden</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 4rem 0; color: var(--text-muted);">
+            <p>&copy; 2026 3NC – Louis Altmann.</p>
+            <p style="margin-top:1rem; font-size:0.85rem;"><a href="impressum.html"
+                    style="color:var(--text-muted);">Impressum</a> · <a href="datenschutz.html"
+                    style="color:var(--text-muted);">Datenschutz</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

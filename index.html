@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Smart Home Automation, 3D-Druck, Galvanik & Wohnungs-Makeover in Dresden. Individuelle technische Lösungen von 3NC.">
+    <title>Wohnkultur & Technik | 3NC</title>
+    <!-- New Premium Stylesheet -->
+    <link rel="stylesheet" href="style_v2.css">
+    <!-- Local Fonts (DSGVO-konform) -->
+    <link rel="stylesheet" href="fonts/inter.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="services.html" class="nav-link">Leistungen</a></li>
+                <li><a href="about.html" class="nav-link">Manufaktur</a></li>
+                <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+            </ul>
+
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full Screen Hero -->
+    <header class="hero section-full">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <p>TECHNISCHE VEREDELUNG & SMART LIVING</p>
+                <h1>Ihr Zuhause.<br>Perfekt <span class="text-gold">Inszeniert.</span></h1>
+                <p>
+                    Keine Standardlösungen. Ich verbinde präzise Handwerkskunst mit modernster Smart-Home-Technologie.
+                    Für Menschen, die Wert auf Individualität, Sicherheit und Ästhetik legen.
+                </p>
+                <div class="hero-buttons">
+                    <a href="contact.html" class="btn btn-gold">Projekt Starten</a>
+                    <a href="services.html" class="btn btn-outline">Portfolio</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <!-- Using placeholder logic that fits the theme if image missing -->
+                <img src="images/hero-tech.jpg" alt="Luxuriöses Smart Home Wohnzimmer"
+                    onerror="this.onerror=null;this.parentNode.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(45deg, #132a1f, #0a120d);display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:4rem;\'><i class=\'fa-solid fa-microchip\'></i></div>'">
+            </div>
+        </div>
+    </header>
+
+    <!-- High-Value Services Teaser -->
+    <section class="services-section section-full">
+        <div class="container">
+            <div class="section-head">
+                <p>EXPERTISE</p>
+                <h2>Wohn-Upgrade auf <span class="text-gold">neuem Level</span></h2>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Card 1: Smart Living -->
+                <div class="tech-card">
+                    <i class="fa-solid fa-house-signal"></i>
+                    <h3>Smart Living</h3>
+                    <p>
+                        Intelligente Steuerung für Licht, Klima und Sicherheit.
+                        Diskret integriert, intuitiv bedienbar und absolut privat.
+                    </p>
+                </div>
+
+                <!-- Card 2: Custom 3D & Scanning -->
+                <div class="tech-card">
+                    <i class="fa-solid fa-cube"></i>
+                    <h3>Scan & Design</h3>
+                    <p>
+                        Ersatzteile scannen & rekonstruieren. Individueller Schmuck mit NFC-Technik.
+                        Präziser 3D-Druck, veredelt mit echtem Gold.
+                    </p>
+                </div>
+
+                <!-- Card 3: Galvanik -->
+                <div class="tech-card">
+                    <i class="fa-solid fa-flask"></i>
+                    <h3>Galvanische Veredelung</h3>
+                    <p>
+                        Echtes Gold, Kupfer oder Nickel – elektrochemisch aufgetragen.
+                        Für 3D-Drucke, Modellbau, Schmuck und Restauration.
+                    </p>
+                </div>
+
+                <!-- Card 4: Technical Renovation -->
+                <div class="tech-card">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                    <h3>Wohnungs-Makeover</h3>
+                    <p>
+                        Technisches Facelift für Ihre Immobilie.
+                        Beschläge, Schalterprogramme und Smart-Ready Checks für Verkauf oder Vermietung.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container" style="text-align:center; padding:4rem 0; color:var(--text-muted);">
+            <p>&copy; 2026 3NC – Louis Altmann. Engineering & Craftsmanship.</p>
+            <p style="margin-top:1rem; font-size:0.85rem;"><a href="impressum.html"
+                    style="color:var(--text-muted);">Impressum</a> · <a href="datenschutz.html"
+                    style="color:var(--text-muted);">Datenschutz</a></p>
+        </div>
+    </footer>
+
+    <!-- Simple Script for Mobile Menu -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

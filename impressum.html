@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Impressum von 3NC – Louis Altmann, Dresden. Angaben gemäß § 5 TMG.">
+    <title>Impressum | 3NC</title>
+    <link rel="stylesheet" href="style_v2.css">
+    <link rel="stylesheet" href="fonts/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 12rem 2rem 6rem;
+        }
+
+        .legal-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .legal-content h2 {
+            color: var(--gold-primary);
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .legal-content p,
+        .legal-content li {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+        }
+
+        .legal-content a {
+            color: var(--gold-primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Leistungen</a></li>
+                <li><a href="about.html" class="nav-link">Manufaktur</a></li>
+                <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger"><span class="bar"></span><span class="bar"></span><span
+                    class="bar"></span></div>
+        </div>
+    </nav>
+
+    <div class="legal-content">
+        <h1>Impressum</h1>
+
+        <h2>Angaben gemäß § 5 TMG</h2>
+        <p>
+            Louis Altmann<br>
+            3NC – Technische Veredelung & Smart Living<br>
+            Tolkewitzer Straße 2<br>
+            01277 Dresden
+        </p>
+
+        <h2>Kontakt</h2>
+        <p>
+            E-Mail: <a href="mailto:3ncsoloutions@gmail.com">3ncsoloutions@gmail.com</a>
+        </p>
+
+        <h2>Umsatzsteuer-Identifikationsnummer</h2>
+        <p>
+            Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br>
+            <strong>DE341186886</strong>
+        </p>
+
+        <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+        <p>
+            Louis Altmann<br>
+            Tolkewitzer Straße 2<br>
+            01277 Dresden
+        </p>
+
+        <h2>Haftungsausschluss</h2>
+
+        <h3 style="color:white; margin-top:1.5rem; margin-bottom:0.5rem;">Haftung für Inhalte</h3>
+        <p>
+            Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit
+            und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir
+            gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.
+            Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder
+            gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine
+            rechtswidrige Tätigkeit hinweisen.
+        </p>
+
+        <h3 style="color:white; margin-top:1.5rem; margin-bottom:0.5rem;">Haftung für Links</h3>
+        <p>
+            Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben.
+            Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
+            verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+        </p>
+
+        <h3 style="color:white; margin-top:1.5rem; margin-bottom:0.5rem;">Urheberrecht</h3>
+        <p>
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
+            Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+            Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+    </div>
+
+    <footer>
+        <div class="container" style="text-align: center; padding: 4rem 0; color: var(--text-muted);">
+            <p>&copy; 2026 3NC – Louis Altmann.</p>
+            <p style="margin-top:1rem; font-size:0.85rem;"><a href="impressum.html"
+                    style="color:var(--text-muted);">Impressum</a> · <a href="datenschutz.html"
+                    style="color:var(--text-muted);">Datenschutz</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
