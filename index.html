@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Smart Home Automation, 3D-Druck, Galvanik & Wohnungs-Makeover in Dresden. Individuelle technische Lösungen von 3NC.">
-    <title>Wohnkultur & Technik | 3NC</title>
-    <!-- New Premium Stylesheet -->
+        content="3NC – Smart Home, Galvanische Veredelung, 3D-Druck & Wohnraumoptimierung in Dresden. Technik trifft Handwerk.">
+    <title>3NC · Technische Veredelung & Smart Living</title>
     <link rel="stylesheet" href="style_v2.css">
-    <!-- Local Fonts (DSGVO-konform) -->
     <link rel="stylesheet" href="fonts/inter.css">
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -19,7 +16,7 @@
 
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container nav-container">
+        <div class="container nav-inner">
             <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
 
             <ul class="nav-links" id="navLinks">
@@ -27,111 +24,198 @@
                 <li><a href="services.html" class="nav-link">Leistungen</a></li>
                 <li><a href="about.html" class="nav-link">Manufaktur</a></li>
                 <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+
+                <li class="lang-switcher">
+                    <a href="index.html" class="lang-flag active" title="Deutsch">🇩🇪</a>
+                    <a href="en/index.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="ru/index.html" class="lang-flag" title="Русский">🇷🇺</a>
+                    <a href="ar/index.html" class="lang-flag" title="العربية">🇸🇦</a>
+                    <a href="vn/index.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
+                </li>
             </ul>
 
             <div class="hamburger" id="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </div>
         </div>
     </nav>
 
-    <!-- Full Screen Hero -->
-    <header class="hero section-full">
-        <div class="container hero-grid">
-            <div class="hero-text">
-                <p>TECHNISCHE VEREDELUNG & SMART LIVING</p>
-                <h1>Ihr Zuhause.<br>Perfekt <span class="text-gold">Inszeniert.</span></h1>
-                <p>
-                    Keine Standardlösungen. Ich verbinde präzise Handwerkskunst mit modernster Smart-Home-Technologie.
-                    Für Menschen, die Wert auf Individualität, Sicherheit und Ästhetik legen.
-                </p>
-                <div class="hero-buttons">
-                    <a href="contact.html" class="btn btn-gold">Projekt Starten</a>
-                    <a href="services.html" class="btn btn-outline">Portfolio</a>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <!-- Using placeholder logic that fits the theme if image missing -->
-                <img src="images/hero-tech.jpg" alt="Luxuriöses Smart Home Wohnzimmer"
-                    onerror="this.onerror=null;this.parentNode.innerHTML='<div style=\'width:100%;height:100%;background:linear-gradient(45deg, #132a1f, #0a120d);display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:4rem;\'><i class=\'fa-solid fa-microchip\'></i></div>'">
+    <!-- Hero — Full Bleed -->
+    <header class="hero">
+        <div class="hero-bg" style="background-image: url('images/hero-tech.jpg')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-label">Dresden · Technische Veredelung & Smart Living</p>
+            <h1 class="hero-title">Ihr Zuhause.<br>Perfekt <span class="text-gold">inszeniert.</span></h1>
+            <p class="hero-sub">
+                Präzise Handwerkskunst trifft moderne Technologie.
+                Individuelle Lösungen für Menschen, die Qualität erwarten.
+            </p>
+            <div class="hero-cta">
+                <a href="contact.html" class="btn btn-gold">Projekt besprechen</a>
+                <a href="services.html" class="btn btn-ghost">Leistungen ansehen →</a>
             </div>
         </div>
     </header>
 
-    <!-- High-Value Services Teaser -->
-    <section class="services-section section-full">
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="trust-row">
+            <div class="trust-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>VDE-konform</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-lock"></i>
+                <span>100% Lokal · Keine Cloud</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-leaf"></i>
+                <span>Fachgerechte Entsorgung</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-map-pin"></i>
+                <span>Dresden & Umgebung</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-language"></i>
+                <span>DE · EN · RU · AR · VN</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editorial Service Blocks -->
+    <section class="editorial-section">
         <div class="container">
-            <div class="section-head">
-                <p>EXPERTISE</p>
-                <h2>Wohn-Upgrade auf <span class="text-gold">neuem Level</span></h2>
+
+            <!-- Block 1: Smart Home -->
+            <div class="editorial-block fade-in">
+                <div class="editorial-img">
+                    <img src="images/smart-detail.jpg" alt="Modernes Smart Home Wohnzimmer mit integrieter Beleuchtung">
+                </div>
+                <div class="editorial-text">
+                    <p class="editorial-label">Smart Living</p>
+                    <h2>Intelligenz, die man nicht sieht</h2>
+                    <p>
+                        Licht, Klima, Sicherheit — alles reagiert auf Sie, nicht umgekehrt.
+                        Diskret verbaut, lokal gesteuert, ohne Cloud-Abhängigkeit.
+                        Ihre Daten bleiben bei Ihnen.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">KNX / Zigbee</span>
+                        <span class="tag">Home Assistant</span>
+                        <span class="tag">DSGVO-konform</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="cards-grid">
-                <!-- Card 1: Smart Living -->
-                <div class="tech-card">
+            <!-- Block 2: Galvanik -->
+            <div class="editorial-block reverse fade-in">
+                <div class="editorial-img">
+                    <img src="images/galvanik-detail.jpg" alt="Galvanisches Bad mit Goldlösung">
+                </div>
+                <div class="editorial-text">
+                    <p class="editorial-label">Galvanische Veredelung</p>
+                    <h2>Echtes Gold. Elektrochemisch aufgetragen.</h2>
+                    <p>
+                        Vom 3D-gedruckten Prototyp zum vergoldeten Unikat.
+                        Kupfer, Nickel, Gold — Schicht für Schicht aufgebaut.
+                        Für Modellbau, Schmuck, Restauration und Design-Objekte.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Verkupferung</span>
+                        <span class="tag">Vergoldung</span>
+                        <span class="tag">Vernickelung</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 3: 3D Scan -->
+            <div class="editorial-block fade-in">
+                <div class="editorial-img">
+                    <img src="images/print-detail.jpg" alt="Präziser 3D-Druck eines Designobjekts">
+                </div>
+                <div class="editorial-text">
+                    <p class="editorial-label">Scan & Design</p>
+                    <h2>Vom Scan zum fertigen Objekt</h2>
+                    <p>
+                        Antike Beschläge digitalisieren und originalgetreu nachfertigen.
+                        NFC-Schmuck entwerfen. Ersatzteile konstruieren, die es nicht mehr gibt.
+                        Präzision trifft auf Handwerk.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">3D-Scan</span>
+                        <span class="tag">FDM / Resin</span>
+                        <span class="tag">NFC-Integration</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Statement -->
+    <section class="statement">
+        <div class="container">
+            <blockquote>
+                „Technik soll Ihren Alltag vereinfachen — nicht verkomplizieren."
+            </blockquote>
+            <cite>— Louis Altmann, 3NC Dresden</cite>
+        </div>
+    </section>
+
+    <!-- Compact Service Overview -->
+    <section class="services-compact">
+        <div class="container">
+            <p class="section-label">Alle Leistungen</p>
+            <h2>Was wir für Sie tun</h2>
+            <div class="s-grid">
+                <a href="services.html" class="s-card">
                     <i class="fa-solid fa-house-signal"></i>
-                    <h3>Smart Living</h3>
-                    <p>
-                        Intelligente Steuerung für Licht, Klima und Sicherheit.
-                        Diskret integriert, intuitiv bedienbar und absolut privat.
-                    </p>
-                </div>
-
-                <!-- Card 2: Custom 3D & Scanning -->
-                <div class="tech-card">
-                    <i class="fa-solid fa-cube"></i>
-                    <h3>Scan & Design</h3>
-                    <p>
-                        Ersatzteile scannen & rekonstruieren. Individueller Schmuck mit NFC-Technik.
-                        Präziser 3D-Druck, veredelt mit echtem Gold.
-                    </p>
-                </div>
-
-                <!-- Card 3: Galvanik -->
-                <div class="tech-card">
+                    <h3>Smart Home</h3>
+                    <p>Beleuchtung, Klima, Sicherheit</p>
+                </a>
+                <a href="services.html" class="s-card">
                     <i class="fa-solid fa-flask"></i>
-                    <h3>Galvanische Veredelung</h3>
-                    <p>
-                        Echtes Gold, Kupfer oder Nickel – elektrochemisch aufgetragen.
-                        Für 3D-Drucke, Modellbau, Schmuck und Restauration.
-                    </p>
-                </div>
-
-                <!-- Card 4: Technical Renovation -->
-                <div class="tech-card">
+                    <h3>Galvanik</h3>
+                    <p>Gold, Kupfer, Nickel</p>
+                </a>
+                <a href="services.html" class="s-card">
+                    <i class="fa-solid fa-cube"></i>
+                    <h3>3D & Scan</h3>
+                    <p>Prototypen, Ersatzteile, Design</p>
+                </a>
+                <a href="services.html" class="s-card">
                     <i class="fa-solid fa-screwdriver-wrench"></i>
-                    <h3>Wohnungs-Makeover</h3>
-                    <p>
-                        Technisches Facelift für Ihre Immobilie.
-                        Beschläge, Schalterprogramme und Smart-Ready Checks für Verkauf oder Vermietung.
-                    </p>
-                </div>
+                    <h3>Makeover</h3>
+                    <p>Wohnraum, Technik, Verkauf</p>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container" style="text-align:center; padding:4rem 0; color:var(--text-muted);">
-            <p>&copy; 2026 3NC – Louis Altmann. Engineering & Craftsmanship.</p>
-            <p style="margin-top:1rem; font-size:0.85rem;"><a href="impressum.html"
-                    style="color:var(--text-muted);">Impressum</a> · <a href="datenschutz.html"
-                    style="color:var(--text-muted);">Datenschutz</a></p>
+        <div class="container">
+            <p>&copy; 2026 3NC – Louis Altmann</p>
+            <p style="margin-top:0.75rem;">
+                <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
+            </p>
         </div>
     </footer>
 
-    <!-- Simple Script for Mobile Menu -->
     <script>
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
+        // Mobile menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
         });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 
