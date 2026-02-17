@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا | 3NC</title>
+    <link rel="stylesheet" href="../style_v2.css">
+    <link rel="stylesheet" href="../fonts/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RTL Specific Overrides */
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        .nav-links li {
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+
+        .contact-info {
+            text-align: right;
+            border-right: none;
+            border-left: 1px solid var(--border);
+            padding-right: 0;
+            padding-left: 2rem;
+        }
+
+        .contact-detail i {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+
+        .contact-form label {
+            display: block;
+            text-align: right;
+        }
+
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            text-align: right;
+        }
+
+        /* Checkbox alignment */
+        input[type="checkbox"] {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        /* Grid flip for contact page? 
+           .contact-grid is grid-template-columns: 1fr 1fr; 
+           In RTL, column 1 is on right, column 2 on left. 
+           So Info is Right, Form is Left. This is correct for RTL.
+           The border separator might need check.
+        */
+        @media (max-width: 768px) {
+            .contact-info {
+                border-left: none;
+                border-bottom: 1px solid var(--border);
+                padding-left: 0;
+                padding-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li><a href="../services.html" class="nav-link">الخدمات</a></li>
+                <li><a href="../about.html" class="nav-link">المصنع</a></li>
+                <li><a href="contact.html" class="nav-link active">اتصل بنا</a></li>
+                <li class="lang-switcher">
+                    <a href="../contact.html" class="lang-flag" title="Deutsch">🇩🇪</a>
+                    <a href="../en/contact.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="../ru/contact.html" class="lang-flag" title="Русский">🇷🇺</a>
+                    <a href="contact.html" class="lang-flag active" title="العربية">🇸🇦</a>
+                    <a href="../vn/contact.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger"><span class="bar"></span><span class="bar"></span><span
+                    class="bar"></span></div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <p class="text-gold"
+                style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
+                لنتحدث</p>
+            <h1><span class="text-gold">اطلب</span> مشروع</h1>
+            <p>أخبرني عن فكرتك. سأتصل بك شخصياً.</p>
+        </div>
+    </div>
+
+    <section class="container contact-grid fade-in">
+        <div class="contact-info">
+            <h2>اتصال مباشر</h2>
+            <p>
+                أنا غالباً في ورشة العمل أو مع العملاء.
+                أفضل طريقة للوصول إلي هي عبر البريد الإلكتروني أو النموذج أدناه.
+                عادة ما أجيب في غضون 24 ساعة.
+            </p>
+
+            <div style="margin-top: 2.5rem;">
+                <div class="contact-detail">
+                    <i class="fa-solid fa-user"></i>
+                    <span>لويس ألتمان</span>
+                </div>
+                <div class="contact-detail">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Tolkewitzer Straße 2, 01277 Dresden</span>
+                </div>
+                <div class="contact-detail">
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="mailto:3ncsoloutions@gmail.com"
+                        style="color:var(--text-primary); border-bottom: 1px solid var(--border-gold);">3ncsoloutions@gmail.com</a>
+                </div>
+                <div class="contact-detail">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>واتساب / سيجنال متاح</span>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 3rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-elevated);">
+                <p class="editorial-label">ساعات العمل</p>
+                <p style="font-size: 0.85rem; margin-bottom: 0;">
+                    المواعيد الترتيب.<br>
+                    ممكن في المساء أو عطلة نهاية الأسبوع.
+                </p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <form action="https://formspree.io/f/xbjnqyjb" method="POST">
+
+                <label for="name">الاسم</label>
+                <input type="text" id="name" name="name" placeholder="اسمك" required>
+
+                <label for="email">البريد الإلكتروني</label>
+                <input type="email" id="email" name="email" placeholder="email@example.com" required>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label for="phone">الهاتف (اختياري)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+49 ...">
+                    </div>
+                    <div>
+                        <label for="category">مهتم بـ</label>
+                        <select id="category" name="category">
+                            <option value="General">استفسار عام</option>
+                            <option value="SmartHome">المنزل الذكي</option>
+                            <option value="Galvanik">الطلاء الكهربائي</option>
+                            <option value="3DPrint">طباعة 3D / قطع غيار</option>
+                            <option value="Makeover">تجديد الشقة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="message">الرسالة</label>
+                <textarea id="message" name="message" placeholder="صف مشروعك باختصار..." required></textarea>
+
+                <div style="margin-bottom: 1.5rem; font-size: 0.75rem; color: var(--text-dim);">
+                    <input type="checkbox" required
+                        style="width: auto; margin-right: 0.5rem; margin-left: 0.5rem; display: inline-block;">
+                    أوافق على <a href="../datenschutz.html" style="text-decoration: underline;">سياسة الخصوصية</a>.
+                </div>
+
+                <button type="submit" class="btn btn-gold" style="width: 100%;">إرسال الرسالة</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 3NC – لويس ألتمان</p>
+            <p style="margin-top:0.75rem;">
+                <a href="../impressum.html">بيانات النشر</a> · <a href="../datenschutz.html">سياسة الخصوصية</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

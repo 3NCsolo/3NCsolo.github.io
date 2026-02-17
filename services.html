@@ -10,71 +10,25 @@
     <link rel="stylesheet" href="style_v2.css">
     <link rel="stylesheet" href="fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Specific Page Styles */
-        .page-header {
-            padding: 12rem 0 6rem;
-            text-align: center;
-            background: var(--bg-dark);
-        }
-
-        .page-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .service-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 8rem;
-            align-items: center;
-        }
-
-        .service-row:nth-child(even) .service-text {
-            order: 2;
-        }
-
-        .service-row:nth-child(even) .service-img {
-            order: 1;
-        }
-
-        .service-img {
-            height: 400px;
-            background: #1a2f26;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--gold-dark);
-            position: relative;
-            overflow: hidden;
-        }
-
-        @media (max-width: 768px) {
-            .service-row {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .service-row:nth-child(even) .service-text {
-                order: 1;
-            }
-
-            .service-row:nth-child(even) .service-img {
-                order: 2;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
     <nav class="navbar">
-        <div class="container nav-container">
+        <div class="container nav-inner">
             <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="services.html" class="nav-link active">Leistungen</a></li>
                 <li><a href="about.html" class="nav-link">Manufaktur</a></li>
                 <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+                <li class="lang-switcher">
+                    <a href="index.html" class="lang-flag active" title="Deutsch">🇩🇪</a>
+                    <a href="en/services.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="ru/services.html" class="lang-flag" title="Русский">🇷🇺</a>
+                    <a href="ar/services.html" class="lang-flag" title="العربية">🇸🇦</a>
+                    <a href="vn/services.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
+                </li>
             </ul>
             <div class="hamburger" id="hamburger"><span class="bar"></span><span class="bar"></span><span
                     class="bar"></span></div>
@@ -83,8 +37,11 @@
 
     <div class="page-header">
         <div class="container">
-            <p class="text-gold" style="letter-spacing: 0.2em; margin-bottom: 1rem;">EXZELLENZ IM DETAIL</p>
+            <p class="text-gold"
+                style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
+                Exzellenz im Detail</p>
             <h1>Unser <span class="text-gold">Leistungsspektrum</span></h1>
+            <p>Maßgeschneiderte Lösungen an der Schnittstelle von Handwerk und Hightech.</p>
         </div>
     </div>
 
@@ -93,196 +50,169 @@
         <!-- Smart Living -->
         <div class="service-row" id="tech">
             <div class="service-text">
-                <i class="fa-solid fa-wifi text-gold" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <h2>Smart Living & IoT</h2>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin: 1.5rem 0;">
+                <p class="editorial-label">Smart Living & IoT</p>
+                <h2>Intelligenz, die man fühlt.</h2>
+                <p>
                     Ein echtes Smart Home ist mehr als nur eine App für die Glühbirne. Es ist ein System, das sich Ihren
                     Bedürfnissen anpasst – diskret und sicher.
                     Ich setze auf lokale Lösungen (Home Assistant), bei denen Ihre Daten das Haus nicht verlassen.
                 </p>
                 <div style="margin-top: 2rem;">
-                    <h4
-                        style="color:white; margin-bottom:0.5rem; border-left: 2px solid var(--gold-primary); padding-left: 1rem;">
-                        Mögliche Szenarien:</h4>
-                    <ul style="color: var(--text-main); line-height: 1.8; margin-bottom: 2rem;">
-                        <li><strong>"Kino-Modus":</strong> Ein Klick – Licht dimmt, Jalousien schließen, Beamer startet.
-                        </li>
-                        <li><strong>"Haustier-Freundlich":</strong> Sensoren erkennen den Unterschied: Licht an für Sie,
-                            dunkel für die Katze.</li>
-                        <li><strong>"Unsichtbare Technik":</strong> Integration in Möbel und Wände. Technik ist da, wenn
-                            man sie braucht, sonst unsichtbar.</li>
-                        <li><strong>"Sicherheit":</strong> Das Haus simuliert Anwesenheit, wenn Sie im Urlaub sind.</li>
+                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">Mögliche Szenarien:
+                    </h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem;">
+                        <li><strong class="text-gold">"Kino-Modus":</strong> Ein Klick – Licht dimmt, Jalousien
+                            schließen, Beamer startet.</li>
+                        <li><strong class="text-gold">"Haustier-Freundlich":</strong> Sensoren erkennen den Unterschied:
+                            Licht an für Sie, dunkel für die Katze.</li>
+                        <li><strong class="text-gold">"Unsichtbare Technik":</strong> Integration in Möbel und Wände.
+                            Technik ist da, wenn man sie braucht.</li>
+                        <li><strong class="text-gold">"Sicherheit":</strong> Das Haus simuliert Anwesenheit, wenn Sie im
+                            Urlaub sind.</li>
                     </ul>
                 </div>
             </div>
             <div class="service-img">
-                <img src="images/smart-detail.jpg" alt="Smart Home Interface"
-                    style="width:100%; height:100%; object-fit:cover;">
+                <img src="images/smart-detail.jpg" alt="Smart Home Interface">
             </div>
         </div>
 
         <!-- Custom Design & 3D Scanning -->
         <div class="service-row">
             <div class="service-text">
-                <i class="fa-solid fa-layer-group text-gold" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <p class="editorial-label">Design & Konstruktion</p>
                 <h2>3D-Scan, Druck & Design</h2>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin: 1.5rem 0;">
+                <p>
                     Vom digitalen Zwilling zum physischen Objekt. Ich biete den kompletten Prozess der modernen
                     Fertigung – von der Idee bis zum fertigen Teil.
                 </p>
 
-                <h4 style="color:var(--gold-primary); margin-top: 2rem; margin-bottom: 0.5rem;">Reverse Engineering</h4>
-                <p style="color:var(--text-muted); margin-bottom: 1rem;">
-                    Sie benötigen ein Ersatzteil, das es nicht mehr gibt? Ich scanne das Original (bzw. die Bruchstücke)
-                    hochpräzise ein und rekonstruiere es digital.
-                    Für komplexe Projekte habe ich Zugriff auf industrielles High-End-Equipment.
-                </p>
-
-                <h4 style="color:var(--gold-primary); margin-top: 2rem; margin-bottom: 0.5rem;">Smart Accessoires & NFC
-                </h4>
-                <p style="color:var(--text-muted); margin-bottom: 1rem;">
-                    Individuelle Anhänger, Schlüsselanhänger oder Namenschilder mit integriertem NFC-Chip.
-                    Eine digitale Visitenkarte, ein Link zu Ihrem Portfolio – unsichtbar in einem Schmuckstück
-                    verborgen.
-                </p>
-
-                <ul style="color: var(--text-main); line-height: 2;">
-                    <li><i class="fa-solid fa-check text-gold"></i> FDM & Resin 3D-Druck</li>
-                    <li><i class="fa-solid fa-check text-gold"></i> CAD-Konstruktion (Fusion 360, Blender)</li>
-                    <li><i class="fa-solid fa-check text-gold"></i> Smarte NFC-Schmuckstücke</li>
-                </ul>
+                <div style="margin-top: 2rem; display: grid; gap: 2rem;">
+                    <div>
+                        <h4 style="color:var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem;">Reverse
+                            Engineering</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Sie benötigen ein Ersatzteil, das es nicht mehr gibt? Ich scanne das Original (bzw. die
+                            Bruchstücke)
+                            hochpräzise ein und rekonstruiere es digital.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color:var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem;">Smart
+                            Accessoires & NFC</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Individuelle Anhänger oder Visitenkarten mit integriertem NFC-Chip.
+                            Unsichtbare Technik in edlem Design.
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="service-img">
-                <img src="images/print-detail.jpg" alt="3D Scan & Design"
-                    style="width:100%; height:100%; object-fit:cover;">
+                <img src="images/print-detail.jpg" alt="3D Scan & Design">
             </div>
         </div>
 
         <!-- Galvanische Veredelung -->
         <div class="service-row" id="galvanik">
             <div class="service-text">
-                <i class="fa-solid fa-flask text-gold" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <p class="editorial-label">Oberflächentechnik</p>
                 <h2>Galvanische Veredelung</h2>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin: 1.5rem 0;">
+                <p>
                     Gold, Nickel, Kupfer – echte Metallschichten, elektrochemisch aufgetragen.
                     Kein Spray, kein Lack, sondern ein kontrollierter chemischer Prozess, der Oberflächen dauerhaft
                     veredelt.
                 </p>
 
                 <div style="margin-top: 2rem;">
-                    <h4
-                        style="color:white; margin-bottom:0.5rem; border-left: 2px solid var(--gold-primary); padding-left: 1rem;">
-                        Was kann veredelt werden?</h4>
-                    <ul style="color: var(--text-main); line-height: 1.8; margin-bottom: 2rem;">
-                        <li><strong>Tabletop & Modellbau:</strong> Ihr Lieblings-Miniatur (z.B. Warhammer, D&D) in
-                            echtem Gold oder Kupfer – ein einzigartiges Sammlerstück.</li>
-                        <li><strong>3D-gedruckte Objekte:</strong> Vom Prototyp zum Premium-Produkt.
-                            FDM- oder Resin-Drucke werden durch Galvanik zu metallischen Unikaten.</li>
-                        <li><strong>Schmuck & Accessoires:</strong> Eigene Designs oder Reparaturen –
-                            Ringe, Anhänger, Manschettenknöpfe vergolden oder vernickeln.</li>
-                        <li><strong>Vintage & Restauration:</strong> Alte Beschläge, Türklinken oder Möbelgriffe
-                            aufarbeiten und im Originalton neu veredeln.</li>
-                    </ul>
-                </div>
-
-                <div
-                    style="background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.15); border-radius: 8px; padding: 1.5rem; margin-top: 1rem;">
-                    <h4 style="color: var(--gold-primary); margin-bottom: 0.5rem;">
-                        <i class="fa-solid fa-lightbulb" style="margin-right: 0.5rem;"></i>Der Prozess
+                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">Anwendungsbereiche:
                     </h4>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
-                        Ihr Objekt wird in ein elektrolytisches Bad getaucht, in dem sich unter Stromfluss eine
-                        hauchdünne, gleichmäßige
-                        Metallschicht aufbaut. Die Dicke ist präzise steuerbar – von dekorativ-dünn bis
-                        funktional-robust.
-                        Verfügbare Metalle: <strong style="color:var(--gold-primary);">Gold</strong>,
-                        <strong style="color:#b87333;">Kupfer</strong>,
-                        <strong style="color:#c0c0c0;">Nickel</strong>,
-                        <strong style="color:#cd7f32;">Messing</strong>.
-                    </p>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem;">
+                        <li><strong class="text-gold">Tabletop & Modellbau:</strong> Miniaturen in echtem Gold oder
+                            Kupfer.</li>
+                        <li><strong class="text-gold">3D-Druck Veredelung:</strong> Vom Plastik-Prototyp zum
+                            Metall-Unikat.</li>
+                        <li><strong class="text-gold">Schmuck & Accessoires:</strong> Ringe, Anhänger,
+                            Manschettenknöpfe.</li>
+                        <li><strong class="text-gold">Restauration:</strong> Alte Beschläge im Originalton aufarbeiten.
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="service-img">
-                <img src="images/galvanik-detail.jpg" alt="Galvanisches Vergoldungsbad"
-                    style="width:100%; height:100%; object-fit:cover;">
+                <img src="images/galvanik-detail.jpg" alt="Galvanisches Vergoldungsbad">
             </div>
         </div>
 
         <!-- Makeover & Construction Hacks -->
         <div class="service-row" id="property">
             <div class="service-text">
-                <i class="fa-solid fa-screwdriver-wrench text-gold" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <h2>Wohnungs-Makeover & Optimierung</h2>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin: 1.5rem 0;">
+                <p class="editorial-label">Immobilien-Optimierung</p>
+                <h2>Wohnungs-Makeover</h2>
+                <p>
                     Ein technisches Facelift für Ihre Immobilie. Oft sind es die kleinen Details, die ein Objekt
                     hochwertig wirken lassen oder Energie sparen.
                 </p>
                 <div style="margin-top: 2rem;">
-                    <h4 style="color:white; margin-bottom:0.5rem;">Der "Rental-Ready" Check:</h4>
-                    <p style="color:var(--text-muted); margin-bottom: 1.5rem;">
-                        Ich prüfe und tausche Schalterprogramme, Dichtungen und Beschläge. Perfekt für die
+                    <h4 style="color:var(--text-primary); margin-bottom:0.5rem; font-size: 0.95rem;">Der "Rental-Ready"
+                        Check:</h4>
+                    <p style="color:var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.85rem;">
+                        Prüfung und Tausch von Schalterprogrammen, Dichtungen und Beschlägen. Perfekt für die
                         Neuvermietung.
                     </p>
 
-                    <h4 style="color:white; margin-bottom:0.5rem;">Energie & Konstruktion (Hacks):</h4>
-                    <ul style="color: var(--text-main); line-height: 1.8;">
-                        <li><strong>Heizungs-Boost:</strong> Intelligente Luftführung bei zugestellten Heizkörpern (z.B.
-                            durch breite Fensterbänke).</li>
-                        <li><strong>PV-Optimierung:</strong> Überschuss-Strom nutzen (Heizstab für Warmwasser statt
-                            Einspeisung).</li>
+                    <h4 style="color:var(--text-primary); margin-bottom:0.5rem; font-size: 0.95rem;">Energie & Hacks:
+                    </h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; font-size: 0.85rem;">
+                        <li>Heizungs-Boost durch intelligente Luftführung.</li>
+                        <li>PV-Optimierung für Eigenverbrauch.</li>
                     </ul>
                 </div>
             </div>
             <div class="service-img">
-                <img src="images/switch-detail.jpg" alt="Premium Lichtschalter"
-                    style="width:100%; height:100%; object-fit:cover;">
+                <img src="images/switch-detail.jpg" alt="Premium Lichtschalter">
             </div>
         </div>
 
-        <!-- NEW: Innovation & Special Projects -->
+        <!-- Special Projects -->
         <div class="service-row" id="care">
             <div class="service-text">
-                <i class="fa-solid fa-lightbulb text-gold" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <p class="editorial-label">Innovation</p>
                 <h2>Spezial-Lösungen</h2>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin: 1.5rem 0;">
+                <p>
                     Technik, die weiter denkt. Für besondere Anforderungen entwickle ich individuelle Konzepte.
                 </p>
 
-                <h4 style="color:var(--gold-primary); margin-top: 2rem; margin-bottom: 0.5rem;">Smart Care / AAL</h4>
-                <p style="color:var(--text-muted); margin-bottom: 1rem;">
-                    Sicherheit für Senioren ("Ambient Assisted Living"). Automatische Herdabschaltung, Sturzerkennung
-                    oder sanftes Licht in der Nacht.
-                    Damit Sie oder Ihre Angehörigen länger sicher zuhause wohnen können.
-                </p>
-
-                <h4 style="color:var(--gold-primary); margin-top: 2rem; margin-bottom: 0.5rem;">Heritage & Restauration
-                </h4>
-                <p style="color:var(--text-muted); margin-bottom: 1rem;">
-                    Den Charme erhalten, die Technik erneuern. Ich scanne antike Beschläge oder Griffe (z.B. in
-                    Altbauwohnungen)
-                    und fertige sie im 3D-Druck originalgetreu nach – veredelt in Messing oder Gold.
-                </p>
+                <div style="margin-top: 2rem; display: grid; gap: 2rem;">
+                    <div>
+                        <h4 style="color:var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem;">Smart Care /
+                            AAL</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Sicherheit für Senioren. Automatische Herdabschaltung, Sturzerkennung, Nachtlicht.
+                            Länger sicher zuhause wohnen.
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="service-img">
-                <img src="images/care-detail.jpg" alt="Smart Care Wohnambiente"
-                    style="width:100%; height:100%; object-fit:cover;">
+                <img src="images/care-detail.jpg" alt="Smart Care Wohnambiente">
             </div>
         </div>
 
     </section>
 
     <footer>
-        <div class="container" style="text-align: center; padding: 4rem 0; color: var(--text-muted);">
-            <p>&copy; 2026 3NC – Louis Altmann.</p>
-            <p style="margin-top:1rem; font-size:0.85rem;"><a href="impressum.html"
-                    style="color:var(--text-muted);">Impressum</a> · <a href="datenschutz.html"
-                    style="color:var(--text-muted);">Datenschutz</a></p>
+        <div class="container">
+            <p>&copy; 2026 3NC – Louis Altmann</p>
+            <p style="margin-top:0.75rem;">
+                <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
+            </p>
         </div>
     </footer>
 
     <script>
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
         });
     </script>
 </body>

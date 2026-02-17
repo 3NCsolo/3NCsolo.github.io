@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="3NC – المنزل الذكي، الطلاء بالكهرباء، المسح ثلاثي الأبعاد وتحسين المنزل في درسدن. الحرفية تلتقي بالتكنولوجيا.">
+    <title>3NC · التكنولوجيا والمنزل الذكي</title>
+    <link rel="stylesheet" href="../style_v2.css">
+    <link rel="stylesheet" href="../fonts/inter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RTL Specific Overrides if not fully supported by style_v2.css yet */
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        .nav-links li {
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+
+        .hero-content {
+            text-align: right;
+            align-items: flex-start;
+        }
+
+        .editorial-text {
+            text-align: right;
+        }
+
+        .editorial-block.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* In RTL, row-reverse actually means LTR visual order, so we might need to toggle it */
+
+        .trust-item i {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        /* Adjust for Editorial Blocks in Grid/Flex */
+        @media (min-width: 768px) {
+            .editorial-block {
+                flex-direction: row;
+                /* Default LTR flex direction is row, RTL is reversed by default? No. */
+            }
+        }
+
+        .s-card {
+            text-align: right;
+        }
+
+        .contact-detail i {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
+
+            <!-- Logo on right (start), Links on left (end) in RTL? 
+                 Usually logo is start, links end.
+                 Flexbox handles start/end automatically based on dir.
+            -->
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link active">الرئيسية</a></li>
+                <li><a href="../services.html" class="nav-link">الخدمات</a></li>
+                <li><a href="../about.html" class="nav-link">المصنع</a></li>
+                <li><a href="contact.html" class="nav-link">اتصل بنا</a></li>
+
+                <li class="lang-switcher">
+                    <a href="../index.html" class="lang-flag" title="Deutsch">🇩🇪</a>
+                    <a href="../en/index.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="../ru/index.html" class="lang-flag" title="Русский">🇷🇺</a>
+                    <a href="index.html" class="lang-flag active" title="العربية">🇸🇦</a>
+                    <a href="../vn/index.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
+                </li>
+            </ul>
+
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero — Full Bleed -->
+    <header class="hero">
+        <div class="hero-bg" style="background-image: url('../images/hero-tech.jpg')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-label">درسدن · صقل فني ومنزل ذكي</p>
+            <h1 class="hero-title">منزلك.<br>في أبهى <span class="text-gold">صورة.</span></h1>
+            <p class="hero-sub">
+                الحرفية الدقيقة تلتقي بالتكنولوجيا الحديثة.
+                حلول فردية للأشخاص الذين يتوقعون الجودة.
+            </p>
+            <div class="hero-cta">
+                <a href="contact.html" class="btn btn-gold">ناقش المشروع</a>
+                <a href="../services.html" class="btn btn-ghost">عرض الخدمات ←</a> <!-- Arrow flipped -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="trust-row">
+            <div class="trust-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>مطابق للمواصفات VDE</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-lock"></i>
+                <span>100% محلي · بدون سحابة</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-leaf"></i>
+                <span>تخلص صديق للبيئة</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-map-pin"></i>
+                <span>منطقة درسدن</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-language"></i>
+                <span>DE · EN · RU · AR · VN</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editorial Service Blocks -->
+    <section class="editorial-section">
+        <div class="container">
+
+            <!-- Block 1: Smart Home -->
+            <div class="editorial-block fade-in">
+                <div class="editorial-img">
+                    <img src="../images/smart-detail.jpg" alt="غرفة معيشة ذكية حديثة">
+                </div>
+                <div class="editorial-text">
+                    <p class="editorial-label">الحياة الذكية</p>
+                    <h2>ذكاء لا تراه</h2>
+                    <p>
+                        الإضاءة، المناخ، الأمان — كل شيء يتفاعل معك، وليس العكس.
+                        مثبت بتكتم، تحكم محلي، دون الاعتماد على السحابة.
+                        بياناتك تبقى معك.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">KNX / Zigbee</span>
+                        <span class="tag">Home Assistant</span>
+                        <span class="tag">متوافق مع DSGVO</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 2: Galvanik -->
+            <div class="editorial-block reverse fade-in">
+                <div class="editorial-img">
+                    <img src="../images/galvanik-detail.jpg" alt="حوض الطلاء الكهربائي">
+                </div>
+                <div class="editorial-text">
+                    <p class="editorial-label">الطلاء الكهربائي</p>
+                    <h2>ذهب حقيقي. تطبيق كهروكيميائي.</h2>
+                    <p>
+                        من نموذج أولي مطبوع ثلاثي الأبعاد إلى قطعة فريدة مطلية بالذهب.
+                        النحاس، النيكل، الذهب — مبني طبقة تلو الأخرى.
+                        لصناعة النماذج، المجوهرات، الترميم، وأغراض التصميم.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">طلاء النحاس</span>
+                        <span class="tag">طلاء الذهب</span>
+                        <span class="tag">طلاء النيكل</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 3: 3D Scan -->
+            <div class="editorial-block fade-in">
+                <div class="editorial-img">
+                    <img src="../images/print-detail.jpg" alt="طباعة ثلاثية الأبعاد دقيقة">
+                </div>
+                <div class="editorial-text">
+                    <p class="editorial-label">المسح والتصميم</p>
+                    <h2>من المسح الضوئي إلى الكائن النهائي</h2>
+                    <p>
+                        رقمنة التجهيزات العتيقة وإعادة إنتاجها طبق الأصل.
+                        تصميم مجوهرات NFC. هندسة قطع الغيار التي لم تعد موجودة.
+                        الدقة تلتقي بالحرفية.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">مسح ثلاثي الأبعاد</span>
+                        <span class="tag">FDM / الراتنج</span>
+                        <span class="tag">تكامل NFC</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Statement -->
+    <section class="statement">
+        <div class="container">
+            <blockquote>
+                "يجب أن تبسط التكنولوجيا حياتك اليومية — لا أن تعقدها."
+            </blockquote>
+            <cite>— لويس ألتمان، 3NC درسدن</cite>
+        </div>
+    </section>
+
+    <!-- Compact Service Overview -->
+    <section class="services-compact">
+        <div class="container">
+            <p class="section-label">جميع الخدمات</p>
+            <h2>ماذا نقدم لك</h2>
+            <div class="s-grid">
+                <a href="../services.html" class="s-card">
+                    <i class="fa-solid fa-house-signal"></i>
+                    <h3>المنزل الذكي</h3>
+                    <p>الإضاءة، المناخ، الأمان</p>
+                </a>
+                <a href="../services.html" class="s-card">
+                    <i class="fa-solid fa-flask"></i>
+                    <h3>الطلاء الكهربائي</h3>
+                    <p>ذهب، نحاس، نيكل</p>
+                </a>
+                <a href="../services.html" class="s-card">
+                    <i class="fa-solid fa-cube"></i>
+                    <h3>3D والمسح</h3>
+                    <p>نماذج أولية، قطع غيار، تصميم</p>
+                </a>
+                <a href="../services.html" class="s-card">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                    <h3>تجديد</h3>
+                    <p>ديكور داخلي، تقنية، بيع</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 3NC – لويس ألتمان</p>
+            <p style="margin-top:0.75rem;">
+                <a href="../impressum.html">بيانات النشر</a> · <a href="../datenschutz.html">سياسة الخصوصية</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

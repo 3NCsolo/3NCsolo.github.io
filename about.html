@@ -4,299 +4,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Über 3NC – Der Technik-Handwerker. Philosophie und Arbeitsweise hinter individueller Wohnraum-Veredelung in Dresden.">
+    <meta name="description" content="Über 3NC: Louis Altmann – Handwerk, Technologie und Innovation in Dresden.">
     <title>Manufaktur | 3NC</title>
     <link rel="stylesheet" href="style_v2.css">
     <link rel="stylesheet" href="fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .about-hero {
-            padding: 12rem 0 6rem;
-            background: radial-gradient(circle at 90% 10%, rgba(212, 175, 55, 0.05), transparent);
-        }
-
-        .quote-box {
-            border-left: 3px solid var(--gold-primary);
-            padding-left: 2rem;
-            margin: 3rem 0;
-            font-style: italic;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .skills-section {
-            padding: 6rem 0;
-            background: var(--bg-forest);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: var(--radius-sm);
-            text-align: center;
-            transition: 0.4s;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold-primary);
-        }
-
-        .skill-card i {
-            font-size: 2rem;
-            color: var(--gold-primary);
-            margin-bottom: 1rem;
-        }
-
-        .skill-card h4 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .skill-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-item p {
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.85rem;
-        }
-
-        .approach-section {
-            padding: 6rem 0;
-        }
-
-        .approach-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 3rem;
-        }
-
-        .approach-item {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-
-        .approach-item .number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--gold-primary);
-            min-width: 3rem;
-        }
-
-        .approach-item h4 {
-            margin-bottom: 0.5rem;
-        }
-
-        .approach-item p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        @media (max-width: 768px) {
-            .approach-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
     <nav class="navbar">
-        <div class="container nav-container">
+        <div class="container nav-inner">
             <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="services.html" class="nav-link">Leistungen</a></li>
                 <li><a href="about.html" class="nav-link active">Manufaktur</a></li>
                 <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+                <li class="lang-switcher">
+                    <a href="index.html" class="lang-flag active" title="Deutsch">🇩🇪</a>
+                    <a href="en/about.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="ru/about.html" class="lang-flag" title="Русский">🇷🇺</a>
+                    <a href="ar/about.html" class="lang-flag" title="العربية">🇸🇦</a>
+                    <a href="vn/about.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
+                </li>
             </ul>
             <div class="hamburger" id="hamburger"><span class="bar"></span><span class="bar"></span><span
                     class="bar"></span></div>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="about-hero">
+    <div class="page-header">
         <div class="container">
-            <div style="max-width: 800px;">
-                <p class="text-gold" style="letter-spacing: 0.2em; margin-bottom: 1rem;">PHILOSOPHIE</p>
-                <h1 style="font-size: 3.5rem; margin-bottom: 2rem;">Der Technik-Handwerker.</h1>
-                <p style="color: var(--text-muted); font-size: 1.2rem; line-height: 1.8;">
-                    In einer Welt voller Standardware glaube ich an den Wert des Besonderen.
-                    Meine Arbeit beginnt dort, wo herkömmliche Lösungen enden.
-                </p>
-
-                <div class="quote-box">
-                    "Ich verbinde die Haptik klassischer Materialien mit der Intelligenz moderner Systeme.
-                    Jedes Projekt ist ein Unikat, jede Lösung maßgeschneidert."
-                </div>
-
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                    Als Spezialist für technische Wohnraumoptimierung biete ich Ihnen keine "Dienstleistung von der
-                    Stange", sondern echte Ingenieurskunst im Kleinen.
-                    Ob es darum geht, eine Wohnung technisch auf den neuesten Stand zu bringen oder ein
-                    fehlendes Ersatzteil für ein Liebhaberstück neu zu konstruieren und zu vergolden.
-                </p>
-
-                <a href="contact.html" class="btn btn-gold">Projekt starten</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats -->
-    <div
-        style="background: var(--bg-dark); border-top: 1px solid rgba(212,175,55,0.1); border-bottom: 1px solid rgba(212,175,55,0.1);">
-        <div class="container stats-row">
-            <div class="stat-item">
-                <h3 class="text-gold">100%</h3>
-                <p>Maßanfertigung</p>
-            </div>
-            <div class="stat-item">
-                <h3 class="text-gold">0%</h3>
-                <p>Cloud-Abhängigkeit</p>
-            </div>
-            <div class="stat-item">
-                <h3 class="text-gold">∞</h3>
-                <p>Möglichkeiten</p>
-            </div>
+            <p class="text-gold"
+                style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
+                Louis Altmann</p>
+            <h1>Die <span class="text-gold">Manufaktur</span></h1>
+            <p>Ein Ein-Mann-Betrieb, der keine Kompromisse macht. Dresden Tolkewitz.</p>
         </div>
     </div>
 
-    <!-- Skills -->
-    <section class="skills-section">
-        <div class="container">
-            <div class="section-head" style="text-align: center; margin-bottom: 2rem;">
-                <p
-                    style="color: var(--gold-primary); text-transform: uppercase; letter-spacing: 0.2em; font-size:0.9rem;">
-                    WERKZEUGKASTEN</p>
-                <h2>Technologien & <span class="text-gold">Kompetenzen</span></h2>
-            </div>
-
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fa-solid fa-microchip"></i>
-                    <h4>Smart Home</h4>
-                    <p>Zigbee, Z-Wave, MQTT, Home Assistant, KNX-Integration</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-solid fa-cube"></i>
-                    <h4>3D-Druck & CAD</h4>
-                    <p>FDM/Resin, Fusion 360, Blender, STEP/STL, Reverse Engineering</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-solid fa-flask"></i>
-                    <h4>Galvanik</h4>
-                    <p>Vergolden, Vernickeln, Verkupfern – elektrochemische Veredelung</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <h4>Sicherheit</h4>
-                    <p>Lokale Systeme, keine Cloud, Anwesenheitssimulation, Alarmanlagen</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-solid fa-bolt"></i>
-                    <h4>Energie</h4>
-                    <p>PV-Optimierung, Heizungssteuerung, Luftführung, Smart Metering</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fa-solid fa-code"></i>
-                    <h4>Automation</h4>
-                    <p>Python, Arduino, ESP32, Scripting, API-Integration</p>
-                </div>
+    <section class="container editorial-block fade-in">
+        <div class="editorial-img">
+            <img src="images/profile-craftsman.jpg" style="filter: grayscale(100%) contrast(1.1);"
+                alt="Louis Altmann bei der Arbeit">
+        </div>
+        <div class="editorial-text">
+            <p class="editorial-label">Philosophie</p>
+            <h2>Warum ich das mache.</h2>
+            <p>
+                In einer Welt voller Wegwerf-Produkte und Cloud-Zwang setze ich auf Langlebigkeit und Privatsphäre.
+                Ich glaube daran, dass Technik dem Menschen dienen muss – nicht umgekehrt.
+            </p>
+            <p>
+                Ob es darum geht, ein geliebtes Erbstück zu restaurieren oder ein modernes Smart Home zu bauen, das
+                Ihre Daten schützt: Mein Ansatz ist immer persönlich, lokal und transparent.
+            </p>
+            <div class="tags">
+                <span class="tag">Inhabergeführt</span>
+                <span class="tag">Unabhängig</span>
+                <span class="tag">Dresden</span>
             </div>
         </div>
     </section>
 
-    <!-- Approach -->
-    <section class="approach-section">
-        <div class="container">
-            <div class="section-head" style="text-align: center; margin-bottom: 2rem;">
-                <p
-                    style="color: var(--gold-primary); text-transform: uppercase; letter-spacing: 0.2em; font-size:0.9rem;">
-                    ARBEITSWEISE</p>
-                <h2>Vom Gespräch zum <span class="text-gold">Ergebnis</span></h2>
-            </div>
+    <section class="stats-bar fade-in">
+        <div class="stat">
+            <span class="stat-value">5+</span>
+            <span class="stat-label">Jahre Erfahrung</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">Lokal & Datenschutz</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value">Unikat</span>
+            <span class="stat-label">Jedes Projekt</span>
+        </div>
+    </section>
 
-            <div class="approach-grid">
-                <div class="approach-item">
-                    <span class="number">01</span>
-                    <div>
-                        <h4>Bestandsaufnahme</h4>
-                        <p>Persönliche Besichtigung vor Ort. Ich höre zu, verstehe Ihre Wünsche und analysiere die
-                            technischen Möglichkeiten.</p>
-                    </div>
-                </div>
-                <div class="approach-item">
-                    <span class="number">02</span>
-                    <div>
-                        <h4>Konzept & Design</h4>
-                        <p>Maßgeschneiderter Entwurf mit klaren Kosten. Bei 3D-Projekten: digitaler Prototyp zur
-                            Freigabe.</p>
-                    </div>
-                </div>
-                <div class="approach-item">
-                    <span class="number">03</span>
-                    <div>
-                        <h4>Umsetzung</h4>
-                        <p>Saubere, professionelle Ausführung. Ich arbeite allein – kein Subunternehmer-Chaos, ein
-                            Ansprechpartner.</p>
-                    </div>
-                </div>
-                <div class="approach-item">
-                    <span class="number">04</span>
-                    <div>
-                        <h4>Einweisung & Support</h4>
-                        <p>Ich zeige Ihnen alles, bis Sie sich sicher fühlen. Und wenn mal etwas klemmt: ich bin
-                            erreichbar.</p>
-                    </div>
-                </div>
+    <section class="skills-section container fade-in">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <p class="section-label">Kompetenzen</p>
+            <h2>Werkzeuge & Technologien</h2>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-card">
+                <i class="fa-solid fa-code"></i>
+                <h3>Programmierung</h3>
+                <p>Python, C++, HTML/CSS, JavaScript. Automatisierung von Prozessen und Smart Home Logiken.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-microchip"></i>
+                <h3>Hardware & IoT</h3>
+                <p>Arduino, ESP32, Raspberry Pi. Entwicklung eigener Sensoren und Steuerungen.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-brands fa-linux"></i>
+                <h3>Linux & Server</h3>
+                <p>Debian, Ubuntu, Proxmox. Hosting von lokalen Diensten ohne Cloud-Zwang.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-cube"></i>
+                <h3>3D-Druck & CAD</h3>
+                <p>FDM & SLA Druckverfahren. Konstruktion in Fusion 360 und Blender.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-flask"></i>
+                <h3>Chemie & Galvanik</h3>
+                <p>Sicherer Umgang mit Chemikalien. Elektrochemische Veredelung von Metallen.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <h3>Handel & Vertrieb</h3>
+                <p>Erfahrung im E-Commerce und Kundenmanagement. Professionelle Abwicklung.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process / Workflow -->
+    <section class="philosophy-section container fade-in">
+        <div style="text-align: center;">
+            <p class="section-label">Arbeitsweise</p>
+            <h2>Wie wir zusammenarbeiten</h2>
+        </div>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h4>Analyse</h4>
+                <p>Wir besprechen Ihre Wünsche und prüfen die Machbarkeit. Ehrlich und direkt.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h4>Konzept</h4>
+                <p>Ich entwickle einen Plan – ob Schaltplan, 3D-Modell oder Design-Entwurf.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h4>Umsetzung</h4>
+                <p>Präzise Fertigung oder Installation. In meiner Werkstatt oder bei Ihnen vor Ort.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">04</div>
+                <h4>Übergabe</h4>
+                <p>Keine offenen Fragen. Sie erhalten eine Einweisung und Dokumentation.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="container" style="text-align: center; padding: 4rem 0; color: var(--text-muted);">
-            <p>&copy; 2026 3NC – Louis Altmann.</p>
-            <p style="margin-top:1rem; font-size:0.85rem;"><a href="impressum.html"
-                    style="color:var(--text-muted);">Impressum</a> · <a href="datenschutz.html"
-                    style="color:var(--text-muted);">Datenschutz</a></p>
+        <div class="container">
+            <p>&copy; 2026 3NC – Louis Altmann</p>
+            <p style="margin-top:0.75rem;">
+                <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
+            </p>
         </div>
     </footer>
 
     <script>
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
         });
+
+        // Simple fade-in script if not already in main JS file
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 
