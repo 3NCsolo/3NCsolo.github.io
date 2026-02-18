@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="3NC – المنزل الذكي، الطلاء بالكهرباء، المسح ثلاثي الأبعاد وتحسين المنزل في درسدن. الحرفية تلتقي بالتكنولوجيا.">
-    <title>3NC · التكنولوجيا والمنزل الذكي</title>
+    <meta name="description" content="3NC – تخطيط المنزل الذكي، أجهزة مجهزة مسبقاً وخدمة تركيب في جميع أنحاء ألمانيا.">
+    <title>3NC · أنظمة المنزل الذكي والتخطيط</title>
     <link rel="stylesheet" href="../style_v2.css">
     <link rel="stylesheet" href="../fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* RTL Specific Overrides if not fully supported by style_v2.css yet */
+        /* RTL Specific Overrides */
         body {
             font-family: 'Inter', 'Segoe UI', sans-serif;
         }
@@ -34,23 +33,15 @@
             flex-direction: row-reverse;
         }
 
-        /* In RTL, row-reverse actually means LTR visual order, so we might need to toggle it */
-
         .trust-item i {
             margin-right: 0;
             margin-left: 0.5rem;
         }
 
-        /* Adjust for Editorial Blocks in Grid/Flex */
         @media (min-width: 768px) {
             .editorial-block {
                 flex-direction: row;
-                /* Default LTR flex direction is row, RTL is reversed by default? No. */
             }
-        }
-
-        .s-card {
-            text-align: right;
         }
 
         .contact-detail i {
@@ -67,15 +58,10 @@
         <div class="container nav-inner">
             <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
 
-            <!-- Logo on right (start), Links on left (end) in RTL? 
-                 Usually logo is start, links end.
-                 Flexbox handles start/end automatically based on dir.
-            -->
-
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="nav-link active">الرئيسية</a></li>
                 <li><a href="../services.html" class="nav-link">الخدمات</a></li>
-                <li><a href="../about.html" class="nav-link">المصنع</a></li>
+                <li><a href="../about.html" class="nav-link">معلومات عنا</a></li>
                 <li><a href="contact.html" class="nav-link">اتصل بنا</a></li>
 
                 <li class="lang-switcher">
@@ -98,15 +84,15 @@
         <div class="hero-bg" style="background-image: url('../images/hero-tech.jpg')"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <p class="hero-label">درسدن · صقل فني ومنزل ذكي</p>
-            <h1 class="hero-title">منزلك.<br>في أبهى <span class="text-gold">صورة.</span></h1>
+            <p class="hero-label">في جميع أنحاء ألمانيا · تخطيط الأنظمة والتكنولوجيا</p>
+            <h1 class="hero-title">منزلك الذكي.<br>مخطط <span class="text-gold">بإتقان.</span></h1>
             <p class="hero-sub">
-                الحرفية الدقيقة تلتقي بالتكنولوجيا الحديثة.
-                حلول فردية للأشخاص الذين يتوقعون الجودة.
+                نقدم المفهوم والبرمجيات والأجهزة المجهزة مسبقًا.
+                شبكة شركائنا تتولى التركيب في الموقع.
             </p>
             <div class="hero-cta">
-                <a href="contact.html" class="btn btn-gold">ناقش المشروع</a>
-                <a href="../services.html" class="btn btn-ghost">عرض الخدمات ←</a> <!-- Arrow flipped -->
+                <a href="contact.html" class="btn btn-gold">اطلب مشروع</a>
+                <a href="../services.html" class="btn btn-ghost">كيف يعمل →</a>
             </div>
         </div>
     </header>
@@ -115,24 +101,24 @@
     <section class="trust-bar">
         <div class="trust-row">
             <div class="trust-item">
+                <i class="fa-solid fa-map"></i>
+                <span>خدمة في جميع أنحاء ألمانيا</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-server"></i>
+                <span>أنظمة مجهزة مسبقاً</span>
+            </div>
+            <div class="trust-item">
+                <i class="fa-solid fa-users"></i>
+                <span>شبكة تركيب</span>
+            </div>
+            <div class="trust-item">
                 <i class="fa-solid fa-shield-halved"></i>
-                <span>مطابق للمواصفات VDE</span>
-            </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-lock"></i>
-                <span>100% محلي · بدون سحابة</span>
-            </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-leaf"></i>
-                <span>تخلص صديق للبيئة</span>
-            </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-map-pin"></i>
-                <span>منطقة درسدن</span>
+                <span>الخصوصية أولاً</span>
             </div>
             <div class="trust-item">
                 <i class="fa-solid fa-language"></i>
-                <span>DE · EN · RU · AR · VN</span>
+                <span>فريق متعدد اللغات</span>
             </div>
         </div>
     </section>
@@ -141,109 +127,68 @@
     <section class="editorial-section">
         <div class="container">
 
-            <!-- Block 1: Smart Home -->
+            <!-- Block 1: Planning -->
             <div class="editorial-block fade-in">
                 <div class="editorial-img">
-                    <img src="../images/smart-detail.jpg" alt="غرفة معيشة ذكية حديثة">
+                    <img src="../images/smart-detail.jpg" alt="تكوين المنزل الذكي">
                 </div>
                 <div class="editorial-text">
-                    <p class="editorial-label">الحياة الذكية</p>
-                    <h2>ذكاء لا تراه</h2>
+                    <p class="editorial-label">هندسة النظام</p>
+                    <h2>التخطيط والأجهزة</h2>
                     <p>
-                        الإضاءة، المناخ، الأمان — كل شيء يتفاعل معك، وليس العكس.
-                        مثبت بتكتم، تحكم محلي، دون الاعتماد على السحابة.
-                        بياناتك تبقى معك.
+                        لا فوضى في الكابلات، لا تجارب. نحن نخطط نظامك بدقة.
+                        تحصل على **مكونات مجهزة بالكامل** (خزانات التحكم، أجهزة الاستشعار، الخوادم)
+                        مباشرة منا – مصممة تماماً لتلبية احتياجاتك.
                     </p>
                     <div class="tags">
-                        <span class="tag">KNX / Zigbee</span>
-                        <span class="tag">Home Assistant</span>
-                        <span class="tag">متوافق مع DSGVO</span>
+                        <span class="tag">مفاهيم مخصصة</span>
+                        <span class="tag">أجهزة التوصيل والتشغيل</span>
+                        <span class="tag">دعم عن بعد</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Block 2: Galvanik -->
+            <!-- Block 2: Installation -->
             <div class="editorial-block reverse fade-in">
                 <div class="editorial-img">
-                    <img src="../images/galvanik-detail.jpg" alt="حوض الطلاء الكهربائي">
+                    <img src="../images/switch-detail.jpg" alt="التركيب في الموقع">
                 </div>
                 <div class="editorial-text">
-                    <p class="editorial-label">الطلاء الكهربائي</p>
-                    <h2>ذهب حقيقي. تطبيق كهروكيميائي.</h2>
+                    <p class="editorial-label">التنفيذ</p>
+                    <h2>التركيب في الموقع</h2>
                     <p>
-                        من نموذج أولي مطبوع ثلاثي الأبعاد إلى قطعة فريدة مطلية بالذهب.
-                        النحاس، النيكل، الذهب — مبني طبقة تلو الأخرى.
-                        لصناعة النماذج، المجوهرات، الترميم، وأغراض التصميم.
+                        لست بحاجة لرفع مفك براغي. عند الطلب، ننظم أحد
+                        فرق شركائنا المتخصصة للتركيب الفعلي.
+                        نحن نراقب الجودة ونضمن التشغيل الصحيح.
                     </p>
                     <div class="tags">
-                        <span class="tag">طلاء النحاس</span>
-                        <span class="tag">طلاء الذهب</span>
-                        <span class="tag">طلاء النيكل</span>
+                        <span class="tag">شركاء ذوي خبرة</span>
+                        <span class="tag">في جميع أنحاء ألمانيا</span>
+                        <span class="tag">مراقبة الجودة</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Block 3: 3D Scan -->
+            <!-- Block 3: Special -->
             <div class="editorial-block fade-in">
                 <div class="editorial-img">
-                    <img src="../images/print-detail.jpg" alt="طباعة ثلاثية الأبعاد دقيقة">
+                    <img src="../images/print-detail.jpg" alt="تصنيع مخصص">
                 </div>
                 <div class="editorial-text">
-                    <p class="editorial-label">المسح والتصميم</p>
-                    <h2>من المسح الضوئي إلى الكائن النهائي</h2>
+                    <p class="editorial-label">المصنع والحلول الخاصة</p>
+                    <h2>التخصيص والتفاصيل</h2>
                     <p>
-                        رقمنة التجهيزات العتيقة وإعادة إنتاجها طبق الأصل.
-                        تصميم مجوهرات NFC. هندسة قطع الغيار التي لم تعد موجودة.
-                        الدقة تلتقي بالحرفية.
+                        أحياناً لا يكفي القياسي. للمتطلبات الخاصة، نقوم بتصنيع
+                        حوامل فردية، أو أغطية، أو أسطح مصقولة في مصنعنا في درسدن.
                     </p>
                     <div class="tags">
-                        <span class="tag">مسح ثلاثي الأبعاد</span>
-                        <span class="tag">FDM / الراتنج</span>
-                        <span class="tag">تكامل NFC</span>
+                        <span class="tag">طباعة ثلاثية الأبعاد / مسح</span>
+                        <span class="tag">الطلاء الكهربائي (ذهب/نيكل)</span>
+                        <span class="tag">النمذجة الأولية</span>
                     </div>
                 </div>
             </div>
 
-        </div>
-    </section>
-
-    <!-- Statement -->
-    <section class="statement">
-        <div class="container">
-            <blockquote>
-                "يجب أن تبسط التكنولوجيا حياتك اليومية — لا أن تعقدها."
-            </blockquote>
-            <cite>— لويس ألتمان، 3NC درسدن</cite>
-        </div>
-    </section>
-
-    <!-- Compact Service Overview -->
-    <section class="services-compact">
-        <div class="container">
-            <p class="section-label">جميع الخدمات</p>
-            <h2>ماذا نقدم لك</h2>
-            <div class="s-grid">
-                <a href="../services.html" class="s-card">
-                    <i class="fa-solid fa-house-signal"></i>
-                    <h3>المنزل الذكي</h3>
-                    <p>الإضاءة، المناخ، الأمان</p>
-                </a>
-                <a href="../services.html" class="s-card">
-                    <i class="fa-solid fa-flask"></i>
-                    <h3>الطلاء الكهربائي</h3>
-                    <p>ذهب، نحاس، نيكل</p>
-                </a>
-                <a href="../services.html" class="s-card">
-                    <i class="fa-solid fa-cube"></i>
-                    <h3>3D والمسح</h3>
-                    <p>نماذج أولية، قطع غيار، تصميم</p>
-                </a>
-                <a href="../services.html" class="s-card">
-                    <i class="fa-solid fa-screwdriver-wrench"></i>
-                    <h3>تجديد</h3>
-                    <p>ديكور داخلي، تقنية، بيع</p>
-                </a>
-            </div>
         </div>
     </section>
 
@@ -258,13 +203,11 @@
     </footer>
 
     <script>
-        // Mobile menu
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
             document.getElementById('hamburger').classList.toggle('active');
         });
 
-        // Fade-in on scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         }, { threshold: 0.15 });
