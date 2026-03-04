@@ -92,11 +92,9 @@
             transition: background 0.6s ease;
         }
 
-        /* Digital Panel Background */
-        .panel-digital::before {
-            background-image: url('images/smarthome-hero.jpg');
-            /* We need to ensure this image or a placeholder exists */
-            /* Default fallback if image doesn't exist yet */
+        /* Booking Panel Background */
+        .panel-booking::before {
+            background-image: url('images/cad-design.jpg');
             background-color: #0a1128;
         }
 
@@ -127,9 +125,8 @@
             font-weight: 600;
         }
 
-        .panel-digital .panel-label {
+        .panel-booking .panel-label {
             color: #4da6ff;
-            /* A tech blue accent for the digital side */
         }
 
         .gateway-panel h2 {
@@ -191,7 +188,7 @@
             transform: translateY(0);
         }
 
-        .panel-digital:hover .enter-btn {
+        .panel-booking:hover .enter-btn {
             border-color: #4da6ff;
             background: rgba(77, 166, 255, 0.1);
         }
@@ -267,25 +264,25 @@
 
     <div class="gateway-container">
 
-        <!-- Left Panel: Smart Home / Digital -->
-        <a href="smarthome.html" class="gateway-panel panel-digital">
-            <div class="panel-content">
-                <span class="panel-label">Gebäudeautomation</span>
-                <h2>3NC Digital</h2>
-                <p>Intelligente, herstellerunabhängige Systemintegration. Planung, Vorprogrammierung und Inbetriebnahme
-                    von Premium Smart Homes.</p>
-                <div class="enter-btn">Systemhaus betreten</div>
-            </div>
-        </a>
-
-        <!-- Right Panel: Manufaktur / 3D Printing -->
+        <!-- Left Panel: Manufaktur / 3D Printing -->
         <a href="manufaktur.html" class="gateway-panel panel-manufaktur">
             <div class="panel-content">
                 <span class="panel-label">Additive Fertigung</span>
                 <h2>3NC Manufaktur</h2>
-                <p>Präziser 3D-Druck, High-Tech Polymere und galvanische Veredelung für B2B-Prototyping und
-                    Kleinserien.</p>
+                <p>Präziser 3D-Druck, High-Tech Polymere und galvanische Veredelung für B2B-Prototyping und Kleinserien.
+                </p>
                 <div class="enter-btn">Manufaktur betreten</div>
+            </div>
+        </a>
+
+        <!-- Right Panel: Booking / Capacity -->
+        <a href="https://calendar.google.com/" target="_blank" class="gateway-panel panel-booking">
+            <div class="panel-content">
+                <span class="panel-label">Lead & Booking</span>
+                <h2>Kapazitäten</h2>
+                <p>Planen Sie ein konkretes Projekt? Sichern Sie sich jetzt direkt exklusive Fertigungskapazitäten oder
+                    einen Beratungstermin in meinem Kalender.</p>
+                <div class="enter-btn">Termin buchen</div>
             </div>
         </a>
 

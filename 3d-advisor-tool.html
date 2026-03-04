@@ -4,649 +4,525 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3NC | 3D-Druck Bauteil-Analysator PRO</title>
+    <title>3NC | Smart Pricing & 3D Analyzer</title>
     <link rel="stylesheet" href="style_v2.css">
     <link rel="stylesheet" href="fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Three.js for STL parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+
+    <!-- Material Database Engine -->
+    <script src="js/materials.js"></script>
+
     <style>
-        .tool-container {
-            max-width: 900px;
+        .mega-tool-container {
+            max-width: 1400px;
             margin: 4rem auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: stretch;
+        }
+
+        @media (max-width: 900px) {
+            .mega-tool-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tool-panel {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 2.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .tool-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1.5rem;
-        }
-
-        .question-block {
-            margin-bottom: 2.5rem;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .question-title {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            margin-bottom: 1.2rem;
-            font-weight: 500;
-            border-left: 3px solid var(--accent-gold);
-            padding-left: 1rem;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .option-card {
-            background: var(--bg-main);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
             display: flex;
             flex-direction: column;
+        }
+
+        .panel-title {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            font-family: var(--font-head);
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.8rem;
         }
 
-        .option-card:hover {
+        /* Upload Area */
+        .upload-area {
+            flex-grow: 1;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
             border-color: var(--accent-gold);
-            transform: translateY(-2px);
+            background: rgba(197, 168, 128, 0.05);
         }
 
-        .option-card.selected {
-            border-color: var(--accent-gold);
-            background: rgba(197, 168, 128, 0.1);
-            box-shadow: 0 0 10px rgba(197, 168, 128, 0.2);
+        .upload-icon {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            transition: color 0.3s;
         }
 
-        .option-card i {
-            font-size: 1.8rem;
+        .upload-area:hover .upload-icon {
             color: var(--accent-gold);
         }
 
-        .option-subtitle {
+        .upload-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .file-status {
+            margin-top: 1.5rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        /* Config Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .custom-select,
+        .custom-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .custom-select:focus,
+        .custom-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        /* Results Display */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-label {
             font-size: 0.8rem;
             color: var(--text-secondary);
-            line-height: 1.4;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
         }
 
-        /* Results Section */
-        #results-section {
-            display: none;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--accent-gold);
-            animation: fadeIn 0.8s ease-in-out;
-        }
-
-        .result-card {
-            background: rgba(197, 168, 128, 0.05);
-            border-left: 4px solid var(--accent-gold);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .result-title {
-            color: var(--accent-gold);
+        .result-value {
             font-size: 1.2rem;
-            margin-bottom: 0.8rem;
             font-weight: 600;
+            font-family: var(--font-head);
+            color: var(--text-primary);
+        }
+
+        .price-display {
+            text-align: right;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            line-height: 1;
+            margin-top: 0.5rem;
         }
 
         .btn-large {
             width: 100%;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             padding: 1.2rem;
             letter-spacing: 0.05em;
         }
 
-        .mode-btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            background: transparent;
+        /* Material Info Card */
+        .mat-info-card {
+            background: rgba(197, 168, 128, 0.05);
+            border-left: 3px solid var(--accent-gold);
+            padding: 1rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .mode-btn.active {
-            background: var(--accent-gold);
-            color: #141414;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            margin-bottom: 1.5rem;
+            border-radius: 0 4px 4px 0;
+            display: none;
         }
     </style>
 </head>
 
 <body>
-
     <nav class="navbar">
         <div class="container nav-inner">
             <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
-            <div style="color: var(--text-secondary); font-size: 0.9rem;">Manufacturing Analysis</div>
+            <div
+                style="color: var(--text-secondary); font-size: 0.9rem; display: flex; align-items: center; gap: 1rem;">
+                <span class="d-none d-md-block">Smart Analysis Platform</span>
+                <a href="index.html" style="color: var(--text-primary); text-decoration: none;"><i
+                        class="fa-solid fa-xmark"></i> Beenden</a>
+            </div>
         </div>
     </nav>
 
     <div class="container">
-        <div class="tool-container">
-            <div class="tool-header">
-                <p class="text-gold" style="letter-spacing: 0.1em; font-size: 0.8rem; text-transform: uppercase;">
-                    Bauteil-Analyse</p>
-                <h2>Anforderungs-Analysator</h2>
-                <p
-                    style="color: var(--text-secondary); margin-top: 0.8rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Definieren Sie die technischen Spezifikationen Ihres Bauteils. Unser System ermittelt das optimale
-                    Fertigungsverfahren, die passenden Hochleistungspolymere und veredelungstechnische Machbarkeiten.
-                </p>
-                <div class="mode-toggle"
-                    style="margin-top: 2rem; display: inline-flex; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 30px; overflow: hidden;">
-                    <button id="btn-mode-b2b" class="mode-btn active" onclick="setMode('b2b')"><i
-                            class="fa-solid fa-industry"></i> Industrie & B2B</button>
-                    <button id="btn-mode-b2c" class="mode-btn" onclick="setMode('b2c')"><i
-                            class="fa-solid fa-hammer"></i> Maker & Privat</button>
-                </div>
-            </div>
+        <div style="text-align: center; margin-top: 6rem; margin-bottom: -2rem;">
+            <h2>Echtzeit-Kalkulation & Analyse</h2>
+            <p style="color: var(--text-secondary);">Laden Sie ein 3D-Modell (.stl) für klassische Fertigung oder ein
+                Bild (.jpg) für Lithophane hoch.</p>
+        </div>
 
-            <!-- Q1: Dimensions -->
-            <div class="question-block" id="q1">
-                <div class="question-title">1. Dimensionierung (Bauraum)</div>
-                <div class="options-grid">
-                    <div class="option-card" data-q="dim" data-val="micro" onclick="selectOption(this, 'dim')">
-                        <i class="fa-solid fa-microchip"></i>
-                        <strong>Mikro / Fein</strong>
-                        <span class="option-subtitle">&lt; 20 mm<br>Schrauben, Clips, Gehäusedetails</span>
+        <div class="mega-tool-container">
+
+            <!-- LEFT PANEL: Upload & Preview -->
+            <div class="tool-panel">
+                <div class="panel-title">
+                    <span>1. Daten-Upload</span>
+                    <i class="fa-solid fa-cloud-arrow-up text-gold"></i>
+                </div>
+
+                <div class="upload-area" id="drop-zone">
+                    <input type="file" id="file-input" accept=".stl,.jpg,.jpeg,.png" hidden>
+                    <i class="fa-solid fa-cubes upload-icon"></i>
+                    <div class="upload-text">Dateien hier ablegen</div>
+                    <div class="upload-subtext">oder klicken zum Auswählen</div>
+                    <div class="upload-subtext" style="margin-top: 0.5rem; font-size: 0.8rem;">Unterstützt: .STL
+                        (Bauteile), .JPG/.PNG (Lithophane)</div>
+                    <div class="file-status" id="file-status"></div>
+                </div>
+
+                <div class="results-grid" style="margin-top: 2rem; margin-bottom: 0;">
+                    <div class="result-item">
+                        <span class="result-label">Erkanntes Volumen</span>
+                        <span class="result-value" id="vol-result">-- cm³</span>
                     </div>
-                    <div class="option-card" data-q="dim" data-val="small" onclick="selectOption(this, 'dim')">
-                        <i class="fa-solid fa-cube"></i>
-                        <strong>Handlich</strong>
-                        <span class="option-subtitle">20 - 150 mm<br>Gehäuse, Halterungen, Griffe</span>
-                    </div>
-                    <div class="option-card" data-q="dim" data-val="medium" onclick="selectOption(this, 'dim')">
-                        <i class="fa-solid fa-box"></i>
-                        <strong>Mittelgroß</strong>
-                        <span class="option-subtitle">150 - 300 mm<br>Abdeckungen, Funktionsteile</span>
-                    </div>
-                    <div class="option-card" data-q="dim" data-val="large" onclick="selectOption(this, 'dim')">
-                        <i class="fa-solid fa-boxes-stacked"></i>
-                        <strong>Großformat</strong>
-                        <span class="option-subtitle">&gt; 300 mm<br>Vorrichtungen, große Paneele</span>
+                    <div class="result-item">
+                        <span class="result-label">Bounding Box (L×B×H)</span>
+                        <span class="result-value" id="dim-result">-- mm</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Q2: Quantity -->
-            <div class="question-block" id="q2">
-                <div class="question-title">2. Geplante Stückzahl</div>
-                <div class="options-grid" style="grid-template-columns: repeat(3, 1fr);">
-                    <div class="option-card" data-q="qty" data-val="proto" onclick="selectOption(this, 'qty')">
-                        <i class="fa-solid fa-1"></i>
-                        <strong>Einzel-Prototyp</strong>
-                        <span class="option-subtitle">1 - 5 Stück<br>Designvalidierung, Testlauf</span>
-                    </div>
-                    <div class="option-card" data-q="qty" data-val="batch" onclick="selectOption(this, 'qty')">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <strong>Kleinserie / Ersatzteile</strong>
-                        <span class="option-subtitle">10 - 50 Stück<br>Bridge-Manufacturing</span>
-                    </div>
-                    <div class="option-card" data-q="qty" data-val="prod" onclick="selectOption(this, 'qty')">
-                        <i class="fa-solid fa-industry"></i>
-                        <strong>Serienfertigung</strong>
-                        <span class="option-subtitle">50+ Stück<br>Regelmäßige Abnahme</span>
+            <!-- RIGHT PANEL: Configuration -->
+            <div class="tool-panel" id="config-panel"
+                style="opacity: 0.4; pointer-events: none; transition: opacity 0.3s;">
+                <div class="panel-title">
+                    <span>2. Konfiguration</span>
+                    <i class="fa-solid fa-sliders text-gold"></i>
+                </div>
+
+                <div class="form-group">
+                    <label>Material / Fertigungsverfahren</label>
+                    <select class="custom-select" id="mat-select"></select>
+                </div>
+
+                <div class="mat-info-card" id="mat-info">
+                    <!-- Dynamic material description -->
+                </div>
+
+                <div class="form-group" id="litho-size-group" style="display: none;">
+                    <label>Lithophane Größe</label>
+                    <select class="custom-select" id="litho-size-select">
+                        <option value="10x15">10 x 15 cm (Standard)</option>
+                        <option value="13x18">13 x 18 cm (Groß)</option>
+                        <option value="15x20">15 x 20 cm (Premium)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="finishing-group">
+                    <label>Spezifische Veredelung</label>
+                    <select class="custom-select" id="finish-select">
+                        <option value="none">Keine Veredelung ("As Printed")</option>
+                        <option value="smooth" id="opt-smooth" disabled>Chemische Oberflächenglättung (Vapor Smoothing)
+                        </option>
+                        <option value="gold" id="opt-gold" disabled>24k Echtgold Galvanisierung (Requires ABS/ASA)
+                        </option>
+                    </select>
+                </div>
+
+                <div style="flex-grow: 1;"></div> <!-- Spacer -->
+
+                <div class="price-display">
+                    <div class="price-label">Unverbindlicher Schätzpreis*</div>
+                    <div class="price-amount" id="price-result">0,00 €</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                        *Inkl. MwSt., zzgl. Rüstkosten. Berechnet auf Basis von <span id="weight-estimate">0</span>g
+                        Material.
                     </div>
                 </div>
+
+                <button class="btn-primary btn-large" id="btn-request" onclick="prepareRequest()">Projekt Anfrage
+                    Senden</button>
             </div>
 
-            <!-- Q3: Environment -->
-            <div class="question-block" id="q3">
-                <div class="question-title">3. Thermische & Chemische Belastung (Mehrfachwahl)</div>
-                <div class="options-grid">
-                    <div class="option-card multi" data-q="env" data-val="indoor" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-house"></i>
-                        <strong>Innenanwendung</strong>
-                        <span class="option-subtitle">&lt; 50°C, keine Witterung</span>
-                    </div>
-                    <div class="option-card multi" data-q="env" data-val="outdoor" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-sun"></i>
-                        <strong>Außenbereich</strong>
-                        <span class="option-subtitle">UV-Strahlung, Regen, Frost</span>
-                    </div>
-                    <div class="option-card multi" data-q="env" data-val="heat" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-temperature-arrow-up"></i>
-                        <strong>Hochtemperatur</strong>
-                        <span class="option-subtitle">&gt; 80°C bis 150°C (z.B. Motorraum)</span>
-                    </div>
-                    <div class="option-card multi" data-q="env" data-val="chemical" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-flask"></i>
-                        <strong>Chemikalien / Öle</strong>
-                        <span class="option-subtitle">Schmierstoffe, Kraftstoffe, Säuren</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Q4: Mechanical Load -->
-            <div class="question-block" id="q4">
-                <div class="question-title">4. Mechanische Beanspruchung</div>
-                <div class="options-grid">
-                    <div class="option-card multi" data-q="mech" data-val="low" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-feather"></i>
-                        <strong>Gering (Optik)</strong>
-                        <span class="option-subtitle">Gehäuse, Deko, Modelle</span>
-                    </div>
-                    <div class="option-card multi" data-q="mech" data-val="high" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-dumbbell"></i>
-                        <strong>Hohe Zug-/Biegekraft</strong>
-                        <span class="option-subtitle">Halterungen, tragende Teile</span>
-                    </div>
-                    <div class="option-card multi" data-q="mech" data-val="friction" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-gear"></i>
-                        <strong>Reibung / Verschleiß</strong>
-                        <span class="option-subtitle">Zahnräder, Gleitlager, Scharniere</span>
-                    </div>
-                    <div class="option-card multi" data-q="mech" data-val="flex" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-shoe-prints"></i>
-                        <strong>Flexibel / Dämpfend</strong>
-                        <span class="option-subtitle">Dichtungen, Puffer, Riemen</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Q5: Certifications (NEW B2B FEATURE) -->
-            <div class="question-block" id="q5">
-                <div class="question-title">5. Normen & Zertifizierungen (Mehrfachwahl)</div>
-                <div class="options-grid">
-                    <div class="option-card multi" data-q="cert" data-val="none" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-ban"></i>
-                        <strong>Keine Spezifischen</strong>
-                        <span class="option-subtitle">Standard-Industrie / Prototyping</span>
-                    </div>
-                    <div class="option-card multi" data-q="cert" data-val="esd" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-bolt-lightning"></i>
-                        <strong>ESD Sicher</strong>
-                        <span class="option-subtitle">Elektronikgehäuse, Werkstückträger</span>
-                    </div>
-                    <div class="option-card multi" data-q="cert" data-val="fire" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-fire-extinguisher"></i>
-                        <strong>Flammhemmend (UL94)</strong>
-                        <span class="option-subtitle">Schaltschränke, Luftfahrt, Automotive</span>
-                    </div>
-                    <div class="option-card multi" data-q="cert" data-val="food" onclick="toggleOption(this)">
-                        <i class="fa-solid fa-utensils"></i>
-                        <strong>Lebensmittelecht (FDA)</strong>
-                        <span class="option-subtitle">Verpackung, Gastro-Ersatzteile</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Q6: Post-Processing -->
-            <div class="question-block" id="q6">
-                <div class="question-title">6. Veredelung / Oberflächengüte</div>
-                <div class="options-grid" style="grid-template-columns: repeat(3, 1fr);">
-                    <div class="option-card" data-q="finish" data-val="none" onclick="selectOption(this, 'finish')">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <strong>Technisches Finish</strong>
-                        <span class="option-subtitle">Schichtlinien sichtbar, Fokus auf Funktion</span>
-                    </div>
-                    <div class="option-card" data-q="finish" data-val="smooth" onclick="selectOption(this, 'finish')">
-                        <i class="fa-solid fa-wind"></i>
-                        <strong>Chemisch Geglättet</strong>
-                        <span class="option-subtitle">Wasserdicht, Spritzguss-Optik, glatt</span>
-                    </div>
-                    <div class="option-card" data-q="finish" data-val="galvanic" onclick="selectOption(this, 'finish')">
-                        <i class="fa-solid fa-gem"></i>
-                        <strong>Galvanisiert (Metall-Look)</strong>
-                        <span class="option-subtitle">Massiv echtmetallüberzogen. Leitfähig & robust.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Q7: Budget & Material Costs -->
-            <div class="question-block" id="q7">
-                <div class="question-title">7. Budget & Wirtschaftlichkeit</div>
-                <div class="options-grid" style="grid-template-columns: repeat(3, 1fr);">
-                    <div class="option-card" data-q="budget" data-val="low" onclick="selectOption(this, 'budget')">
-                        <i class="fa-solid fa-piggy-bank"></i>
-                        <strong>Kostenoptimiert</strong>
-                        <span class="option-subtitle">Günstigste funktionale Lösung, Standard-Materialien.</span>
-                    </div>
-                    <div class="option-card" data-q="budget" data-val="balanced" onclick="selectOption(this, 'budget')">
-                        <i class="fa-solid fa-scale-balanced"></i>
-                        <strong>Preis-Leistung</strong>
-                        <span class="option-subtitle">Bester Kompromiss aus Eigenschaften und Kosten.</span>
-                    </div>
-                    <div class="option-card" data-q="budget" data-val="high" onclick="selectOption(this, 'budget')">
-                        <i class="fa-solid fa-medal"></i>
-                        <strong>Premium Performance</strong>
-                        <span class="option-subtitle">Kosten zweitrangig. Fokus auf Hightech-Polymere und perfekte
-                            Optik.</span>
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-gold btn-large" onclick="analyze()">Bauteil Analysieren & Spezifikationen
-                berechnen</button>
-
-            <!-- Results -->
-            <div id="results-section">
-                <h2 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">Analyse-Abstimmungsbericht</h2>
-
-                <div class="result-card" id="res-tech">
-                    <div class="result-title"><i class="fa-solid fa-print"></i> Empfohlene Fertigungstechnologie</div>
-                    <p id="tech-text" style="line-height: 1.6;"></p>
-                </div>
-
-                <div class="result-card" id="res-material">
-                    <div class="result-title"><i class="fa-solid fa-flask"></i> Material-Matrix</div>
-                    <p id="material-text" style="line-height: 1.6;"></p>
-                </div>
-
-                <div class="result-card" id="res-logistics">
-                    <div class="result-title"><i class="fa-solid fa-truck-fast"></i> Produktion & Veredelung</div>
-                    <p id="logistics-text" style="line-height: 1.6;"></p>
-                </div>
-
-                <!-- Cost & Crowdfunding (Only shown in B2C Mode) -->
-                <div class="result-card" id="res-cost" style="display: none;">
-                    <div class="result-title"><i class="fa-solid fa-tag"></i> Kostenschätzung & Projekt-Funding</div>
-                    <p id="cost-text"
-                        style="line-height: 1.6; font-size: 1.15rem; margin-bottom: 1rem; color: var(--text-primary);">
-                    </p>
-
-                    <div id="split-cost-widget"
-                        style="background: rgba(197, 168, 128, 0.08); padding: 1.5rem; border-radius: 6px; border: 1px dashed var(--accent-gold); margin-top: 1rem;">
-                        <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem; font-size: 1.1rem;"><i
-                                class="fa-solid fa-users-rays"></i> Community Crowdfunding</h4>
-                        <p
-                            style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 1.5rem; line-height: 1.6;">
-                            Planen Sie ein privates Großprojekt (z.B. Cosplay, Modellbau, Kunst)? Sammeln Sie die
-                            Druckkosten gemeinsam mit Freunden oder Ihrer Community. Sobald das Ziel erreicht ist,
-                            starten wir die Produktion! <strong>Perfekt für Twitch-Streamer, Vereine oder
-                                Gruppen-Geschenke.</strong>
-                        </p>
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
-                            <input type="text" id="share-link-input" value="" readonly
-                                style="flex: 1; padding: 0.8rem; background: var(--bg-main); border: 1px solid var(--accent-gold); color: var(--text-primary); border-radius: 4px; font-family: monospace; font-size: 1rem;">
-                            <button class="btn btn-gold" onclick="alert('Link in Zwischenablage kopiert!');"
-                                title="Link Kopieren"><i class="fa-solid fa-link"></i> Link kopieren</button>
-                        </div>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <button class="btn"
-                                style="background: #25D366; color: white; border: none; padding: 0.6rem 1.2rem; flex: 1;"><i
-                                    class="fa-brands fa-whatsapp"></i> WhatsApp</button>
-                            <button class="btn"
-                                style="background: #0088cc; color: white; border: none; padding: 0.6rem 1.2rem; flex: 1;"><i
-                                    class="fa-brands fa-telegram"></i> Telegram</button>
-                            <button class="btn"
-                                style="background: #E1306C; color: white; border: none; padding: 0.6rem 1.2rem; flex: 1;"><i
-                                    class="fa-brands fa-instagram"></i> Story</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    style="background: var(--bg-main); padding: 2rem; border-radius: 8px; margin-top: 3rem; text-align: center; border: 1px solid var(--border-color);">
-                    <h3 style="margin-bottom: 1rem;">Nächster Schritt zur Fertigung</h3>
-                    <p
-                        style="color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        Laden Sie Ihre CAD-Daten (STEP, STL, IGES) für eine exakte geometrische Prüfung und
-                        Preisberechnung hoch.
-                    </p>
-                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <a href="contact.html" class="btn btn-gold"><i class="fa-solid fa-paper-plane"></i> Anfrage
-                            senden</a>
-                        <button class="btn btn-ghost" onclick="window.print()"><i class="fa-solid fa-print"></i> PDF
-                            Report speichern</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
-        const state = {
-            mode: 'b2b',
-            dim: null,
-            qty: null,
-            env: new Set(),
-            mech: new Set(),
-            cert: new Set(),
-            finish: null,
-            budget: null
-        };
+        // Use the globally exposed MaterialDB
+        const DB = window.MaterialDB;
+        let currentMode = 'stl'; // 'stl' or 'lithophane'
+        let currentVolumeCm3 = 0;
+        let currentDimensions = null;
+        let isFileLoaded = false;
 
-        function setMode(mode) {
-            state.mode = mode;
-            document.getElementById('btn-mode-b2b').classList.toggle('active', mode === 'b2b');
-            document.getElementById('btn-mode-b2c').classList.toggle('active', mode === 'b2c');
+        // Populate Material Select Dropdown map
+        const matSelect = document.getElementById('mat-select');
+        Object.keys(DB).forEach(key => {
+            const mat = DB[key];
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = `${mat.name} (${mat.category})`;
+            // Hide lithophane from default STL view initially
+            if (key === 'lithophane') opt.style.display = 'none';
+            matSelect.appendChild(opt);
+        });
 
-            if (document.getElementById('results-section').style.display === 'block') {
-                analyze();
+        // DOM Elements
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileStatus = document.getElementById('file-status');
+        const volResult = document.getElementById('vol-result');
+        const dimResult = document.getElementById('dim-result');
+        const configPanel = document.getElementById('config-panel');
+        const priceResult = document.getElementById('price-result');
+        const weightEstimate = document.getElementById('weight-estimate');
+        const matInfo = document.getElementById('mat-info');
+        const finishSelect = document.getElementById('finish-select');
+        const optSmooth = document.getElementById('opt-smooth');
+        const optGold = document.getElementById('opt-gold');
+        const lithoSizeGroup = document.getElementById('litho-size-group');
+        const finishingGroup = document.getElementById('finishing-group');
+        const lithoSizeSelect = document.getElementById('litho-size-select');
+
+        // Drag & Drop
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            const fileName = file.name.toLowerCase();
+            fileStatus.textContent = 'Analysiere ' + file.name + '...';
+
+            if (fileName.endsWith('.stl')) {
+                currentMode = 'stl';
+                parseSTL(file);
+            } else if (fileName.match(/\.(jpg|jpeg|png)$/)) {
+                currentMode = 'lithophane';
+                setupLithophaneMode(file.name);
+            } else {
+                alert('Nicht unterstütztes Dateiformat.');
+                fileStatus.textContent = '';
             }
         }
 
-        function selectOption(element, category) {
-            const cards = document.querySelectorAll(`.option-card[data-q="${category}"]`);
-            cards.forEach(c => c.classList.remove('selected'));
-            element.classList.add('selected');
-            state[category] = element.getAttribute('data-val');
+        function parseSTL(file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                try {
+                    const loader = new THREE.STLLoader();
+                    const geometry = loader.parse(event.target.result);
+
+                    const volumeMm3 = getVolume(geometry);
+                    currentVolumeCm3 = volumeMm3 / 1000;
+
+                    geometry.computeBoundingBox();
+                    const box = geometry.boundingBox;
+                    const size = new THREE.Vector3();
+                    box.getSize(size);
+                    currentDimensions = { l: size.x.toFixed(1), w: size.y.toFixed(1), h: size.z.toFixed(1) };
+
+                    activateUI();
+                } catch (e) {
+                    console.error(e);
+                    alert("STL Datei beschädigt oder inkompatibel.");
+                    fileStatus.textContent = "Fehler beim Lesen.";
+                }
+            };
+            reader.readAsArrayBuffer(file);
         }
 
-        function toggleOption(element) {
-            const val = element.getAttribute('data-val');
-            const category = element.getAttribute('data-q');
+        // Logic from playground
+        function getVolume(geometry) {
+            if (!geometry.isBufferGeometry) return 0;
+            const pos = geometry.attributes.position;
+            const faces = pos.count / 3;
+            let sum = 0;
+            const p1 = new THREE.Vector3(), p2 = new THREE.Vector3(), p3 = new THREE.Vector3();
+            for (let i = 0; i < faces; i++) {
+                p1.fromBufferAttribute(pos, i * 3 + 0); p2.fromBufferAttribute(pos, i * 3 + 1); p3.fromBufferAttribute(pos, i * 3 + 2);
+                sum += p1.dot(p2.cross(p3)) / 6.0;
+            }
+            return Math.abs(sum);
+        }
 
-            // Special logic for "none" in certifications and mechanics to mutual exclude
-            if (val === 'none' || val === 'low') {
-                if (!state[category].has(val)) {
-                    state[category].clear();
-                    document.querySelectorAll(`.option-card[data-q="${category}"]`).forEach(c => c.classList.remove('selected'));
-                    state[category].add(val);
-                    element.classList.add('selected');
-                } else {
-                    state[category].delete(val);
-                    element.classList.remove('selected');
+        function setupLithophaneMode(name) {
+            fileStatus.textContent = name + " als Lithophane Basis bereit.";
+            volResult.textContent = "N/A";
+            dimResult.textContent = "Variabel (Siehe rechts)";
+
+            // Lock select to lithophane
+            Array.from(matSelect.options).forEach(opt => {
+                opt.style.display = opt.value === 'lithophane' ? 'block' : 'none';
+            });
+            matSelect.value = 'lithophane';
+
+            lithoSizeGroup.style.display = 'block';
+            finishingGroup.style.display = 'none';
+            currentVolumeCm3 = 0;
+            activateUI(true);
+        }
+
+        function activateUI(isLitho = false) {
+            isFileLoaded = true;
+            configPanel.style.opacity = '1';
+            configPanel.style.pointerEvents = 'auto';
+
+            if (!isLitho) {
+                fileStatus.textContent = "Modell erfolgreich analysiert.";
+                volResult.textContent = currentVolumeCm3.toFixed(2) + ' cm³';
+                dimResult.textContent = `${currentDimensions.l} × ${currentDimensions.w} × ${currentDimensions.h} mm`;
+
+                // Reset select options for STL
+                Array.from(matSelect.options).forEach(opt => {
+                    opt.style.display = opt.value === 'lithophane' ? 'none' : 'block';
+                });
+                if (matSelect.value === 'lithophane') matSelect.value = 'pla';
+
+                lithoSizeGroup.style.display = 'none';
+                finishingGroup.style.display = 'block';
+            }
+            updateMaterialLogic();
+        }
+
+        function updateMaterialLogic() {
+            if (!isFileLoaded) return;
+            const matKey = matSelect.value;
+            const mat = DB[matKey];
+
+            // Info Card Updates
+            matInfo.style.display = 'block';
+            matInfo.innerHTML = `<strong>Info:</strong> ${mat.description}`;
+
+            // Finishing Logic Locks
+            if (currentMode === 'stl') {
+                optSmooth.disabled = !mat.finishing.vapor_smoothing;
+                optGold.disabled = !mat.finishing.electroplating;
+
+                if (finishSelect.options[finishSelect.selectedIndex].disabled) {
+                    finishSelect.value = 'none';
                 }
+            }
+
+            calculatePrice(mat);
+        }
+
+        function calculatePrice(mat) {
+            let finalPrice = 0;
+
+            if (currentMode === 'lithophane') {
+                const size = lithoSizeSelect.value;
+                finalPrice = mat.flat_rates[size];
+                weightEstimate.textContent = "~50-150";
+            } else if (matKey = 'galvanic_gold' && finishSelect.value == 'gold') {
+                priceResult.textContent = "Auf Anfrage";
+                priceResult.style.fontSize = "2.5rem";
                 return;
             } else {
-                // If selecting something else, remove "none" / "low"
-                if (state[category].has('none')) {
-                    state[category].delete('none');
-                    document.querySelector(`.option-card[data-q="${category}"][data-val="none"]`)?.classList.remove('selected');
-                }
-                if (state[category].has('low') && category === 'mech') {
-                    state[category].delete('low');
-                    document.querySelector(`.option-card[data-q="${category}"][data-val="low"]`)?.classList.remove('selected');
-                }
+                const weight = currentVolumeCm3 * mat.density_g_cm3;
+                weightEstimate.textContent = weight.toFixed(0);
+
+                finalPrice = mat.base_fee + (currentVolumeCm3 * mat.price_per_cm3);
+
+                // Adjust for finishing
+                if (finishSelect.value === 'smooth') finalPrice += 15.00; // Flat fee smoothing
             }
 
-            if (state[category].has(val)) {
-                state[category].delete(val);
-                element.classList.remove('selected');
-            } else {
-                state[category].add(val);
-                element.classList.add('selected');
-            }
+            priceResult.style.fontSize = "3.5rem";
+            priceResult.textContent = finalPrice.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
         }
 
-        function analyze() {
-            if (!state.dim || !state.qty || state.mech.size === 0 || state.cert.size === 0 || !state.finish || !state.budget || state.env.size === 0) {
-                alert("Bitte füllen Sie alle Kategorien aus, um ein präzises Ergebnis zu erhalten.");
-                return;
-            }
+        // Event Listeners
+        matSelect.addEventListener('change', updateMaterialLogic);
+        finishSelect.addEventListener('change', updateMaterialLogic);
+        lithoSizeSelect.addEventListener('change', updateMaterialLogic);
 
-            // Scroll down
-            const resSection = document.getElementById('results-section');
-            resSection.style.display = 'block';
-            setTimeout(() => {
-                resSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-
-            // LOGIC ENGINE
-            let tech = "FDM (Fused Deposition Modeling)";
-            let techDetails = "Ideal für funktionale Teile. ";
-            let materials = [];
-            let warnings = [];
-
-            // 1. Dimension & Tech
-            if (state.dim === 'micro') {
-                tech = "SLA / DLP (Stereolithografie)";
-                techDetails = "Zwingend erforderlich für Mikro-Strukturen und Passungen < 0.1mm. ";
-            } else if (state.dim === 'large') {
-                tech = "Großraum-FDM";
-                techDetails = "Aufteilung des Modells oder Großraumdrucker (>400mm) erforderlich. ";
-            }
-
-            // 2. Base Materials based on Mechanical & Environment
-            if (state.mech.has('flex')) materials.push("TPU 95A", "TPE", "Flexible Resin");
-            if (state.env.has('heat')) materials.push("PA-CF (Carbon-Nylon)", "Polycarbonat (PC)", "High-Temp Resin");
-            if (state.mech.has('friction')) materials.push("Nylon (PA12)", "POM", "IGUS Tribo-Filament");
-            if (state.env.has('outdoor')) materials.push("ASA (UV-beständig)", "PETG");
-            if (state.mech.has('high')) materials.push("Carbonfaserverstärktes PA", "ABS");
-
-            // Default if nothing extreme
-            if (materials.length === 0) {
-                if (state.mech.has('low')) materials.push("PLA Tough", "Standard Resin");
-                else materials.push("PETG", "ABS");
-            }
-
-            // 3. Certifications (Overrides / additions)
-            if (state.cert.has('esd')) {
-                materials.unshift("ESD ABS", "ESD PETG");
-                if (tech.includes("FDM")) tech = "FDM (Spezial-Filamente)";
-            }
-            if (state.cert.has('fire')) {
-                materials.unshift("PC-ABS (UL94 V-0)", "PEEK", "Spezial-Resin (FR)");
-            }
-            if (state.cert.has('food')) {
-                materials.unshift("PETG (Lebensmittelecht)", "PP");
-                warnings.push("Achtung: 3D-Druck-Schichtlinien können Bakterienwachstum begünstigen. Chemische Glättung oder Versiegelung (FDA-Epoxid) bei Kontaktmaterial zwingend erforderlich.");
-            }
-
-            // Apply Budget Logic Before Special Finishes
-            if (state.budget === 'low') {
-                if (materials.some(m => m.includes("PEEK") || m.includes("Carbon") || m.includes("Resin"))) {
-                    warnings.push("Budget-Hinweis: Ihre Anforderungen (Hitze/Zertifizierung) erfordern teurere High-Performance Materialien. Eine extrem günstige Produktion ist hier technisch schwer realisierbar.");
-                } else {
-                    materials.push("PLA (sehr günstig)");
-                }
-            } else if (state.budget === 'high') {
-                if (state.mech.has('high') || state.env.has('heat')) {
-                    materials.unshift("PEEK (Extrem belastbar, höchstes Preissegment)");
-                }
-            }
-
-            materials = [...new Set(materials)]; // remove duplicates
-
-            // 4. Post-Processing & Special Finish Interventions
-            let postProc = "";
-            let leadTime = "ca. 3-5 Werktage";
-
-            if (state.qty === 'prod') {
-                leadTime = "ca. 2-3 Wochen (Farm-Auslastungskapazität)";
-                if (state.dim === 'large') {
-                    warnings.push("Serienfertigung von Großbauteilen erfordert Abstimmung zu Toleranzabweichungen (Warping).");
-                }
-            }
-
-            if (state.finish === 'galvanic') {
-                if (!materials.includes("ABS") && !materials.includes("ASA")) {
-                    materials.unshift("ABS (Muss gewählt werden für optimale Galvanisierbarkeit)");
-                }
-                postProc = "<strong>Galvanik-Prozess:</strong> Bauteil wird fachgerecht vorbereitet und anschließend elektrolytisch in einem mehrstufigen Verfahren mit einer massiven Echtmetallschicht überzogen.<br><span style='color:var(--accent-gold);'>Vorteil:</span> Metallische Haptik, verbesserte Verschleißfestigkeit, elektromagnetische Abschirmung (EMV/ESD).";
-                leadTime = (state.qty === 'prod') ? "ca. 4-5 Wochen (inkl. Veredelung)" : "ca. 10-14 Tage (inkl. Galvanik)";
-
-                if (state.dim === 'large') {
-                    warnings.push("Das Galvanisieren von Großteilen ist durch die Beckengröße in unserer Manufaktur derzeit begrenzt. Bitte Maximalmaße anfragen.");
-                }
-
-            } else if (state.finish === 'smooth') {
-                if (tech.includes('SLA')) {
-                    postProc = "Teil ist bereits hochauflösend. Leichtes Nassschleifen und Klar-/Mattlackierung empfohlen.";
-                } else {
-                    // For FDM, chemical smoothing removes PLA and requires ABS/ASA
-                    materials = materials.filter(m => !m.includes("PLA") && !m.includes("PETG"));
-                    if (!materials.some(m => m.includes("ABS") || m.includes("ASA"))) {
-                        materials.unshift("ABS (Für chemische Glättung zwingend erforderlich)");
-                    }
-                    postProc = "<strong>Acetondampf-Glättung (Vapor Smoothing):</strong> Die Poren werden mikroskopisch verschmolzen. Ergebnis: Spritzguss-ähnliche, hochglänzende und dichte Oberfläche. (Diese Veredelung ist primär bei ABS/ASA effektiv, weshalb wir PLA hierbei nicht empfehlen).";
-                }
-            } else {
-                postProc = "Reines Funktions-Finish. Supports werden entfernt. Schichtlinien (Layer) sind minimal sicht-/spürbar.";
-            }
-
-            // Generate HTML
-            document.getElementById('tech-text').innerHTML = `<strong>${tech}</strong><br>${techDetails}`;
-
-            let matHtml = `<strong>Primäre Empfehlungen:</strong> <span style="color:var(--text-primary); font-weight:500;">${materials.join(', ')}</span><br>`;
-            if (warnings.length > 0) {
-                matHtml += `<br><div style="background: rgba(255,100,100,0.1); border-left: 3px solid #ff4444; padding: 0.8rem; font-size: 0.9rem;">
-                              <i class="fa-solid fa-triangle-exclamation" style="color: #ff4444;"></i> ${warnings.join('<br>')}
-                            </div>`;
-            }
-            document.getElementById('material-text').innerHTML = matHtml;
-
-            document.getElementById('logistics-text').innerHTML = `
-                ${postProc}<br><br>
-                <strong>Geschätzte Produktionszeit (Standard):</strong> ${leadTime}<br>
-                <em>Express-Fertigung und priorisierte Materialbeschaffung auf Anfrage möglich.</em>
-            `;
-
-            // 5. Cost & Crowdfunding rendering based on Mode
-            if (state.mode === 'b2c') {
-                document.getElementById('res-cost').style.display = 'block';
-
-                let basePrice = 45; // default handlich
-                if (state.dim === 'micro') basePrice = 18;
-                if (state.dim === 'medium') basePrice = 120;
-                if (state.dim === 'large') basePrice = 450;
-
-                if (state.qty === 'batch') basePrice *= 8;
-                if (state.qty === 'prod') basePrice *= 35;
-
-                if (state.finish === 'galvanic') basePrice *= 2.5;
-                if (state.finish === 'smooth') basePrice *= 1.3;
-                if (tech.includes('SLA')) basePrice *= 1.4;
-
-                if (state.budget === 'low') basePrice *= 0.7;
-                if (state.budget === 'high') basePrice *= 1.6;
-
-                let finalPrice = Math.round(basePrice);
-
-                document.getElementById('cost-text').innerHTML = `
-                    <strong>Grobe Preisindikation:</strong> ab ca. ${finalPrice} EUR (inkl. MwSt.)<br>
-                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Der exakte finale Preis wird nach Upload des 3D-Modells anhand von Volumen, Druckzeit und Support-Strukturen berechnet.</span>
-                `;
-
-                let projectId = Math.random().toString(36).substr(2, 6).toUpperCase();
-                document.getElementById('share-link-input').value = `https://3nc.de/fund/prj-${projectId}`;
-            } else {
-                document.getElementById('res-cost').style.display = 'none';
-            }
+        function prepareRequest() {
+            sessionStorage.setItem('3nc_request_price', priceResult.textContent);
+            sessionStorage.setItem('3nc_request_mat', DB[matSelect.value].name);
+            window.location.href = 'contact.html?lead=advisor';
         }
+
     </script>
 </body>
 
