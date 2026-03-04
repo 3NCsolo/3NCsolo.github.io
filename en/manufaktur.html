@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="3NC – Sản xuất đắp lớp, Mạ điện, In 3D & Kỹ thuật tại Dresden. Nơi công nghệ kết hợp với kỹ thuật thủ công.">
-    <title>3NC · Sản Xuất Đắp Lớp & Hoàn Thiện Bề Mặt</title>
+        content="3NC – Additive Manufacturing, Galvanic Refinement & 3D Printing in Dresden. Engineering meets Craftsmanship.">
+    <title>3NC · Additive Manufacturing & Surface Refinement</title>
     <link rel="stylesheet" href="../style_v2.css">
     <link rel="stylesheet" href="../fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,22 +14,23 @@
 
 <body>
 
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-inner">
-            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link active">Trang chủ</a></li>
-                <li><a href="services.html" class="nav-link">Dịch vụ</a></li>
-                <li><a href="about.html" class="nav-link">Phòng thí nghiệm</a></li>
-                <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+                <li><a href="manufaktur.html" class="nav-link active">Manufaktur</a></li><li><a href="smarthome.html" class="nav-link">Smart Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="about.html" class="nav-link">Laboratory</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
 
                 <li class="lang-switcher">
                     <a href="../index.html" class="lang-flag" title="Deutsch">🇩🇪</a>
-                    <a href="../en/index.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="index.html" class="lang-flag active" title="English">🇬🇧</a>
                     <a href="../ru/index.html" class="lang-flag" title="Русский">🇷🇺</a>
                     <a href="../ar/index.html" class="lang-flag" title="العربية">🇸🇦</a>
-                    <a href="index.html" class="lang-flag active" title="Tiếng Việt">🇻🇳</a>
+                    <a href="../vn/index.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
                 </li>
             </ul>
 
@@ -44,15 +45,15 @@
         <div class="hero-bg" style="background-image: url('../images/hero-tech.jpg')"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <p class="hero-label">Dresden · Sản xuất đắp lớp & Hoàn thiện bề mặt</p>
-            <h1 class="hero-title">Chức năng. Độ chính xác.<br><span class="text-gold">Hoàn thiện.</span></h1>
+            <p class="hero-label">Dresden · Additive Manufacturing & Surface Refinement</p>
+            <h1 class="hero-title">Function. Precision.<br><span class="text-gold">Refinement.</span></h1>
             <p class="hero-sub" style="max-width: 700px; margin: 0 auto 2.5rem auto;">
-                Từ bản phác thảo CAD đầu tiên đến in FDM/SLA chịu tải cao và mạ kim loại điện phân. Chúng tôi biến nhựa
-                thành các chi tiết kỹ thuật cơ khí thực sự.
+                From the first CAD sketch to heavy-duty FDM/SLA printing and galvanic metal coating. We turn plastics
+                into real engineering components.
             </p>
             <div class="hero-cta">
-                <a href="contact.html" class="btn btn-gold">Yêu cầu dự án</a>
-                <a href="../3d-advisor-tool.html" class="btn btn-ghost">Đến công cụ phân tích →</a>
+                <a href="contact.html" class="btn btn-gold">Request Project</a>
+                <a href="../3d-advisor-tool.html" class="btn btn-ghost">To Analysis Tool →</a>
             </div>
         </div>
     </header>
@@ -62,23 +63,23 @@
         <div class="trust-row">
             <div class="trust-item">
                 <i class="fa-solid fa-cube"></i>
-                <span>In 3D kỹ thuật</span>
+                <span>Technical 3D Printing</span>
             </div>
             <div class="trust-item">
                 <i class="fa-solid fa-gem"></i>
-                <span>Hoàn thiện mạ điện</span>
+                <span>Galvanic Refinement</span>
             </div>
             <div class="trust-item">
                 <i class="fa-solid fa-microscope"></i>
-                <span>Polymer hiệu suất cao</span>
+                <span>High-Performance Polymers</span>
             </div>
             <div class="trust-item">
                 <i class="fa-solid fa-industry"></i>
-                <span>Sản xuất nhỏ & Tạo mẫu</span>
+                <span>Short-runs & Prototypes</span>
             </div>
             <div class="trust-item">
                 <i class="fa-solid fa-map-pin"></i>
-                <span>Xưởng sản xuất tại Dresden</span>
+                <span>Manufactory in Dresden</span>
             </div>
         </div>
     </section>
@@ -87,68 +88,71 @@
     <section class="editorial-section">
         <div class="container">
 
+            <!-- Block 1: 3D Printing -->
             <div class="editorial-block fade-in">
                 <div class="editorial-img">
                     <img src="../images/3d-printer.jpg" alt="Technical 3D Printing FDM SLA"
                         style="object-fit:cover; width:100%; height:100%; background:#222;">
                 </div>
                 <div class="editorial-text">
-                    <p class="editorial-label">Sản xuất đắp lớp (FDM / SLA)</p>
-                    <h2>Tạo mẫu & Sản xuất nhỏ</h2>
+                    <p class="editorial-label">Additive Manufacturing (FDM / SLA)</p>
+                    <h2>Prototyping & Short-runs</h2>
                     <p>
-                        Chúng tôi xử lý các polymer kỹ thuật hiệu suất cao (Carbon-Nylon, ABS, ASA, TPU) cho các tải
-                        trọng cơ học và nhiệt độ khắt khe. Cho dù đó là một mảnh riêng lẻ để xác thực khái niệm hay sản
-                        xuất cầu nối cho các lô nhỏ.
+                        We process technical high-performance polymers (Carbon-Nylon, ABS, ASA, TPU) for demanding
+                        mechanical and thermal loads. Whether it's a single piece for concept validation or bridge
+                        manufacturing for short-runs.
                     </p>
                     <div class="tags">
-                        <span class="tag">Tạo mẫu nhanh</span>
-                        <span class="tag">Bộ phận chức năng</span>
-                        <span class="tag">Chi tiết vi mô (< 0.1mm)</span>
+                        <span class="tag">Rapid Prototyping</span>
+                        <span class="tag">Functional Parts</span>
+                        <span class="tag">Micro-Details (< 0.1mm)</span>
                     </div>
                 </div>
             </div>
 
+            <!-- Block 2: Post-Processing -->
             <div class="editorial-block reverse fade-in">
                 <div class="editorial-img">
                     <img src="../images/galvanic-bath.jpg" alt="Galvanic Coating Plastics"
                         style="object-fit:cover; width:100%; height:100%; background:#222;">
                 </div>
                 <div class="editorial-text">
-                    <p class="editorial-label">Công nghệ bề mặt & Nhựa mạ điện</p>
-                    <h2>Làm mịn hóa học & Mạ điện</h2>
+                    <p class="editorial-label">Surface Technology & Galvano-Plastics</p>
+                    <h2>Chemical Smoothing & Galvanics</h2>
                     <p>
-                        Bản in 3D không nhất thiết phải giống in 3D. Nhờ quá trình làm mịn bằng hơi acetone, chúng tôi
-                        đạt được các bề mặt giống như đúc ép nhựa.
-                        Điểm nổi bật: <strong>Mạ kim loại điện phân</strong> trên nhựa bằng đồng, niken và vàng mang lại
-                        cảm giác kim loại và khả năng dẫn điện thực sự.
+                        A 3D print doesn't have to look like a 3D print. Through acetone vapor smoothing, we achieve
+                        injection-mold-like surfaces.
+                        Our highlight: The <strong>galvanic metal coating</strong> of plastics with copper, nickel, and
+                        gold for true metallic feel and conductivity.
                     </p>
                     <div class="tags">
-                        <span class="tag">Làm mịn bằng hơi</span>
-                        <span class="tag">Đồng / Niken / Vàng</span>
-                        <span class="tag">Chống nhiễu EMI</span>
+                        <span class="tag">Vapor Smoothing</span>
+                        <span class="tag">Real metal coating</span>
+                        <span class="tag">EMI Shielding</span>
                     </div>
                 </div>
             </div>
 
+            <!-- Block 3: The Process & Scaling -->
             <div class="editorial-block fade-in">
                 <div class="editorial-img">
                     <img src="../images/cad-design.jpg" alt="CAD Analysis and Consulting"
                         style="object-fit:cover; width:100%; height:100%; background:#222;">
                 </div>
                 <div class="editorial-text">
-                    <p class="editorial-label">Kỹ thuật & Mở rộng quy mô</p>
-                    <h2>Từ tạo mẫu đến chuỗi CNC</h2>
+                    <p class="editorial-label">Engineering & Scaling</p>
+                    <h2>From Prototype to CNC Series</h2>
                     <p>
-                        Chúng tôi đồng hành cùng toàn bộ vòng đời sản phẩm: Từ bản dựng thử nghiệm đầu tiên (tạo mẫu)
-                        đến sản xuất đắp lớp lô nhỏ và chuyển qua công nghiệp.
-                        Sau khi xác thực thành công bản in 3D, thông qua mạng lưới công nghiệp, chúng tôi có thể gia
-                        công <strong>(Phay / Tiện CNC)</strong> chi tiết của bạn bằng các kim loại độ bền cao như nhôm,
-                        thép, hoăc titan.
+                        We cover the entire product lifecycle: From the first custom build (prototyping) to additive
+                        short-runs and transition to industrial manufacturing.
+                        Once the 3D-printed proof of concept is established, we can also manufacture your part via our
+                        established industrial network through machining <strong>(CNC milling / turning)</strong> from
+                        high-strength metals such as various high-strength industrial metals.
                     </p>
                     <div class="tags">
-                        <span class="tag">Chế tác thủ công</span>
-                        <span class="tag">Sản xuất lô đắp lớp</span>
-                        <span class="tag">Gia công kim loại CNC</span>
+                        <span class="tag">Custom Builds</span>
+                        <span class="tag">Additive Short-runs</span>
+                        <span class="tag">CNC Metal Manufacturing</span>
                     </div>
                 </div>
             </div>
@@ -161,24 +165,21 @@
         style="padding: 6rem 0; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
         <div class="container" style="max-width: 800px; text-align: center;">
             <h2 style="font-size: 2rem; margin-bottom: 1.5rem; line-height: 1.3;">
-                "Sự chuẩn xác từ máy in.<br> Sự bền bỉ từ ngành công nghiệp.<br> <span class="text-gold">Sự hoàn thiện
-                    từ niềm đam mê.</span>"
+                "Precision from the printer.<br> Durability from the industry.<br> <span class="text-gold">Refinement
+                    out of passion.</span>"
             </h2>
             <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 1rem;">
-                Nơi mà các giải pháp tiêu chuẩn kết thúc, xưởng sản xuất của chúng tôi bắt đầu. Chúng tôi thiết kế bản
-                vẽ và biến khả thi thành hiện thực.
-                Ý tưởng kỹ thuật số hòa quyện trong sự hoàn hảo của vật lý – đóng vai trò là phòng thí nghiệm linh kiện
-                đắp lớp và tạo mẫu thông minh của bạn.
+                Where standard solutions end, our manufactory begins. We engineer and manufacture the feasible.
+                Digital ideas in physical perfection – as your laboratory for additive components and smart prototypes.
             </p>
             <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2.5rem;">
-                Tầm nhìn của bạn. Hệ thống máy móc của chúng tôi. Cùng nhau, chúng tôi chế tạo ra các linh kiện tạo nên
-                sự khác biệt thực tế.
-                Từ nghiên cứu tính khả thi đầu tiên cho đến bản nguyên mẫu được tích hợp hoàn chỉnh – đối tác của bạn
-                đối với các giải pháp công nghệ tùy chỉnh.
+                Your vision. Our machinery. Together we manufacture parts that make a difference in practice.
+                From the initial feasibility study to the fully integrated prototype – your partner for technological
+                custom solutions.
             </p>
             <cite
                 style="display: block; font-style: normal; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">
-                — Louis Altmann, Giám đốc Kỹ thuật
+                — Louis Altmann, Head of Engineering
             </cite>
         </div>
     </section>
@@ -186,58 +187,61 @@
     <!-- Compact Service Overview -->
     <section class="services-compact" style="margin-bottom: 5rem;">
         <div class="container">
-            <p class="section-label">Danh mục Phòng thí nghiệm</p>
-            <h2>Các trọng tâm cốt lõi</h2>
+            <p class="section-label">Our Laboratory Portfolio</p>
+            <h2>Core Competencies</h2>
             <div class="s-grid">
                 <a href="services.html#fdm" class="s-card">
                     <i class="fa-solid fa-layer-group"></i>
-                    <h3>In FDM</h3>
-                    <p>Các bộ phận chức năng bền</p>
+                    <h3>FDM Printing</h3>
+                    <p>Durable Functional Parts</p>
                 </a>
                 <a href="services.html#sla" class="s-card">
                     <i class="fa-solid fa-microscope"></i>
                     <h3>SLA Resin</h3>
-                    <p>Cấp độ chi tiết cao nhất</p>
+                    <p>Highest Detail Level</p>
                 </a>
                 <a href="services.html#galvanik" class="s-card">
                     <i class="fa-solid fa-bolt"></i>
-                    <h3>Mạ điện</h3>
-                    <p>Đồng/Niken/Vàng trên nhựa</p>
+                    <h3>Galvanics</h3>
+                    <p>Metal on Plastic</p>
                 </a>
                 <a href="services.html#smart-iot" class="s-card">
                     <i class="fa-solid fa-house-signal"></i>
-                    <h3>Thiết bị thông minh</h3>
-                    <p>Giải pháp tùy chỉnh & IoT</p>
+                    <h3>Smart Devices</h3>
+                    <p>Custom Solutions & IoT</p>
                 </a>
                 <a href="services.html#cnc" class="s-card">
                     <i class="fa-solid fa-gears"></i>
-                    <h3>CNC & Hàng loạt</h3>
-                    <p>Quy mô kim loại</p>
+                    <h3>CNC & Series</h3>
+                    <p>Scaling in Metal</p>
                 </a>
                 <a href="../3d-advisor-tool.html" class="s-card">
                     <i class="fa-solid fa-calculator"></i>
-                    <h3>Phân tích Dự án</h3>
-                    <p>Sang công cụ tương tác</p>
+                    <h3>Project Analysis</h3>
+                    <p>To the interactive tool</p>
                 </a>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <p>&copy; 2026 3NC – Louis Altmann</p>
             <p style="margin-top:0.75rem;">
-                <a href="../impressum.html">Dấu ấn</a> · <a href="../datenschutz.html">Bảo mật</a>
+                <a href="../impressum.html">Imprint</a> · <a href="../datenschutz.html">Privacy Policy</a>
             </p>
         </div>
     </footer>
 
     <script>
+        // Mobile menu
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
             document.getElementById('hamburger').classList.toggle('active');
         });
 
+        // Fade-in on scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         }, { threshold: 0.15 });

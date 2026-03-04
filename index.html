@@ -5,247 +5,301 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="3NC – Smart Home, Galvanische Veredelung, 3D-Druck & Wohnraumoptimierung in Dresden. Technik trifft Handwerk.">
-    <title>3NC · Technische Veredelung & Smart Living</title>
+        content="3NC Gateway: Systemhaus für Gebäudeautomation & Manufaktur für Additive Fertigung">
+    <title>3NC | Digital & Manufaktur</title>
     <link rel="stylesheet" href="style_v2.css">
     <link rel="stylesheet" href="fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            /* Prevent scrolling on the gateway */
+            background-color: #0f0f0f;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Nav for Gateway */
+        .gateway-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+            /* Let clicks pass through except on links */
+        }
+
+        .gateway-nav .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            pointer-events: auto;
+        }
+
+        .gateway-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .gateway-panel {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+
+        .gateway-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.8s ease, filter 0.6s ease;
+            z-index: 1;
+        }
+
+        .gateway-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradient overlay for readability */
+            background: linear-gradient(to bottom, rgba(15, 15, 15, 0.3) 0%, rgba(15, 15, 15, 0.8) 100%);
+            z-index: 2;
+            transition: background 0.6s ease;
+        }
+
+        /* Digital Panel Background */
+        .panel-digital::before {
+            background-image: url('images/smarthome-hero.jpg');
+            /* We need to ensure this image or a placeholder exists */
+            /* Default fallback if image doesn't exist yet */
+            background-color: #0a1128;
+        }
+
+        /* Manufaktur Panel Background */
+        .panel-manufaktur::before {
+            background-image: url('images/hero-home-dark.jpg');
+            background-color: #1a1510;
+        }
+
+        .panel-content {
+            position: relative;
+            z-index: 3;
+            color: #ffffff;
+            padding: 2rem;
+            max-width: 500px;
+            transform: translateY(20px);
+            opacity: 0.8;
+            transition: all 0.6s ease;
+        }
+
+        .panel-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .panel-digital .panel-label {
+            color: #4da6ff;
+            /* A tech blue accent for the digital side */
+        }
+
+        .gateway-panel h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .gateway-panel p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease 0.1s;
+        }
+
+        .enter-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            background: transparent;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease 0.2s;
+        }
+
+        /* Hover Effects */
+        .gateway-panel:hover {
+            flex: 1.3;
+        }
+
+        .gateway-panel:hover::before {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .gateway-panel:hover::after {
+            background: linear-gradient(to bottom, rgba(15, 15, 15, 0.1) 0%, rgba(15, 15, 15, 0.9) 100%);
+        }
+
+        .gateway-panel:hover .panel-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gateway-panel:hover p,
+        .gateway-panel:hover .enter-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .panel-digital:hover .enter-btn {
+            border-color: #4da6ff;
+            background: rgba(77, 166, 255, 0.1);
+        }
+
+        .panel-manufaktur:hover .enter-btn {
+            border-color: var(--accent-gold);
+            background: rgba(197, 168, 84, 0.1);
+        }
+
+        /* Divider */
+        .gateway-divider {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 900px) {
+            .gateway-container {
+                flex-direction: column;
+            }
+
+            .gateway-panel {
+                flex: 1;
+            }
+
+            .gateway-divider {
+                left: 0;
+                top: 50%;
+                width: 100%;
+                height: 1px;
+                transform: translateY(-50%);
+            }
+
+            .gateway-panel h2 {
+                font-size: 2rem;
+            }
+
+            .gateway-panel p,
+            .enter-btn {
+                display: none;
+                /* Keep it clean on mobile */
+            }
+
+            .panel-content {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .gateway-panel:hover {
+                flex: 1.1;
+            }
+
+            .gateway-nav {
+                padding: 1.5rem;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container nav-inner">
-            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
-
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link active">Home</a></li>
-                <li><a href="services.html" class="nav-link">Leistungen</a></li>
-                <li><a href="about.html" class="nav-link">Manufaktur</a></li>
-                <li><a href="contact.html" class="nav-link">Kontakt</a></li>
-
-                <li class="lang-switcher">
-                    <a href="index.html" class="lang-flag active" title="Deutsch">🇩🇪</a>
-                    <a href="en/index.html" class="lang-flag" title="English">🇬🇧</a>
-                    <a href="ru/index.html" class="lang-flag" title="Русский">🇷🇺</a>
-                    <a href="ar/index.html" class="lang-flag" title="العربية">🇸🇦</a>
-                    <a href="vn/index.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
-                </li>
-            </ul>
-
-            <div class="hamburger" id="hamburger">
-                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-            </div>
-        </div>
+    <nav class="gateway-nav">
+        <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
     </nav>
 
-    <!-- Hero — Full Bleed -->
-    <header class="hero">
-        <div class="hero-bg" style="background-image: url('images/hero-tech.jpg')"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <p class="hero-label">Dresden · Additive Manufacturing & Surface Refinement</p>
-            <h1 class="hero-title">Funktion. Präzision.<br><span class="text-gold">Veredelung.</span></h1>
-            <p class="hero-sub" style="max-width: 700px; margin: 0 auto 2.5rem auto;">
-                Von der ersten CAD-Skizze über den hochbelastbaren FDM/SLA-Druck bis zur galvanischen
-                Metallbeschichtung. Wir machen aus Kunststoff echte Maschinenbauteile.
-            </p>
-            <div class="hero-cta">
-                <a href="contact.html" class="btn btn-gold">Projekt anfragen</a>
-                <a href="3d-advisor-tool.html" class="btn btn-ghost">Zum Analyse-Tool →</a>
-            </div>
-        </div>
-    </header>
+    <div class="gateway-container">
 
-    <!-- Trust Bar -->
-    <section class="trust-bar">
-        <div class="trust-row">
-            <div class="trust-item">
-                <i class="fa-solid fa-cube"></i>
-                <span>Technischer 3D-Druck</span>
+        <!-- Left Panel: Smart Home / Digital -->
+        <a href="smarthome.html" class="gateway-panel panel-digital">
+            <div class="panel-content">
+                <span class="panel-label">Gebäudeautomation</span>
+                <h2>3NC Digital</h2>
+                <p>Intelligente, herstellerunabhängige Systemintegration. Planung, Vorprogrammierung und Inbetriebnahme
+                    von Premium Smart Homes.</p>
+                <div class="enter-btn">Systemhaus betreten</div>
             </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-gem"></i>
-                <span>Galvanische Veredelung</span>
-            </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-microscope"></i>
-                <span>Hochleistungspolymere</span>
-            </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-industry"></i>
-                <span>Kleinserien & Prototypen</span>
-            </div>
-            <div class="trust-item">
-                <i class="fa-solid fa-map-pin"></i>
-                <span>Manufaktur in Dresden</span>
-            </div>
-        </div>
-    </section>
+        </a>
 
-    <!-- Editorial Service Blocks -->
-    <section class="editorial-section">
-        <div class="container">
-
-            <!-- Block 1: 3D Printing -->
-            <div class="editorial-block fade-in">
-                <div class="editorial-img">
-                    <img src="images/3d-printer.jpg" alt="Technischer 3D Druck FDM SLA"
-                        style="object-fit:cover; width:100%; height:100%; background:#222;">
-                </div>
-                <div class="editorial-text">
-                    <p class="editorial-label">Additive Fertigung (FDM / SLA)</p>
-                    <h2>Prototyping & Kleinserien</h2>
-                    <p>
-                        Wir verarbeiten technische Hochleistungspolymere (Carbon-Nylon, ABS, ASA, TPU) für
-                        anspruchsvolle mechanische und thermische Belastungen. Egal ob Einzelstück zur
-                        Konzeptvalidierung oder als Bridge-Manufacturing für Kleinserien.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Rapid Prototyping</span>
-                        <span class="tag">Funktionsbauteile</span>
-                        <span class="tag">Mikro-Details (< 0.1mm)</span>
-                    </div>
-                </div>
+        <!-- Right Panel: Manufaktur / 3D Printing -->
+        <a href="manufaktur.html" class="gateway-panel panel-manufaktur">
+            <div class="panel-content">
+                <span class="panel-label">Additive Fertigung</span>
+                <h2>3NC Manufaktur</h2>
+                <p>Ingenieursgetriebener 3D-Druck, High-Tech Polymere und galvanische Veredelung für B2B-Prototyping und
+                    Kleinserien.</p>
+                <div class="enter-btn">Manufaktur betreten</div>
             </div>
+        </a>
 
-            <!-- Block 2: Post-Processing -->
-            <div class="editorial-block reverse fade-in">
-                <div class="editorial-img">
-                    <img src="images/galvanic-bath.jpg" alt="Galvanische Beschichtung Kunststoff"
-                        style="object-fit:cover; width:100%; height:100%; background:#222;">
-                </div>
-                <div class="editorial-text">
-                    <p class="editorial-label">Oberflächentechnik & Galvano-Plastik</p>
-                    <h2>Chemisches Glätten & Galvanik</h2>
-                    <p>
-                        Ein 3D-Druck muss nicht wie ein 3D-Druck aussehen. Durch Acetondampf-Glättung (Vapor Smoothing)
-                        erzielen wir spritzgussähnliche Oberflächen.
-                        Unser Highlight: Die <strong>galvanische Metallbeschichtung</strong> von Kunststoffen mit
-                        Kupfer, Nickel und Gold für echte metallische Haptik und Leitfähigkeit.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Vapor Smoothing</span>
-                        <span class="tag">Kupfer / Nickel / Gold</span>
-                        <span class="tag">EMV-Schirmung</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Block 3: The Process & Scaling -->
-            <div class="editorial-block fade-in">
-                <div class="editorial-img">
-                    <img src="images/cad-design.jpg" alt="CAD Analyse und Beratung"
-                        style="object-fit:cover; width:100%; height:100%; background:#222;">
-                </div>
-                <div class="editorial-text">
-                    <p class="editorial-label">Engineering & Skalierung</p>
-                    <h2>Vom Prototyp zur CNC-Serie</h2>
-                    <p>
-                        Wir begleiten den gesamten Produktzyklus: Von der ersten Einzelanfertigung (Prototyping) über
-                        die additive Kleinserie bis hin zur Überführung in die industrielle Fertigung.
-                        Ist der 3D-gedruckte Konzeptnachweis erbracht, fertigen wir Ihr Bauteil über unser etabliertes
-                        Industrie-Netzwerk auf Wunsch auch maschinell <strong>(CNC-Fräsen / Drehen)</strong> aus
-                        hochfesten Metallen wie Aluminium, Stahl oder Titan.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Einzelanfertigungen</span>
-                        <span class="tag">Additive Kleinserien</span>
-                        <span class="tag">CNC-Metallfertigung</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Statement / Manifesto -->
-    <section class="statement"
-        style="padding: 6rem 0; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
-        <div class="container" style="max-width: 800px; text-align: center;">
-            <h2 style="font-size: 2rem; margin-bottom: 1.5rem; line-height: 1.3;">
-                „Präzision aus dem Drucker.<br> Belastbarkeit aus der Industrie.<br> <span class="text-gold">Veredelung
-                    aus Leidenschaft.</span>“
-            </h2>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 1rem;">
-                Wo Standardlösungen enden, beginnt unsere Manufaktur. Wir konstruieren und fertigen das Machbare.
-                Digitale Ideen in physischer Perfektion – als Ihr Labor für additive Bauteile und smarte Prototypen.
-            </p>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2.5rem;">
-                Ihre Vision. Unsere Anlagen. Gemeinsam fertigen wir Bauteile, die in der Praxis den Unterschied machen.
-                Von der ersten Machbarkeitsstudie bis zum voll integrierten Prototyp – Ihr Partner für technologische
-                Sonderlösungen.
-            </p>
-            <cite
-                style="display: block; font-style: normal; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">
-                — Louis Altmann, Head of Engineering
-            </cite>
-        </div>
-    </section>
-
-    <!-- Compact Service Overview -->
-    <section class="services-compact" style="margin-bottom: 5rem;">
-        <div class="container">
-            <p class="section-label">Unser Labor-Portfolio</p>
-            <h2>Kernkompetenzen</h2>
-            <div class="s-grid">
-                <a href="services.html#fdm" class="s-card">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <h3>FDM Druck</h3>
-                    <p>Stabile Funktionsteile</p>
-                </a>
-                <a href="services.html#sla" class="s-card">
-                    <i class="fa-solid fa-microscope"></i>
-                    <h3>SLA Resin</h3>
-                    <p>Höchste Detailstufe</p>
-                </a>
-                <a href="services.html#galvanik" class="s-card">
-                    <i class="fa-solid fa-bolt"></i>
-                    <h3>Galvanik</h3>
-                    <p>Metall auf Kunststoff</p>
-                </a>
-                <a href="services.html#smart-iot" class="s-card">
-                    <i class="fa-solid fa-house-signal"></i>
-                    <h3>Smart Devices</h3>
-                    <p>Sonderlösungen & IoT</p>
-                </a>
-                <a href="services.html#cnc" class="s-card">
-                    <i class="fa-solid fa-gears"></i>
-                    <h3>CNC & Serie</h3>
-                    <p>Skalierung in Metall</p>
-                </a>
-                <a href="3d-advisor-tool.html" class="s-card">
-                    <i class="fa-solid fa-calculator"></i>
-                    <h3>Projekt-Analyse</h3>
-                    <p>Zum interaktiven Tool</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 3NC – Louis Altmann</p>
-            <p style="margin-top:0.75rem;">
-                <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
-            </p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Mobile menu
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('navLinks').classList.toggle('active');
-            document.getElementById('hamburger').classList.toggle('active');
+        // Simple entrance animation
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                document.body.style.transition = "opacity 1s ease";
+                document.body.style.opacity = "1";
+            }, 100);
         });
-
-        // Fade-in on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 

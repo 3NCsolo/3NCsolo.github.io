@@ -99,32 +99,6 @@
         </div>
     </div>
 
-    <section class="container fade-in chatbot-container">
-        <div class="chatbot-header">
-            <h2>مساعد الذكاء الاصطناعي التفاعلي</h2>
-            <p>صف طلبك في الدردشة ودعنا نصيغ الحل الأمثل معًا.</p>
-        </div>
-        <div class="chat-window">
-            <div class="chat-messages" id="chatOutput">
-                <div class="chat-msg bot"
-                    style="align-self: flex-start; border-bottom-left-radius: 12px; border-bottom-right-radius: 2px;">
-                    مرحبًا! أنا المساعد الرقمي لـ 3NC. 👋<br><br>
-                    ما هو طلبك؟ هل تبحث عن طباعة 3D صناعية، أو تنعيم كيميائي، أو طلاء كهربائي، أم تحتاج إلى مساعدة في
-                    دراسة الجدوى؟
-                </div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="اكتب رسالتك..." autocomplete="off">
-                <button class="chat-send-btn" id="chatSendBtn" title="إرسال"><i
-                        class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </section>
-
-    <div class="container fade-in form-separator" id="classic-form">
-        أو استخدم النموذج الكلاسيكي
-    </div>
-
     <section class="container contact-grid fade-in">
         <div class="contact-info">
             <h2>اتصال مباشر</h2>
@@ -223,45 +197,6 @@
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // Simple Chatbot Dummy Logic
-        const chatInput = document.getElementById('chatInput');
-        const chatSendBtn = document.getElementById('chatSendBtn');
-        const chatOutput = document.getElementById('chatOutput');
-
-        function sendMsg() {
-            const text = chatInput.value.trim();
-            if (!text) return;
-
-            // User message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-msg user';
-            userMsg.style.alignSelf = 'flex-end';
-            userMsg.style.borderBottomLeftRadius = '2px';
-            userMsg.style.borderBottomRightRadius = '12px';
-            userMsg.textContent = text;
-            chatOutput.appendChild(userMsg);
-
-            chatInput.value = '';
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-
-            // Fake bot thinking and responding
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'chat-msg bot';
-                botMsg.style.alignSelf = 'flex-start';
-                botMsg.style.borderBottomLeftRadius = '12px';
-                botMsg.style.borderBottomRightRadius = '2px';
-                botMsg.innerHTML = 'شكرًا لك على هذه التفاصيل! لقد سجلت طلبك.<br><br>سنستمر في توسيع هذه الميزة في المستقبل حتى أتمكن من تلخيص الطلبات المعقدة لـلويس بشكل منظم. أنا حاليًا في مرحلة تجريبية. يرجى استخدام نموذج الاتصال أدناه للطلبات الرسمية.';
-                chatOutput.appendChild(botMsg);
-                chatOutput.scrollTop = chatOutput.scrollHeight;
-            }, 800);
-        }
-
-        chatSendBtn.addEventListener('click', sendMsg);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMsg();
-        });
     </script>
 </body>
 

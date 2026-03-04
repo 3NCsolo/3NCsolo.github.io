@@ -16,7 +16,7 @@
         <div class="container nav-inner">
             <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="manufaktur.html" class="nav-link">Manufaktur</a></li><li><a href="smarthome.html" class="nav-link">Smart Home</a></li>
                 <li><a href="services.html" class="nav-link">Leistungen</a></li>
                 <li><a href="about.html" class="nav-link">Manufaktur</a></li>
                 <li><a href="contact.html" class="nav-link active">Kontakt</a></li>
@@ -41,31 +41,6 @@
             <h1><span class="text-gold">Projekt</span> anfragen</h1>
             <p>Erzählen Sie mir von Ihrer Idee. Ich melde mich persönlich bei Ihnen.</p>
         </div>
-    </div>
-
-    <section class="container fade-in chatbot-container">
-        <div class="chatbot-header">
-            <h2>Interaktiver KI-Assistent</h2>
-            <p>Beschreiben Sie Ihr Anliegen im Chat und lassen Sie uns gemeinsam die perfekte Lösung formulieren.</p>
-        </div>
-        <div class="chat-window">
-            <div class="chat-messages" id="chatOutput">
-                <div class="chat-msg bot">
-                    Hallo! Ich bin der digitale Assistent von 3NC. 👋<br><br>
-                    Um was für ein Anliegen geht es? Suchen Sie nach industriellem 3D-Druck, chemischer Glättung,
-                    galvanischer Veredelung oder benötigen Sie Hilfe bei einer speziellen Machbarkeitsanalyse?
-                </div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Ihre Nachricht schreiben..." autocomplete="off">
-                <button class="chat-send-btn" id="chatSendBtn" title="Senden"><i
-                        class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </section>
-
-    <div class="container fade-in form-separator" id="classic-form">
-        Oder klassisch per Formular
     </div>
 
     <section class="container contact-grid fade-in">
@@ -167,39 +142,6 @@
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // Simple Chatbot Dummy Logic
-        const chatInput = document.getElementById('chatInput');
-        const chatSendBtn = document.getElementById('chatSendBtn');
-        const chatOutput = document.getElementById('chatOutput');
-
-        function sendMsg() {
-            const text = chatInput.value.trim();
-            if (!text) return;
-
-            // User message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-msg user';
-            userMsg.textContent = text;
-            chatOutput.appendChild(userMsg);
-
-            chatInput.value = '';
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-
-            // Fake bot thinking and responding
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'chat-msg bot';
-                botMsg.innerHTML = 'Danke für diese Details! Ich habe Ihre Anfrage notiert.<br><br>Wir werden dieses Feature in Zukunft weiter ausbauen, sodass ich komplexe Anfragen strukturiert für Louis zusammenfassen kann. Aktuell befinde ich mich in der Demo-Phase. Bitte nutzen Sie für offizielle Anfragen einfach das Kontaktformular weiter unten.';
-                chatOutput.appendChild(botMsg);
-                chatOutput.scrollTop = chatOutput.scrollHeight;
-            }, 800);
-        }
-
-        chatSendBtn.addEventListener('click', sendMsg);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMsg();
-        });
     </script>
 </body>
 
