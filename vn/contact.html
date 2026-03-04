@@ -43,6 +43,31 @@
         </div>
     </div>
 
+    <section class="container fade-in chatbot-container">
+        <div class="chatbot-header">
+            <h2>Trợ lý AI Tương tác</h2>
+            <p>Mô tả yêu cầu của bạn trong cuộc trò chuyện và hãy cùng nhau xây dựng giải pháp hoàn hảo.</p>
+        </div>
+        <div class="chat-window">
+            <div class="chat-messages" id="chatOutput">
+                <div class="chat-msg bot">
+                    Xin chào! Tôi là trợ lý kỹ thuật số của 3NC. 👋<br><br>
+                    Bạn có yêu cầu gì? Bạn đang tìm kiếm in 3D công nghiệp, làm mịn hóa học, mạ điện hay bạn cần trợ
+                    giúp với phân tích tính khả thi?
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Viết tin nhắn của bạn..." autocomplete="off">
+                <button class="chat-send-btn" id="chatSendBtn" title="Gửi"><i
+                        class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container fade-in form-separator" id="classic-form">
+        Hoặc sử dụng biểu mẫu
+    </div>
+
     <section class="container contact-grid fade-in">
         <div class="contact-info">
             <h2>Liên hệ trực tiếp</h2>
@@ -141,6 +166,39 @@
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Simple Chatbot Dummy Logic
+        const chatInput = document.getElementById('chatInput');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+        const chatOutput = document.getElementById('chatOutput');
+
+        function sendMsg() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // User message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.textContent = text;
+            chatOutput.appendChild(userMsg);
+
+            chatInput.value = '';
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+
+            // Fake bot thinking and responding
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.innerHTML = 'Cảm ơn bạn về những chi tiết này! Tôi đã ghi chú yêu cầu của bạn.<br><br>Chúng tôi sẽ tiếp tục mở rộng tính năng này trong tương lai để tôi có thể tóm tắt các yêu cầu phức tạp một cách có cấu trúc cho Louis. Hiện tại tôi đang trong giai đoạn thử nghiệm. Vui lòng sử dụng biểu mẫu liên hệ bên dưới cho các yêu cầu chính thức.';
+                chatOutput.appendChild(botMsg);
+                chatOutput.scrollTop = chatOutput.scrollHeight;
+            }, 800);
+        }
+
+        chatSendBtn.addEventListener('click', sendMsg);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMsg();
+        });
     </script>
 </body>
 

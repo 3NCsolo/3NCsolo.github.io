@@ -43,6 +43,31 @@
         </div>
     </div>
 
+    <section class="container fade-in chatbot-container">
+        <div class="chatbot-header">
+            <h2>Interactive AI Assistant</h2>
+            <p>Describe your request in the chat and let's formulate the perfect solution together.</p>
+        </div>
+        <div class="chat-window">
+            <div class="chat-messages" id="chatOutput">
+                <div class="chat-msg bot">
+                    Hello! I am the digital assistant of 3NC. 👋<br><br>
+                    What kind of request do you have? Are you looking for industrial 3D printing, chemical smoothing,
+                    electroplating, or do you need help with a feasibility analysis?
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off">
+                <button class="chat-send-btn" id="chatSendBtn" title="Send"><i
+                        class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container fade-in form-separator" id="classic-form">
+        Or use the classic form
+    </div>
+
     <section class="container contact-grid fade-in">
         <div class="contact-info">
             <h2>Direct Line</h2>
@@ -141,6 +166,39 @@
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Simple Chatbot Dummy Logic
+        const chatInput = document.getElementById('chatInput');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+        const chatOutput = document.getElementById('chatOutput');
+
+        function sendMsg() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // User message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.textContent = text;
+            chatOutput.appendChild(userMsg);
+
+            chatInput.value = '';
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+
+            // Fake bot thinking and responding
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.innerHTML = 'Thank you for these details! I have noted your request.<br><br>We will continue to expand this feature in the future so that I can structurally summarize complex requests for Louis. I am currently in the demo phase. Please just use the contact form below for official requests.';
+                chatOutput.appendChild(botMsg);
+                chatOutput.scrollTop = chatOutput.scrollHeight;
+            }, 800);
+        }
+
+        chatSendBtn.addEventListener('click', sendMsg);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMsg();
+        });
     </script>
 </body>
 
