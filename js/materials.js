@@ -1,19 +1,19 @@
 /**
  * 3NC Solo - Comprehensive Material Database
- * Used by the STL Calculator and 3D Advisor Tool for real-time pricing and capability matching.
+ * Focus on genuine high-performance and engineering polymers.
  */
 
 const MaterialDatabase = {
-    // Standard Polymers
+    // Standard Engineering
     'pla': {
         id: 'pla',
-        name: 'PLA / PLA+',
-        category: 'Standard',
+        name: 'PLA+',
+        category: 'Prototyping',
         density_g_cm3: 1.24,
         price_per_cm3: 0.25,
-        base_fee: 5.00, // setup cost
+        base_fee: 5.00,
         properties: {
-            strength: 2, // 1-5 scale
+            strength: 2,
             heat_resistance_c: 55,
             chemical_resistance: 1,
             flexibility: 1,
@@ -21,16 +21,16 @@ const MaterialDatabase = {
         },
         finishing: {
             sanding_polishing: true,
-            vapor_smoothing: true, // Ethyl acetate
+            vapor_smoothing: true,
             electroplating: false
         },
-        color_options: ['Schwarz', 'Weiß', 'Grau', 'Rot', 'Silber (Silk)'],
-        description: 'Der Industriestandard für Prototypen und Deko-Objekte. Sehr maßhaltig, aber nicht hitzebeständig.'
+        color_options: ['Schwarz', 'Weiß', 'Grau'],
+        description: 'Standard-Material für Form- und Design-Validierung bei Raumtemperatur.'
     },
     'petg': {
         id: 'petg',
         name: 'PETG',
-        category: 'Standard',
+        category: 'Prototyping',
         density_g_cm3: 1.27,
         price_per_cm3: 0.28,
         base_fee: 5.00,
@@ -47,14 +47,14 @@ const MaterialDatabase = {
             electroplating: false
         },
         color_options: ['Schwarz', 'Transparent', 'Grau'],
-        description: 'Gute Balance aus Festigkeit und leichter Flexibilität. Witterungs- und UV-beständig.'
+        description: 'Schlagzäher Kunststoff mit hoher chemischer Beständigkeit.'
     },
 
-    // Technical Polymers (High Performance)
+    // High Performance Engineering
     'abs': {
         id: 'abs',
-        name: 'ABS Premium',
-        category: 'Technical',
+        name: 'Industrial ABS',
+        category: 'Engineering',
         density_g_cm3: 1.04,
         price_per_cm3: 0.35,
         base_fee: 8.00,
@@ -67,61 +67,15 @@ const MaterialDatabase = {
         },
         finishing: {
             sanding_polishing: true,
-            vapor_smoothing: true, // Acetone
+            vapor_smoothing: true,
             electroplating: true // Best for galvanic plating
         },
         color_options: ['Schwarz', 'Weiß'],
-        description: 'Hitzebeständig und schlagzäh. Ideal für mechanische Bauteile und die perfekte Basis für Oberflächenveredelung (Vergoldung).'
+        description: 'Die perfekte Basis für mechanische Nachbearbeitung und Oberflächenveredelung (z.B. Vergoldung).'
     },
-    'asa': {
-        id: 'asa',
-        name: 'ASA (UV-Resistant)',
-        category: 'Technical',
-        density_g_cm3: 1.07,
-        price_per_cm3: 0.38,
-        base_fee: 8.00,
-        properties: {
-            strength: 4,
-            heat_resistance_c: 95,
-            chemical_resistance: 3,
-            flexibility: 2,
-            uv_resistance: 5
-        },
-        finishing: {
-            sanding_polishing: true,
-            vapor_smoothing: true,
-            electroplating: true
-        },
-        color_options: ['Schwarz', 'Weiß', 'Grau'],
-        description: 'Wie ABS, jedoch hochgradig UV-stabil. Die beste Wahl für Outdoor-Teile und KFZ-Komponenten.'
-    },
-    'tpu': {
-        id: 'tpu',
-        name: 'TPU (Flexibel)',
-        category: 'Technical',
-        density_g_cm3: 1.20,
-        price_per_cm3: 0.45,
-        base_fee: 10.00,
-        properties: {
-            strength: 3,
-            heat_resistance_c: 65,
-            chemical_resistance: 4,
-            flexibility: 5, // Extremely flexible
-            uv_resistance: 3
-        },
-        finishing: {
-            sanding_polishing: false,
-            vapor_smoothing: false,
-            electroplating: false
-        },
-        color_options: ['Schwarz'],
-        description: 'Flexibles Gummi-ähnliches Material (Shore 95A). Ideal für Dichtungen, Stoßdämpfer und Greifer.'
-    },
-
-    // Engineering Grade
     'pc': {
         id: 'pc',
-        name: 'Polycarbonat (PC)',
+        name: 'PC (Reines Polycarbonat)',
         category: 'Engineering',
         density_g_cm3: 1.20,
         price_per_cm3: 0.60,
@@ -139,35 +93,103 @@ const MaterialDatabase = {
             electroplating: false
         },
         color_options: ['Schwarz', 'Transparent'],
-        description: 'Extrem schlagfest und temperaturbeständig. Für hochbelastete Werkzeuge und Halterungen.'
+        description: 'Extrem schlagfest. Für transparente oder hochbelastete Werkzeuge und Halterungen.'
     },
+
+    // High-Tech Composites
     'pa_cf': {
         id: 'pa_cf',
-        name: 'PA-CF (Nylon Carbon)',
-        category: 'Engineering',
+        name: 'PA-CF (Carbon-Nylon)',
+        category: 'Composite',
         density_g_cm3: 1.15,
         price_per_cm3: 0.85,
         base_fee: 15.00,
         properties: {
             strength: 5,
-            heat_resistance_c: 150, // Very high
+            heat_resistance_c: 150,
             chemical_resistance: 4,
             flexibility: 1, // Extremely stiff
             uv_resistance: 4
         },
         finishing: {
-            sanding_polishing: false, // Hard to sand due to carbon
+            sanding_polishing: false,
             vapor_smoothing: false,
             electroplating: false
         },
         color_options: ['Mattschwarz'],
-        description: 'Die absolute Speerspitze. Kohlefaserverstärktes Nylon. Extrem steif, leicht und bis 150°C hitzebeständig.'
+        description: 'Kohlefaserverstärktes Polyamid. Die Referenz für höchste Steifigkeit und bis 150°C hitzebeständig.'
+    },
+    'pa_gf': {
+        id: 'pa_gf',
+        name: 'PA-GF (Glasfaser-Nylon)',
+        category: 'Composite',
+        density_g_cm3: 1.35,
+        price_per_cm3: 0.80,
+        base_fee: 15.00,
+        properties: {
+            strength: 5,
+            heat_resistance_c: 140,
+            chemical_resistance: 4,
+            flexibility: 1,
+            uv_resistance: 4
+        },
+        finishing: {
+            sanding_polishing: false,
+            vapor_smoothing: false,
+            electroplating: false
+        },
+        color_options: ['Neutrale Naturfarbe', 'Schwarz'],
+        description: 'Glasfaserverstärktes Polyamid für höchste Festigkeit und abrasive Umgebungen.'
+    },
+    'ppa_cf': {
+        id: 'ppa_cf',
+        name: 'PPA-CF (Ultra-High-Temp Carbon)',
+        category: 'High-Tech',
+        density_g_cm3: 1.18,
+        price_per_cm3: 1.50,
+        base_fee: 25.00,
+        properties: {
+            strength: 5,
+            heat_resistance_c: 190, // Massive heat resistance
+            chemical_resistance: 5,
+            flexibility: 1,
+            uv_resistance: 5
+        },
+        finishing: {
+            sanding_polishing: false,
+            vapor_smoothing: false,
+            electroplating: false
+        },
+        color_options: ['Mattschwarz'],
+        description: 'Polyphthalamid (PPA) mit Carbon. Entwickelt für Motorraumkomponenten und Dauergebrauchstemperaturen über 180°C.'
+    },
+    'tpu_95a': {
+        id: 'tpu_95a',
+        name: 'TPU 95A (Elastomer)',
+        category: 'Spezial',
+        density_g_cm3: 1.20,
+        price_per_cm3: 0.55,
+        base_fee: 10.00,
+        properties: {
+            strength: 3,
+            heat_resistance_c: 65,
+            chemical_resistance: 4,
+            flexibility: 5, // Extremely flexible
+            uv_resistance: 3
+        },
+        finishing: {
+            sanding_polishing: false,
+            vapor_smoothing: false,
+            electroplating: false
+        },
+        color_options: ['Schwarz'],
+        description: 'Spezial-Elastomer. Ideal für kundenspezifische Dichtungen, Stoßdämpfer und Greifer.'
     },
 
     // Specialty / Post-Processing
     'lithophane': {
         id: 'lithophane',
-        name: 'Lithophane (3D Foto)',
+        name: 'Lithophane',
         category: 'Specialty',
         density_g_cm3: 1.24, // Uses PLA
         price_per_cm3: 0, // Flat rate based on size instead
@@ -184,9 +206,8 @@ const MaterialDatabase = {
             vapor_smoothing: false,
             electroplating: false
         },
-        color_options: ['Warmweiß (Litho-Spezial)'],
-        description: 'Ein magisches 3D-gedrucktes Foto, das erst im Gegenlicht sichtbar wird. Perfekt als Geschenk.',
-        // Custom pricing logic for lithophanes
+        color_options: ['Warmweiß / Kaltweiß'],
+        description: 'Hochauflösendes Lithophane auf Basis Ihres JPG/PNG-Uploads.',
         flat_rates: {
             '10x15': 25.00, // EUR
             '13x18': 35.00,
@@ -213,7 +234,7 @@ const MaterialDatabase = {
             electroplating: true
         },
         color_options: ['24k Gold'],
-        description: 'Exklusive galvanische Vergoldung von 3D-Drucken. Erfordert ABS/ASA als Kernmaterial.',
+        description: 'Exklusive galvanische Vergoldung von 3D-Drucken. Erfordert ABS als Kernmaterial.',
         requires_quotation: true
     }
 };

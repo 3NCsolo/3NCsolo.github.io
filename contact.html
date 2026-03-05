@@ -16,7 +16,7 @@
         <div class="container nav-inner">
             <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="manufaktur.html" class="nav-link">Manufaktur</a></li>
+                <li><a href="index.html" class="nav-link">Home & Kalkulation</a></li>
                 <li><a href="services.html" class="nav-link">Leistungen</a></li>
                 <li><a href="about.html" class="nav-link">Über uns</a></li>
                 <li><a href="contact.html" class="nav-link active">Kontakt</a></li>
@@ -83,6 +83,23 @@
         </div>
 
         <div class="contact-form">
+            <!-- Advisor Handoff Alert Container -->
+            <div id="advisor-handoff-alert"
+                style="display: none; background: rgba(197, 168, 84, 0.1); border-left: 4px solid var(--accent-gold); padding: 1.5rem; margin-bottom: 2rem; border-radius: 0 4px 4px 0;">
+                <h3
+                    style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 0.5rem; font-family: var(--font-head);">
+                    <i class="fa-solid fa-file-shield"></i> Ihre 3D-Kalkulation</h3>
+                <p style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.5rem;">
+                    <strong>Material:</strong> <span id="handoff-mat"></span><br>
+                    <strong>Schätzpreis:</strong> <span id="handoff-price"></span>
+                </p>
+                <p style="font-size: 0.85rem; color: #ff6b6b; font-weight: 600; margin-bottom: 0;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> WICHTIG: Bitte senden Sie uns Ihr Modell (<span
+                        id="handoff-file"></span>) als Antwort auf unsere Bestätigungsmail ODER fügen Sie einen
+                    Cloud-Link in die Nachricht ein. Ohne die Datei können wir Ihr Projekt nicht starten!
+                </p>
+            </div>
+
             <form action="https://formspree.io/f/xbjnqyjb" method="POST">
 
                 <label for="name">Name</label>
@@ -135,6 +152,31 @@
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
             document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        // Advisor Handoff Check
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('lead') === 'advisor') {
+                const price = sessionStorage.getItem('3nc_request_price');
+                const mat = sessionStorage.getItem('3nc_request_mat');
+                const file = sessionStorage.getItem('3nc_request_file');
+
+                if (price && mat) {
+                    document.getElementById('handoff-price').textContent = price;
+                    document.getElementById('handoff-mat').textContent = mat;
+                    document.getElementById('handoff-file').textContent = file || 'Ihre Datei';
+
+                    document.getElementById('advisor-handoff-alert').style.display = 'block';
+
+                    // Pre-fill message so the client doesn't have to retype it
+                    const msgBox = document.getElementById('message');
+                    msgBox.value = `Hi,\nich interessiere mich für die Fertigung der Datei "${file}" im Material ${mat}.\n\nDer errechnete Schätzpreis lag bei ${price}. Bitte kontaktieren Sie mich für das weitere Vorgehen und den Upload-Link!\n\nMit freundlichen Grüßen,\n`;
+
+                    // Pre-select topic
+                    document.getElementById('category').value = '3DPrint';
+                }
+            }
         });
 
         const observer = new IntersectionObserver((entries) => {

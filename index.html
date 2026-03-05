@@ -5,298 +5,832 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="3NC Gateway: Systemhaus für Gebäudeautomation & Manufaktur für Additive Fertigung">
-    <title>3NC | Digital & Manufaktur</title>
+        content="3NC Manufaktur – Additive Fertigung, 3D-Druck & Galvanische Veredelung in Dresden. Laden Sie Ihr Modell hoch für ein sofortiges Angebot.">
+    <title>3NC · Additive Manufaktur & 3D Advisor</title>
     <link rel="stylesheet" href="style_v2.css">
     <link rel="stylesheet" href="fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Three.js for STL parsing and 3D Rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <!-- Material Database Engine -->
+    <script src="js/materials.js"></script>
+
     <style>
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            /* Prevent scrolling on the gateway */
-            background-color: #0f0f0f;
-            font-family: 'Inter', sans-serif;
+        .mega-tool-container {
+            max-width: 1400px;
+            margin: -3rem auto 5rem auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: stretch;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Nav for Gateway */
-        .gateway-nav {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 2rem 4rem;
-            z-index: 100;
+        @media (max-width: 900px) {
+            .mega-tool-container {
+                grid-template-columns: 1fr;
+                margin-top: 1rem;
+            }
+        }
+
+        .tool-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            font-family: var(--font-head);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            pointer-events: none;
-            /* Let clicks pass through except on links */
         }
 
-        .gateway-nav .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #ffffff;
-            text-decoration: none;
-            letter-spacing: 0.05em;
-            pointer-events: auto;
-        }
-
-        .gateway-container {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-        }
-
-        .gateway-panel {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
+        /* Upload Area */
+        .upload-area {
+            flex-grow: 1;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            text-decoration: none;
-            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 4rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--accent-gold);
+            background: rgba(197, 168, 128, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: var(--accent-gold);
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .file-status {
+            margin-top: 1.5rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        /* Spinner Overlay */
+        #loader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 15, 0.9);
+            z-index: 50;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Config Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .custom-select,
+        .custom-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .custom-select:focus,
+        .custom-input:focus {
+            border-color: var(--accent-gold);
+        }
+
+        /* Results Display */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: var(--font-head);
+            color: var(--text-primary);
+        }
+
+        .price-display {
+            text-align: right;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            line-height: 1;
+            margin-top: 0.5rem;
+        }
+
+        .btn-large {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 1.2rem;
+            letter-spacing: 0.05em;
             cursor: pointer;
         }
 
-        .gateway-panel::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.8s ease, filter 0.6s ease;
-            z-index: 1;
+        .mat-info-card {
+            background: rgba(197, 168, 128, 0.05);
+            border-left: 3px solid var(--accent-gold);
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            border-radius: 0 4px 4px 0;
+            display: none;
         }
 
-        .gateway-panel::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Gradient overlay for readability */
-            background: linear-gradient(to bottom, rgba(15, 15, 15, 0.3) 0%, rgba(15, 15, 15, 0.8) 100%);
-            z-index: 2;
-            transition: background 0.6s ease;
-        }
-
-        /* Booking Panel Background */
-        .panel-booking::before {
-            background-image: url('images/cad-design.jpg');
-            background-color: #0a1128;
-        }
-
-        /* Manufaktur Panel Background */
-        .panel-manufaktur::before {
-            background-image: url('images/hero-home-dark.jpg');
-            background-color: #1a1510;
-        }
-
-        .panel-content {
-            position: relative;
-            z-index: 3;
-            color: #ffffff;
-            padding: 2rem;
-            max-width: 500px;
-            transform: translateY(20px);
-            opacity: 0.8;
-            transition: all 0.6s ease;
-        }
-
-        .panel-label {
+        .machine-factor-warning {
+            color: #ffaa00;
             font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--accent-gold);
-            margin-bottom: 1rem;
-            display: block;
-            font-weight: 600;
-        }
-
-        .panel-booking .panel-label {
-            color: #4da6ff;
-        }
-
-        .gateway-panel h2 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .gateway-panel p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #d0d0d0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease 0.1s;
-        }
-
-        .enter-btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 1rem 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: white;
-            background: transparent;
-            backdrop-filter: blur(5px);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease 0.2s;
-        }
-
-        /* Hover Effects */
-        .gateway-panel:hover {
-            flex: 1.3;
-        }
-
-        .gateway-panel:hover::before {
-            transform: scale(1.05);
-            filter: brightness(1.2);
-        }
-
-        .gateway-panel:hover::after {
-            background: linear-gradient(to bottom, rgba(15, 15, 15, 0.1) 0%, rgba(15, 15, 15, 0.9) 100%);
-        }
-
-        .gateway-panel:hover .panel-content {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .gateway-panel:hover p,
-        .gateway-panel:hover .enter-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .panel-booking:hover .enter-btn {
-            border-color: #4da6ff;
-            background: rgba(77, 166, 255, 0.1);
-        }
-
-        .panel-manufaktur:hover .enter-btn {
-            border-color: var(--accent-gold);
-            background: rgba(197, 168, 84, 0.1);
-        }
-
-        /* Divider */
-        .gateway-divider {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 10;
-            transform: translateX(-50%);
-            pointer-events: none;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 900px) {
-            .gateway-container {
-                flex-direction: column;
-            }
-
-            .gateway-panel {
-                flex: 1;
-            }
-
-            .gateway-divider {
-                left: 0;
-                top: 50%;
-                width: 100%;
-                height: 1px;
-                transform: translateY(-50%);
-            }
-
-            .gateway-panel h2 {
-                font-size: 2rem;
-            }
-
-            .gateway-panel p,
-            .enter-btn {
-                display: none;
-                /* Keep it clean on mobile */
-            }
-
-            .panel-content {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            .gateway-panel:hover {
-                flex: 1.1;
-            }
-
-            .gateway-nav {
-                padding: 1.5rem;
-                justify-content: center;
-            }
+            margin-top: 0.5rem;
+            display: none;
         }
     </style>
 </head>
 
 <body>
 
-    <nav class="gateway-nav">
-        <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link active">Home & Kalkulation</a></li>
+                <li><a href="services.html" class="nav-link">Leistungen</a></li>
+                <li><a href="about.html" class="nav-link">Über uns</a></li>
+                <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+
+                <li class="lang-switcher">
+                    <a href="index.html" class="lang-flag active" title="Deutsch">🇩🇪</a>
+                    <a href="en/index.html" class="lang-flag" title="English">🇬🇧</a>
+                    <a href="ru/index.html" class="lang-flag" title="Русский">🇷🇺</a>
+                    <a href="ar/index.html" class="lang-flag" title="العربية">🇸🇦</a>
+                    <a href="vn/index.html" class="lang-flag" title="Tiếng Việt">🇻🇳</a>
+                </li>
+            </ul>
+
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
     </nav>
 
-    <div class="gateway-container">
+    <!-- Hero — Clean & Centered -->
+    <header class="hero"
+        style="background: url('images/hero-home-dark.jpg') center/cover; position: relative; padding-top: 10rem; padding-bottom: 9rem; text-align: center; border-bottom: 1px solid var(--border-color);">
+        <div
+            style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(180deg, rgba(15,15,15,0.7) 0%, rgba(15,15,15,1) 100%); z-index: 1;">
+        </div>
+        <div class="container fade-in" style="position: relative; z-index: 2;">
+            <p class="text-gold" style="letter-spacing: 0.2rem; font-size: 0.9rem; text-transform: uppercase;">Dresden ·
+                Additive Manufacturing & Surface Refinement</p>
+            <h1 style="font-size: 3.5rem; line-height: 1.1; margin: 1rem 0; font-weight: 800; letter-spacing: -0.02em;">
+                Präzision aus dem Drucker.<br><span class="text-gold">Belastbarkeit aus der Industrie.</span>
+            </h1>
+            <p
+                style="font-size: 1.15rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem auto; line-height: 1.6;">
+                Von der ersten CAD-Skizze über den hochbelastbaren Druck aus High-Tech Polymeren bis zur galvanischen
+                Metallbeschichtung. Testen Sie unseren Analyzer für ein sofortiges Angebot.
+            </p>
+        </div>
+    </header>
 
-        <!-- Left Panel: Manufaktur / 3D Printing -->
-        <a href="manufaktur.html" class="gateway-panel panel-manufaktur">
-            <div class="panel-content">
-                <span class="panel-label">Additive Fertigung</span>
-                <h2>3NC Manufaktur</h2>
-                <p>Präziser 3D-Druck, High-Tech Polymere und galvanische Veredelung für B2B-Prototyping und Kleinserien.
-                </p>
-                <div class="enter-btn">Manufaktur betreten</div>
+    <!-- Mega Advisor Container -->
+    <div class="container">
+        <div class="mega-tool-container fade-in">
+            <!-- LEFT PANEL: Upload & Preview -->
+            <div class="tool-panel">
+
+                <div id="loader-overlay">
+                    <div class="spinner"></div>
+                    <div style="color:var(--text-secondary); font-size: 0.9rem;" id="loader-text">Verarbeite
+                        Mesh-Daten...</div>
+                </div>
+
+                <div class="panel-title">
+                    <span>1. 3D-Upload & Analyse</span>
+                    <i class="fa-solid fa-cloud-arrow-up text-gold"></i>
+                </div>
+
+                <div class="upload-area" id="drop-zone">
+                    <input type="file" id="file-input" accept=".stl,.jpg,.jpeg,.png" hidden>
+                    <i class="fa-solid fa-cubes upload-icon"></i>
+                    <div class="upload-text">Dateien hier ablegen</div>
+                    <div class="upload-subtext">oder klicken zum Auswählen</div>
+                    <div class="upload-subtext" style="margin-top: 0.5rem; font-size: 0.8rem;">Unterstützt: .STL
+                        (Bauteile), .JPG/.PNG (Lithophane)</div>
+
+                    <div
+                        style="margin-top: 2rem; font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-lock text-gold"></i>
+                        <span style="letter-spacing: 0.05em;">100% Lokale Berechnung. Geheime CAD-Daten werden
+                            <b>nicht</b> hochgeladen!</span>
+                    </div>
+
+                    <div class="file-status" id="file-status"></div>
+                </div>
+
+                <div id="viewer-container"
+                    style="display: none; width: 100%; height: 350px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1); position: relative;">
+                    <!-- Three.js Canvas will spawn here -->
+                    <button id="reset-upload-btn" onclick="resetUploader()"
+                        style="position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(0,0,0,0.6); color: white; border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;"><i
+                            class="fa-solid fa-trash"></i> Neue Datei</button>
+                    <div id="viewer-label"
+                        style="position: absolute; bottom: 10px; left: 10px; z-index: 10; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">
+                        Interaktiver 3D Viewer (Orbit via Maus/Touch)</div>
+                </div>
+
+                <div class="results-grid" style="margin-top: 1rem; margin-bottom: 0;">
+                    <div class="result-item">
+                        <span class="result-label">Erkanntes Volumen</span>
+                        <span class="result-value" id="vol-result">-- cm³</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Bounding Box (L×B×H)</span>
+                        <span class="result-value" id="dim-result">-- mm</span>
+                    </div>
+                </div>
             </div>
-        </a>
 
-        <!-- Right Panel: Booking / Capacity -->
-        <a href="https://calendar.google.com/" target="_blank" class="gateway-panel panel-booking">
-            <div class="panel-content">
-                <span class="panel-label">Lead & Booking</span>
-                <h2>Kapazitäten</h2>
-                <p>Planen Sie ein konkretes Projekt? Sichern Sie sich jetzt direkt exklusive Fertigungskapazitäten oder
-                    einen Beratungstermin in meinem Kalender.</p>
-                <div class="enter-btn">Termin buchen</div>
+            <!-- RIGHT PANEL: Configuration -->
+            <div class="tool-panel" id="config-panel"
+                style="opacity: 0.4; pointer-events: none; transition: opacity 0.3s;">
+                <div class="panel-title">
+                    <span>2. Konfiguration</span>
+                    <i class="fa-solid fa-sliders text-gold"></i>
+                </div>
+
+                <div class="form-group">
+                    <label>Material / Fertigungsverfahren</label>
+                    <select class="custom-select" id="mat-select"></select>
+                </div>
+
+                <div class="mat-info-card" id="mat-info">
+                    <!-- Dynamic material description -->
+                </div>
+
+                <div class="form-group" id="litho-size-group" style="display: none;">
+                    <label>Lithophane Größe</label>
+                    <select class="custom-select" id="litho-size-select">
+                        <option value="10x15">10 x 15 cm (Standard)</option>
+                        <option value="13x18">13 x 18 cm (Groß)</option>
+                        <option value="15x20">15 x 20 cm (Premium)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="finishing-group">
+                    <label>Spezifische Veredelung</label>
+                    <select class="custom-select" id="finish-select">
+                        <option value="none">Keine Veredelung ("As Printed")</option>
+                        <option value="smooth" id="opt-smooth" disabled>Chemische Oberflächenglättung (Vapor Smoothing)
+                        </option>
+                        <option value="gold" id="opt-gold" disabled>24k Echtgold Galvanisierung (Requires ABS/ASA)
+                        </option>
+                    </select>
+                </div>
+
+                <div style="flex-grow: 1;"></div>
+
+                <div class="price-display">
+                    <div class="price-label">Unverbindlicher Schätzpreis*</div>
+                    <div class="price-amount" id="price-result">0,00 €</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                        *Inkl. MwSt.<span id="machine-factor-text"></span> Berechnet auf Basis von <span
+                            id="weight-estimate">0</span>g Material.
+                    </div>
+                    <div id="machine-warning" class="machine-factor-warning"><i
+                            class="fa-solid fa-circle-exclamation"></i>
+                        Inklusive Bauraum-Zuschlag für komplexe/sperrige Geometrien.</div>
+                </div>
+
+                <button class="btn-primary btn-large" id="btn-request" onclick="prepareRequest()">Angebot
+                    anfordern</button>
             </div>
-        </a>
-
+        </div>
     </div>
 
+    <!-- Trust Bar -->
+    <section class="trust-bar fade-in" style="margin-top:-2rem;">
+        <div class="trust-row">
+            <div class="trust-item"><i class="fa-solid fa-cube"></i><span>Technischer 3D-Druck</span></div>
+            <div class="trust-item"><i class="fa-solid fa-gem"></i><span>Galvanische Veredelung</span></div>
+            <div class="trust-item"><i class="fa-solid fa-microscope"></i><span>Hochleistungspolymere</span></div>
+            <div class="trust-item"><i class="fa-solid fa-industry"></i><span>Kleinserien & Prototypen</span></div>
+            <div class="trust-item"><i class="fa-solid fa-map-pin"></i><span>Manufaktur in Dresden</span></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="margin-top: 4rem;">
+        <div class="container">
+            <p>&copy; 2026 3NC – Louis Altmann</p>
+            <p style="margin-top:0.75rem;">
+                <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a>
+            </p>
+        </div>
+    </footer>
+
     <script>
-        // Simple entrance animation
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.style.opacity = "0";
-            setTimeout(() => {
-                document.body.style.transition = "opacity 1s ease";
-                document.body.style.opacity = "1";
-            }, 100);
+        // Use the globally exposed MaterialDB
+        const DB = window.MaterialDB;
+        let currentMode = 'stl';
+        let currentVolumeCm3 = 0;
+        let currentBoxVolumeCm3 = 0;
+        let currentDimensions = null;
+        let fileNameToPass = "";
+        let isFileLoaded = false;
+
+        // Populate Material Select Dropdown map
+        const matSelect = document.getElementById('mat-select');
+        Object.keys(DB).forEach(key => {
+            const mat = DB[key];
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = `${mat.name} (${mat.category})`;
+            if (key === 'lithophane') opt.style.display = 'none';
+            matSelect.appendChild(opt);
         });
+
+        // DOM Elements
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileStatus = document.getElementById('file-status');
+        const volResult = document.getElementById('vol-result');
+        const dimResult = document.getElementById('dim-result');
+        const configPanel = document.getElementById('config-panel');
+        const priceResult = document.getElementById('price-result');
+        const weightEstimate = document.getElementById('weight-estimate');
+        const matInfo = document.getElementById('mat-info');
+        const finishSelect = document.getElementById('finish-select');
+        const optSmooth = document.getElementById('opt-smooth');
+        const optGold = document.getElementById('opt-gold');
+        const lithoSizeGroup = document.getElementById('litho-size-group');
+        const finishingGroup = document.getElementById('finishing-group');
+        const lithoSizeSelect = document.getElementById('litho-size-select');
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const loaderText = document.getElementById('loader-text');
+        const machineWarning = document.getElementById('machine-warning');
+
+        // Drag & Drop
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        // 3D Engine Variables
+        let scene, camera, renderer, controls, currentMesh;
+
+        function init3DLoader() {
+            if (scene) return;
+            const container = document.getElementById('viewer-container');
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a1a);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(100, 200, 100);
+            scene.add(dirLight);
+
+            const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            backLight.position.set(-100, -100, -100);
+            scene.add(backLight);
+
+            camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 5000);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.0;
+            container.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        function resetUploader() {
+            document.getElementById('drop-zone').style.display = 'flex';
+            document.getElementById('viewer-container').style.display = 'none';
+            configPanel.style.opacity = '0.4';
+            configPanel.style.pointerEvents = 'none';
+            fileInput.value = '';
+            fileStatus.textContent = '';
+            volResult.textContent = '-- cm³';
+            dimResult.textContent = '-- mm';
+            machineWarning.style.display = 'none';
+            isFileLoaded = false;
+        }
+
+        function handleFile(file) {
+            const fileName = file.name.toLowerCase();
+            fileNameToPass = file.name;
+
+            // Show loading spinner asynchronously to avoid UI block
+            loaderOverlay.style.display = 'flex';
+            loaderText.textContent = `Lade ${file.name}...`;
+
+            setTimeout(() => {
+                if (fileName.endsWith('.stl')) {
+                    currentMode = 'stl';
+                    parseSTL(file);
+                } else if (fileName.match(/\.(jpg|jpeg|png)$/)) {
+                    currentMode = 'lithophane';
+                    const reader = new FileReader();
+                    reader.onload = (e) => setupLithophaneMode(file.name, e.target.result);
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Nicht unterstütztes Dateiformat. Bitte STL oder JPG/PNG wählen.');
+                    loaderOverlay.style.display = 'none';
+                }
+            }, 50); // Small delay to let UI paint the spinner
+        }
+
+        function mount3DView() {
+            document.getElementById('drop-zone').style.display = 'none';
+            document.getElementById('viewer-container').style.display = 'block';
+            init3DLoader();
+            if (currentMesh) scene.remove(currentMesh);
+        }
+
+        function parseSTL(file) {
+            loaderText.textContent = "Berechne Volumen & Bounding Box...";
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                // Wrap in setTimeout to update loader text before heavy sync task
+                setTimeout(() => {
+                    try {
+                        const loader = new THREE.STLLoader();
+                        const geometry = loader.parse(event.target.result);
+
+                        const volumeMm3 = getVolume(geometry);
+                        currentVolumeCm3 = volumeMm3 / 1000;
+
+                        geometry.computeBoundingBox();
+                        const box = geometry.boundingBox;
+                        const size = new THREE.Vector3();
+                        box.getSize(size);
+                        currentDimensions = { l: size.x.toFixed(1), w: size.y.toFixed(1), h: size.z.toFixed(1) };
+
+                        // Calculate bounding box volume for sparse-printing adjustment
+                        currentBoxVolumeCm3 = (size.x * size.y * size.z) / 1000;
+
+                        mount3DView();
+                        geometry.center();
+                        geometry.computeVertexNormals();
+
+                        const material = new THREE.MeshStandardMaterial({ color: 0x4da6ff, metalness: 0.3, roughness: 0.4 });
+                        currentMesh = new THREE.Mesh(geometry, material);
+                        scene.add(currentMesh);
+
+                        geometry.computeBoundingSphere();
+                        const sphere = geometry.boundingSphere;
+                        camera.near = sphere.radius / 100;
+                        camera.far = sphere.radius * 100;
+                        camera.updateProjectionMatrix();
+
+                        camera.position.z = sphere.radius * 2.5;
+                        camera.position.y = sphere.radius * 1.2;
+                        camera.position.x = sphere.radius * 1.5;
+                        controls.target.copy(sphere.center);
+                        controls.update();
+
+                        activateUI();
+                    } catch (e) {
+                        console.error(e);
+                        alert("STL Datei beschädigt oder inkompatibel.");
+                        resetUploader();
+                    } finally {
+                        loaderOverlay.style.display = 'none';
+                    }
+                }, 50);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function getVolume(geometry) {
+            if (!geometry.isBufferGeometry) return 0;
+            const pos = geometry.attributes.position;
+            const faces = pos.count / 3;
+            let sum = 0;
+            const p1 = new THREE.Vector3(), p2 = new THREE.Vector3(), p3 = new THREE.Vector3();
+            for (let i = 0; i < faces; i++) {
+                p1.fromBufferAttribute(pos, i * 3 + 0); p2.fromBufferAttribute(pos, i * 3 + 1); p3.fromBufferAttribute(pos, i * 3 + 2);
+                sum += p1.dot(p2.cross(p3)) / 6.0;
+            }
+            return Math.abs(sum);
+        }
+
+        function setupLithophaneMode(name, imgDataUrl) {
+            loaderText.textContent = "Generiere 3D-Lithophane Mesh...";
+
+            setTimeout(() => {
+                mount3DView();
+                const img = new Image();
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const MAX_DIM = 250;
+                    let rw = img.width;
+                    let rh = img.height;
+                    if (rw > MAX_DIM || rh > MAX_DIM) {
+                        if (rw > rh) { rh = Math.floor(rh * (MAX_DIM / rw)); rw = MAX_DIM; }
+                        else { rw = Math.floor(rw * (MAX_DIM / rh)); rh = MAX_DIM; }
+                    }
+
+                    canvas.width = rw;
+                    canvas.height = rh;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, rw, rh);
+
+                    const imageData = ctx.getImageData(0, 0, rw, rh).data;
+                    const aspect = rw / rh;
+                    const width_mm = aspect > 1 ? 150 : 150 * aspect;
+                    const height_mm = aspect > 1 ? 150 / aspect : 150;
+
+                    const geometry = new THREE.PlaneGeometry(width_mm, height_mm, rw - 1, rh - 1);
+                    const pos = geometry.attributes.position;
+
+                    for (let i = 0; i < pos.count; i++) {
+                        const idx = i * 4;
+                        const bright = (0.299 * imageData[idx] + 0.587 * imageData[idx + 1] + 0.114 * imageData[idx + 2]);
+                        const z = ((255 - bright) / 255.0) * 3.5;
+                        pos.setZ(i, z);
+                    }
+
+                    geometry.computeVertexNormals();
+                    geometry.center();
+
+                    const material = new THREE.MeshPhysicalMaterial({
+                        color: 0xfffcf0, transmission: 0.4, opacity: 1, roughness: 0.2, metalness: 0.0, thickness: 4.0
+                    });
+
+                    currentMesh = new THREE.Mesh(geometry, material);
+                    scene.add(currentMesh);
+
+                    const backlight = new THREE.PointLight(0xfff5e6, 2.0, 500);
+                    backlight.position.set(0, 0, -50);
+                    scene.add(backlight);
+
+                    camera.position.z = Math.max(width_mm, height_mm) * 1.0;
+                    camera.position.x = width_mm * 0.4;
+                    camera.position.y = -height_mm * 0.2;
+                    controls.target.set(0, 0, 0);
+                    controls.update();
+
+                    volResult.textContent = "Photo-to-3D";
+                    dimResult.textContent = "Format-Abhängig";
+                    document.getElementById('viewer-label').innerHTML = `Lithophane Simulation (Mit Gegenlicht)`;
+
+                    Array.from(matSelect.options).forEach(opt => {
+                        opt.style.display = opt.value === 'lithophane' ? 'block' : 'none';
+                    });
+                    matSelect.value = 'lithophane';
+
+                    lithoSizeGroup.style.display = 'block';
+                    finishingGroup.style.display = 'none';
+                    currentVolumeCm3 = 0;
+                    activateUI(true);
+                    loaderOverlay.style.display = 'none';
+                };
+                img.src = imgDataUrl;
+            }, 50);
+        }
+
+        function activateUI(isLitho = false) {
+            isFileLoaded = true;
+            configPanel.style.opacity = '1';
+            configPanel.style.pointerEvents = 'auto';
+
+            if (!isLitho) {
+                volResult.textContent = currentVolumeCm3.toFixed(2) + ' cm³';
+                dimResult.textContent = `${currentDimensions.l} × ${currentDimensions.w} × ${currentDimensions.h} mm`;
+
+                Array.from(matSelect.options).forEach(opt => {
+                    opt.style.display = opt.value === 'lithophane' ? 'none' : 'block';
+                });
+                if (matSelect.value === 'lithophane') matSelect.value = 'pla';
+
+                lithoSizeGroup.style.display = 'none';
+                finishingGroup.style.display = 'block';
+            }
+            updateMaterialLogic();
+        }
+
+        function updateMaterialLogic() {
+            if (!isFileLoaded) return;
+            const matKey = matSelect.value;
+            const mat = DB[matKey];
+
+            matInfo.style.display = 'block';
+            matInfo.innerHTML = `<strong>Info:</strong> ${mat.description}`;
+
+            if (currentMode === 'stl') {
+                optSmooth.disabled = !mat.finishing.vapor_smoothing;
+                optGold.disabled = !mat.finishing.electroplating;
+
+                if (finishSelect.options[finishSelect.selectedIndex].disabled) {
+                    finishSelect.value = 'none';
+                }
+            }
+            calculatePrice(mat);
+        }
+
+        function calculatePrice(mat) {
+            let finalPrice = 0;
+            machineWarning.style.display = 'none';
+
+            if (currentMode === 'lithophane') {
+                const size = lithoSizeSelect.value;
+                finalPrice = mat.flat_rates[size];
+                weightEstimate.textContent = "~50-150";
+            } else if (mat.id === 'galvanic_gold' && finishSelect.value === 'gold') {
+                priceResult.textContent = "Auf Anfrage";
+                priceResult.style.fontSize = "2.5rem";
+                return;
+            } else {
+                const weight = currentVolumeCm3 * mat.density_g_cm3;
+                weightEstimate.textContent = weight.toFixed(0);
+
+                // Base Cost
+                let volumeCost = currentVolumeCm3 * mat.price_per_cm3;
+
+                // --- Bounding Box / Machine Time Factor ---
+                // If bounding box volume is > 10x larger than the actual volume, it means it's a very hollow/sparse part
+                // which wastes a lot of bed space and print time per gram of plastic.
+                if (currentVolumeCm3 > 0 && currentBoxVolumeCm3 > 0) {
+                    const sparsenessRatio = currentBoxVolumeCm3 / currentVolumeCm3;
+                    if (sparsenessRatio > 8) {
+                        // Apply a machine time modifier
+                        const multiplier = Math.min(2.5, 1 + (sparsenessRatio - 8) * 0.05); // Max 2.5x increase
+                        volumeCost = volumeCost * multiplier;
+                        machineWarning.style.display = 'block';
+                        console.log(`Sparseness ratio ${sparsenessRatio.toFixed(1)} -> Applied multiplier ${multiplier.toFixed(2)}`);
+                    }
+                }
+
+                finalPrice = mat.base_fee + volumeCost;
+                if (finishSelect.value === 'smooth') finalPrice += 15.00; // Flat fee smoothing
+            }
+
+            priceResult.style.fontSize = "3.5rem";
+            priceResult.textContent = finalPrice.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+        }
+
+        matSelect.addEventListener('change', updateMaterialLogic);
+        finishSelect.addEventListener('change', updateMaterialLogic);
+        lithoSizeSelect.addEventListener('change', updateMaterialLogic);
+
+        function prepareRequest() {
+            sessionStorage.setItem('3nc_request_price', priceResult.textContent);
+            sessionStorage.setItem('3nc_request_mat', DB[matSelect.value].name);
+            sessionStorage.setItem('3nc_request_file', fileNameToPass);
+            window.location.href = 'contact.html?lead=advisor';
+        }
+
+        // Mobile menu
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     </script>
 </body>
 
