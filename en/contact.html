@@ -14,11 +14,11 @@
 
     <nav class="navbar">
         <div class="container nav-inner">
-            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="manufaktur.html" class="nav-link">Manufaktur</a></li>
-                <li><a href="../services.html" class="nav-link">Services</a></li>
-                <li><a href="../about.html" class="nav-link">Manufactory</a></li>
+                <li><a href="index.html" class="nav-link">Home & Pricing</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
                 <li><a href="contact.html" class="nav-link active">Contact</a></li>
                 <li class="lang-switcher">
                     <a href="../contact.html" class="lang-flag" title="Deutsch">🇩🇪</a>
@@ -37,18 +37,18 @@
         <div class="container">
             <p class="text-gold"
                 style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
-                Let's Talk</p>
-            <h1><span class="text-gold">Request</span> Project</h1>
+                Let's talk</p>
+            <h1>Request a <span class="text-gold">Project</span></h1>
             <p>Tell me about your idea. I will get back to you personally.</p>
         </div>
     </div>
 
     <section class="container contact-grid fade-in">
         <div class="contact-info">
-            <h2>Direct Line</h2>
+            <h2>Your direct line</h2>
             <p>
                 I am often in the workshop or with clients.
-                The best way to reach me is via email or the form below.
+                The best way to reach me is by email or via the form.
                 I usually reply within 24 hours.
             </p>
 
@@ -59,7 +59,7 @@
                 </div>
                 <div class="contact-detail">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span>Tolkewitzer Straße 2, 01277 Dresden</span>
+                    <span>Tolkewitzer Straße 2, 01277 Dresden, Germany</span>
                 </div>
                 <div class="contact-detail">
                     <i class="fa-solid fa-envelope"></i>
@@ -74,15 +74,31 @@
 
             <div
                 style="margin-top: 3rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-elevated);">
-                <p class="editorial-label">Opening Hours</p>
+                <p class="editorial-label">Opening hours</p>
                 <p style="font-size: 0.85rem; margin-bottom: 0;">
                     Appointments by arrangement.<br>
-                    Possible in the evenings or weekends.
+                    Also possible on weekends or in the evenings.
                 </p>
             </div>
         </div>
 
         <div class="contact-form">
+            <!-- Advisor Handoff Alert Container -->
+            <div id="advisor-handoff-alert"
+                style="display: none; background: rgba(197, 168, 84, 0.1); border-left: 4px solid var(--accent-gold); padding: 1.5rem; margin-bottom: 2rem; border-radius: 0 4px 4px 0;">
+                <h3
+                    style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 0.5rem; font-family: var(--font-head);">
+                    <i class="fa-solid fa-file-shield"></i> Your 3D Calculation</h3>
+                <p style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.5rem;">
+                    <strong>Material:</strong> <span id="handoff-mat"></span><br>
+                    <strong>Estimated price:</strong> <span id="handoff-price"></span>
+                </p>
+                <p style="font-size: 0.85rem; color: #ff6b6b; font-weight: 600; margin-bottom: 0;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> IMPORTANT: Please send us your model (<span
+                        id="handoff-file"></span>) as a reply to our confirmation email OR include a cloud link in the message. Without the file we cannot start your project!
+                </p>
+            </div>
+
             <form action="https://formspree.io/f/xbjnqyjb" method="POST">
 
                 <label for="name">Name</label>
@@ -97,12 +113,12 @@
                         <input type="tel" id="phone" name="phone" placeholder="+49 ...">
                     </div>
                     <div>
-                        <label for="category">Interest in</label>
+                        <label for="category">Interested in</label>
                         <select id="category" name="category">
                             <option value="General">General Inquiry</option>
                             <option value="SmartHome">Smart Home</option>
-                            <option value="Galvanik">Electroplating</option>
-                            <option value="3DPrint">3D Printing / Parts</option>
+                            <option value="Galvanik">Electroplating / Finishing</option>
+                            <option value="3DPrint">3D Printing / Spare Part</option>
                         </select>
                     </div>
                 </div>
@@ -113,10 +129,11 @@
 
                 <div style="margin-bottom: 1.5rem; font-size: 0.75rem; color: var(--text-dim);">
                     <input type="checkbox" required style="width: auto; margin-right: 0.5rem; display: inline-block;">
-                    I agree to the <a href="../datenschutz.html" style="text-decoration: underline;">Privacy Policy</a>.
+                    I agree to the <a href="about.html"
+                        style="text-decoration: underline;">Privacy Policy</a>.
                 </div>
 
-                <button type="submit" class="btn btn-gold" style="width: 100%;">Send Message</button>
+                <button type="submit" class="btn btn-gold" style="width: 100%;">Send</button>
             </form>
         </div>
     </section>
@@ -125,7 +142,7 @@
         <div class="container">
             <p>&copy; 2026 3NC – Louis Altmann</p>
             <p style="margin-top:0.75rem;">
-                <a href="../impressum.html">Imprint</a> · <a href="../datenschutz.html">Privacy Policy</a>
+                <a href="about.html">Legal & Privacy</a>
             </p>
         </div>
     </footer>
@@ -134,6 +151,31 @@
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
             document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        // Advisor Handoff Check
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('lead') === 'advisor') {
+                const price = sessionStorage.getItem('3nc_request_price');
+                const mat = sessionStorage.getItem('3nc_request_mat');
+                const file = sessionStorage.getItem('3nc_request_file');
+
+                if (price && mat) {
+                    document.getElementById('handoff-price').textContent = price;
+                    document.getElementById('handoff-mat').textContent = mat;
+                    document.getElementById('handoff-file').textContent = file || 'Your file';
+
+                    document.getElementById('advisor-handoff-alert').style.display = 'block';
+
+                    // Pre-fill message so the client doesn't have to retype it
+                    const msgBox = document.getElementById('message');
+                    msgBox.value = `Hi,\nI am interested in manufacturing the file "${file}" in the material ${mat}.\n\nThe estimated price was ${price}. Please contact me regarding the next steps and the upload link!\n\nBest regards,\n`;
+
+                    // Pre-select topic
+                    document.getElementById('category').value = '3DPrint';
+                }
+            }
         });
 
         const observer = new IntersectionObserver((entries) => {

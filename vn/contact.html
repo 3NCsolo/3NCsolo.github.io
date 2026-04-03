@@ -14,11 +14,11 @@
 
     <nav class="navbar">
         <div class="container nav-inner">
-            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link">Trang chủ</a></li>
-                <li><a href="../services.html" class="nav-link">Dịch vụ</a></li>
-                <li><a href="../about.html" class="nav-link">Xưởng chế tác</a></li>
+                <li><a href="index.html" class="nav-link">Trang chủ & Tính giá</a></li>
+                <li><a href="services.html" class="nav-link">Dịch vụ</a></li>
+                <li><a href="about.html" class="nav-link">Về chúng tôi</a></li>
                 <li><a href="contact.html" class="nav-link active">Liên hệ</a></li>
                 <li class="lang-switcher">
                     <a href="../contact.html" class="lang-flag" title="Deutsch">🇩🇪</a>
@@ -37,19 +37,19 @@
         <div class="container">
             <p class="text-gold"
                 style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
-                Hãy cùng trao đổi</p>
-            <h1><span class="text-gold">Yêu cầu</span> Dự án</h1>
-            <p>Hãy cho tôi biết ý tưởng của bạn. Tôi sẽ liên hệ trực tiếp với bạn.</p>
+                Hãy trò chuyện</p>
+            <h1>Yêu cầu <span class="text-gold">Dự án</span></h1>
+            <p>Hãy kể cho tôi nghe về ý tưởng của bạn. Tôi sẽ đích thân liên hệ lại với bạn.</p>
         </div>
     </div>
 
     <section class="container contact-grid fade-in">
         <div class="contact-info">
-            <h2>Liên hệ trực tiếp</h2>
+            <h2>Đường dây trực tiếp</h2>
             <p>
-                Tôi thường ở trong xưởng hoặc đi gặp khách hàng.
-                Cách tốt nhất để liên hệ là qua email hoặc biểu mẫu bên dưới.
-                Tôi thường trả lời trong vòng 24 giờ.
+                Tôi thường làm việc tại xưởng hoặc với khách hàng. 
+                Cách tốt nhất để liên hệ với tôi là gửi email hoặc điền phương thức theo mẫu. 
+                Thông thường tôi sẽ trả lời trong vòng 24 giờ.
             </p>
 
             <div style="margin-top: 2.5rem;">
@@ -59,7 +59,7 @@
                 </div>
                 <div class="contact-detail">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span>Tolkewitzer Straße 2, 01277 Dresden</span>
+                    <span>Tolkewitzer Straße 2, 01277 Dresden, Germany</span>
                 </div>
                 <div class="contact-detail">
                     <i class="fa-solid fa-envelope"></i>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="contact-detail">
                     <i class="fa-brands fa-whatsapp"></i>
-                    <span>Có sẵn WhatsApp / Signal</span>
+                    <span>Hỗ trợ WhatsApp / Signal</span>
                 </div>
             </div>
 
@@ -76,47 +76,64 @@
                 style="margin-top: 3rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-elevated);">
                 <p class="editorial-label">Giờ làm việc</p>
                 <p style="font-size: 0.85rem; margin-bottom: 0;">
-                    Theo lịch hẹn trước.<br>
-                    Có thể làm việc vào buổi tối hoặc cuối tuần.
+                    Vui lòng đặt lịch hẹn trước.<br>
+                    Có thể làm việc vào cuối tuần hoặc buổi tối.
                 </p>
             </div>
         </div>
 
         <div class="contact-form">
+            <!-- Advisor Handoff Alert Container -->
+            <div id="advisor-handoff-alert"
+                style="display: none; background: rgba(197, 168, 84, 0.1); border-left: 4px solid var(--accent-gold); padding: 1.5rem; margin-bottom: 2rem; border-radius: 0 4px 4px 0;">
+                <h3
+                    style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 0.5rem; font-family: var(--font-head);">
+                    <i class="fa-solid fa-file-shield"></i> Tính toán 3D của bạn</h3>
+                <p style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.5rem;">
+                    <strong>Vật liệu:</strong> <span id="handoff-mat"></span><br>
+                    <strong>Giá ước tính:</strong> <span id="handoff-price"></span>
+                </p>
+                <p style="font-size: 0.85rem; color: #ff6b6b; font-weight: 600; margin-bottom: 0;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> QUAN TRỌNG: Vui lòng gửi cho chúng tôi tệp 3D của bạn (<span
+                        id="handoff-file"></span>) dưới dạng phản hồi email xác nhận HOẶC đính kèm liên kết tệp vào tin nhắn. Nếu không có file mẫu chúng tôi không thể bắt đầu dự án của bạn!
+                </p>
+            </div>
+
             <form action="https://formspree.io/f/xbjnqyjb" method="POST">
 
                 <label for="name">Tên</label>
                 <input type="text" id="name" name="name" placeholder="Tên của bạn" required>
 
-                <label for="email">E-Mail</label>
-                <input type="email" id="email" name="email" placeholder="email@cuaban.com" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div>
-                        <label for="phone">Điện thoại (Không bắt buộc)</label>
+                        <label for="phone">SĐT (Tùy chọn)</label>
                         <input type="tel" id="phone" name="phone" placeholder="+49 ...">
                     </div>
                     <div>
                         <label for="category">Quan tâm đến</label>
                         <select id="category" name="category">
-                            <option value="General">Câu hỏi chung</option>
+                            <option value="General">Yêu cầu chung</option>
                             <option value="SmartHome">Nhà thông minh</option>
-                            <option value="Galvanik">Mạ điện</option>
+                            <option value="Galvanik">Mạ điện / Hoàn thiện</option>
                             <option value="3DPrint">In 3D / Phụ tùng</option>
                         </select>
                     </div>
                 </div>
 
                 <label for="message">Tin nhắn</label>
-                <textarea id="message" name="message" placeholder="Mô tả ngắn gọn dự án của bạn..." required></textarea>
+                <textarea id="message" name="message" placeholder="Mô tả ngắn gọn dự án của bạn..."
+                    required></textarea>
 
                 <div style="margin-bottom: 1.5rem; font-size: 0.75rem; color: var(--text-dim);">
                     <input type="checkbox" required style="width: auto; margin-right: 0.5rem; display: inline-block;">
-                    Tôi đồng ý với <a href="../datenschutz.html" style="text-decoration: underline;">Chính sách bảo
-                        mật</a>.
+                    Tôi đồng ý với <a href="about.html"
+                        style="text-decoration: underline;">Chính sách bảo mật</a>.
                 </div>
 
-                <button type="submit" class="btn btn-gold" style="width: 100%;">Gửi tin nhắn</button>
+                <button type="submit" class="btn btn-gold" style="width: 100%;">Gửi</button>
             </form>
         </div>
     </section>
@@ -125,7 +142,7 @@
         <div class="container">
             <p>&copy; 2026 3NC – Louis Altmann</p>
             <p style="margin-top:0.75rem;">
-                <a href="../impressum.html">Impressum</a> · <a href="../datenschutz.html">Bảo mật dữ liệu</a>
+                <a href="about.html">Pháp lý & Bảo mật</a>
             </p>
         </div>
     </footer>
@@ -134,6 +151,31 @@
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
             document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        // Advisor Handoff Check
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('lead') === 'advisor') {
+                const price = sessionStorage.getItem('3nc_request_price');
+                const mat = sessionStorage.getItem('3nc_request_mat');
+                const file = sessionStorage.getItem('3nc_request_file');
+
+                if (price && mat) {
+                    document.getElementById('handoff-price').textContent = price;
+                    document.getElementById('handoff-mat').textContent = mat;
+                    document.getElementById('handoff-file').textContent = file || 'Tệp của bạn';
+
+                    document.getElementById('advisor-handoff-alert').style.display = 'block';
+
+                    // Pre-fill message so the client doesn't have to retype it
+                    const msgBox = document.getElementById('message');
+                    msgBox.value = `Xin chào,\nTôi quan tâm đến việc sản xuất tệp "${file}" bằng vật liệu ${mat}.\n\nMức giá dự kiến là ${price}. Vui lòng liên hệ với tôi để trao đổi thêm các bước tiếp theo và cung cấp liên kết tải lên!\n\nTrân trọng,\n`;
+
+                    // Pre-select topic
+                    document.getElementById('category').value = '3DPrint';
+                }
+            }
         });
 
         const observer = new IntersectionObserver((entries) => {

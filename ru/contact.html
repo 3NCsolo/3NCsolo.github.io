@@ -14,11 +14,11 @@
 
     <nav class="navbar">
         <div class="container nav-inner">
-            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link">Главная</a></li>
-                <li><a href="../services.html" class="nav-link">Услуги</a></li>
-                <li><a href="../about.html" class="nav-link">Мануфактура</a></li>
+                <li><a href="index.html" class="nav-link">Главная и калькулятор</a></li>
+                <li><a href="services.html" class="nav-link">Услуги</a></li>
+                <li><a href="about.html" class="nav-link">О нас</a></li>
                 <li><a href="contact.html" class="nav-link active">Контакты</a></li>
                 <li class="lang-switcher">
                     <a href="../contact.html" class="lang-flag" title="Deutsch">🇩🇪</a>
@@ -37,29 +37,29 @@
         <div class="container">
             <p class="text-gold"
                 style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
-                Связаться</p>
-            <h1><span class="text-gold">Обсудить</span> Проект</h1>
-            <p>Расскажите мне о вашей идее. Я свяжусь с вами лично.</p>
+                Давайте поговорим</p>
+            <h1>Запросить <span class="text-gold">проект</span></h1>
+            <p>Расскажите мне о своей идее. Я свяжусь с вами лично.</p>
         </div>
     </div>
 
     <section class="container contact-grid fade-in">
         <div class="contact-info">
-            <h2>Прямой контакт</h2>
+            <h2>Ваша прямая линия</h2>
             <p>
-                Я часто нахожусь в мастерской или у клиентов.
-                Лучше всего связаться со мной по электронной почте или через форму ниже.
+                Я часто нахожусь в мастерской или с клиентами.
+                Лучше всего связаться со мной по электронной почте или через форму.
                 Обычно я отвечаю в течение 24 часов.
             </p>
 
             <div style="margin-top: 2.5rem;">
                 <div class="contact-detail">
                     <i class="fa-solid fa-user"></i>
-                    <span>Луис Альтманн</span>
+                    <span>Louis Altmann</span>
                 </div>
                 <div class="contact-detail">
                     <i class="fa-solid fa-location-dot"></i>
-                    <span>Tolkewitzer Straße 2, 01277 Dresden</span>
+                    <span>Tolkewitzer Straße 2, 01277 Dresden, Germany</span>
                 </div>
                 <div class="contact-detail">
                     <i class="fa-solid fa-envelope"></i>
@@ -68,52 +68,69 @@
                 </div>
                 <div class="contact-detail">
                     <i class="fa-brands fa-whatsapp"></i>
-                    <span>WhatsApp / Signal доступны</span>
+                    <span>Доступны WhatsApp / Signal</span>
                 </div>
             </div>
 
             <div
                 style="margin-top: 3rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-elevated);">
-                <p class="editorial-label">Время работы</p>
+                <p class="editorial-label">Часы работы</p>
                 <p style="font-size: 0.85rem; margin-bottom: 0;">
-                    Встречи по договоренности.<br>
-                    Возможно вечером или в выходные.
+                    Прием по предварительной договоренности.<br>
+                    Также возможно в выходные дни или вечером.
                 </p>
             </div>
         </div>
 
         <div class="contact-form">
+            <!-- Advisor Handoff Alert Container -->
+            <div id="advisor-handoff-alert"
+                style="display: none; background: rgba(197, 168, 84, 0.1); border-left: 4px solid var(--accent-gold); padding: 1.5rem; margin-bottom: 2rem; border-radius: 0 4px 4px 0;">
+                <h3
+                    style="color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 0.5rem; font-family: var(--font-head);">
+                    <i class="fa-solid fa-file-shield"></i> Ваш 3D расчет</h3>
+                <p style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.5rem;">
+                    <strong>Материал:</strong> <span id="handoff-mat"></span><br>
+                    <strong>Ориентировочная цена:</strong> <span id="handoff-price"></span>
+                </p>
+                <p style="font-size: 0.85rem; color: #ff6b6b; font-weight: 600; margin-bottom: 0;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> ВАЖНО: Пожалуйста, отправьте нам вашу модель (<span
+                        id="handoff-file"></span>) в ответ на наше письмо с подтверждением ИЛИ добавьте ссылку на облако в сообщение. Без файла мы не сможем начать ваш проект!
+                </p>
+            </div>
+
             <form action="https://formspree.io/f/xbjnqyjb" method="POST">
 
                 <label for="name">Имя</label>
-                <input type="text" id="name" name="name" placeholder="Ваше Имя" required>
+                <input type="text" id="name" name="name" placeholder="Ваше имя" required>
 
                 <label for="email">E-Mail</label>
-                <input type="email" id="email" name="email" placeholder="vash@email.ru" required>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div>
-                        <label for="phone">Телефон (по желанию)</label>
+                        <label for="phone">Телефон (Необязательно)</label>
                         <input type="tel" id="phone" name="phone" placeholder="+49 ...">
                     </div>
                     <div>
-                        <label for="category">Интересует</label>
+                        <label for="category">Интересует:</label>
                         <select id="category" name="category">
                             <option value="General">Общий вопрос</option>
-                            <option value="SmartHome">Умный Дом</option>
-                            <option value="Galvanik">Гальваника</option>
-                            <option value="3DPrint">3D Печать / Запчасти</option>
+                            <option value="SmartHome">Умный дом</option>
+                            <option value="Galvanik">Гальваника / Отделка</option>
+                            <option value="3DPrint">3D-печать / Запчасть</option>
                         </select>
                     </div>
                 </div>
 
                 <label for="message">Сообщение</label>
-                <textarea id="message" name="message" placeholder="Кратко опишите ваш проект..." required></textarea>
+                <textarea id="message" name="message" placeholder="Кратко опишите ваш проект..."
+                    required></textarea>
 
                 <div style="margin-bottom: 1.5rem; font-size: 0.75rem; color: var(--text-dim);">
                     <input type="checkbox" required style="width: auto; margin-right: 0.5rem; display: inline-block;">
-                    Я согласен с <a href="../datenschutz.html" style="text-decoration: underline;">Политикой
-                        конфиденциальности</a>.
+                    Я согласен с <a href="about.html"
+                        style="text-decoration: underline;">Политикой конфиденциальности</a>.
                 </div>
 
                 <button type="submit" class="btn btn-gold" style="width: 100%;">Отправить</button>
@@ -123,9 +140,9 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 3NC – Луис Альтманн</p>
+            <p>&copy; 2026 3NC – Louis Altmann</p>
             <p style="margin-top:0.75rem;">
-                <a href="../impressum.html">Импрессум</a> · <a href="../datenschutz.html">Защита данных</a>
+                <a href="about.html">Правовая информация и конфиденциальность</a>
             </p>
         </div>
     </footer>
@@ -134,6 +151,31 @@
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
             document.getElementById('hamburger').classList.toggle('active');
+        });
+
+        // Advisor Handoff Check
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('lead') === 'advisor') {
+                const price = sessionStorage.getItem('3nc_request_price');
+                const mat = sessionStorage.getItem('3nc_request_mat');
+                const file = sessionStorage.getItem('3nc_request_file');
+
+                if (price && mat) {
+                    document.getElementById('handoff-price').textContent = price;
+                    document.getElementById('handoff-mat').textContent = mat;
+                    document.getElementById('handoff-file').textContent = file || 'Ваш файл';
+
+                    document.getElementById('advisor-handoff-alert').style.display = 'block';
+
+                    // Pre-fill message so the client doesn't have to retype it
+                    const msgBox = document.getElementById('message');
+                    msgBox.value = `Привет,\nЯ заинтересован в изготовлении файла "${file}" из материала ${mat}.\n\nОриентировочная цена составила ${price}. Пожалуйста, свяжитесь со мной для обсуждения дальнейших действий и предоставления ссылки для загрузки!\n\nС уважением,\n`;
+
+                    // Pre-select topic
+                    document.getElementById('category').value = '3DPrint';
+                }
+            }
         });
 
         const observer = new IntersectionObserver((entries) => {

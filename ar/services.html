@@ -5,44 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="خدمات 3NC: طباعة FDM عالية الأداء، راتنج SLA، سلسلة CNC والتشطيب الجلفاني للأسطح.">
+        content="خدمات الطباعة ثلاثية الأبعاد، المعالجة البعدية، وحلول الأجهزة المخصصة من 3NC.">
     <title>الخدمات | 3NC</title>
     <link rel="stylesheet" href="../style_v2.css">
     <link rel="stylesheet" href="../fonts/inter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            text-align: right;
-        }
-
-        .page-header {
-            text-align: center;
-        }
-
-        .editorial-label,
-        .service-text h2,
-        .service-text p,
-        .service-text ul {
-            text-align: right;
-        }
-
-        .service-text {
-            padding-right: 0;
-        }
-
-        /* Reverse row normally puts image on right for even rows, handled by CSS mostly, but flex order can be controlled */
-        .navbar .logo {
-            margin-right: 0;
-            margin-left: auto;
-        }
-
-        .nav-links {
-            margin-left: 0;
-            margin-right: auto;
-        }
-
-        .service-row {
-            direction: rtl;
+        /* RTL Overrides */
+        .navbar .logo { float: right; margin-right: 0; margin-left: 2rem; }
+        .nav-links { float: right; }
+        .lang-switcher { margin-left: 0; margin-right: 2rem; }
+        .hamburger { float: left; }
+        .service-row { flex-direction: row-reverse; text-align: right; }
+        .service-row:nth-child(even) { flex-direction: row; }
+        @media (max-width: 900px) {
+            .service-row, .service-row:nth-child(even) { flex-direction: column; }
         }
     </style>
 </head>
@@ -51,11 +28,11 @@
 
     <nav class="navbar">
         <div class="container nav-inner">
-            <a href="../index.html" class="logo">3<span class="text-gold">NC</span></a>
-            <ul class="nav-links" id="navLinks" style="margin-right:auto; margin-left:0;">
-                <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+            <a href="index.html" class="logo">3<span class="text-gold">NC</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">الرئيسية والآلة الحاسبة</a></li>
                 <li><a href="services.html" class="nav-link active">الخدمات</a></li>
-                <li><a href="about.html" class="nav-link">المختبر</a></li>
+                <li><a href="about.html" class="nav-link">معلومات عنا</a></li>
                 <li><a href="contact.html" class="nav-link">اتصل بنا</a></li>
                 <li class="lang-switcher">
                     <a href="../services.html" class="lang-flag" title="Deutsch">🇩🇪</a>
@@ -74,36 +51,35 @@
         <div class="container">
             <p class="text-gold"
                 style="letter-spacing: 0.2em; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.7rem; font-weight: 600;">
-                التصنيع المضاف والتشطيب</p>
-            <h1>محفظة <span class="text-gold">مختبرنا</span></h1>
-            <p>نماذج مبدئية عالية الأداء وإنتاج كميات صغيرة بتشطيبات معدنية.</p>
+                التصنيع الإضافي والتشطيب</p>
+            <h1>مجموعة <span class="text-gold">مختبراتنا</span></h1>
+            <p>نماذج أولية عالية الأداء وإنتاج متسلسل مع تشطيب معدني.</p>
         </div>
     </div>
 
-    <section class="container service-details">
+    <section class="container">
 
         <!-- FDM Printing -->
         <div class="service-row" id="fdm">
             <div class="service-text">
-                <p class="editorial-label">بثق اللدائن الحرارية</p>
+                <p class="editorial-label">البثق الحراري</p>
                 <h2>طباعة FDM عالية الأداء</h2>
                 <p>
-                    نقوم بتصنيع أجزاء ميكانيكية مستقرة، وقطع غيار ونماذج أولية على طابعات FDM صناعية.
-                    بفضل غرف البناء الساخنة، يمكننا معالجة البوليمرات التقنية المستقرة بُعديًا بشكل موثوق.
+                    نقوم بإنتاج مكونات ميكانيكية مستقرة وقطع غيار ونماذج أولية على آلات FDM الصناعية. بفضل الغرف الساخنة، يمكننا معالجة البوليمرات الصعبة بنجاح دون تشويه.
                 </p>
                 <div style="margin-top: 2rem;">
-                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">موادنا:</h4>
-                    <ul
-                        style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem; padding-right: 1.5rem;">
-                        <li><strong class="text-gold">قياسي وقوي:</strong> PLA Elite المستدام، PETG الآمن غذائيًا.</li>
-                        <li><strong class="text-gold">أداء عالي:</strong> ABS، ASA (مقاوم للأشعة فوق البنفسجية).</li>
-                        <li><strong class="text-gold">تخصص احتكاكي:</strong> الكربون والنايلون (PA-CF)، و TPU المرن.
+                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">فئات المواد لدينا:
+                    </h4>
+                    <ul style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem; padding-right: 1.2rem;">
+                        <li><strong class="text-gold">اللدائن الهندسية:</strong> PETG, ABS, ASA (مقاوم للأشعة فوق البنفسجية) ، بولي كربونات نقي (PC).
                         </li>
+                        <li><strong class="text-gold">تكنولوجيا عالية ومركّبات:</strong> بوليمرات عالية الأداء معززة بالألياف مثل PPA-CF و PAHT-CF و PA-GF (الألياف الزجاجية) وكربون-نايلون للحصول على قوة ميكانيكية فائقة.</li>
+                        <li><strong class="text-gold">بوليمرات متخصصة:</strong> لدائن مرنة (TPU) بدرجات صلابة مختلفة، ومواد مقاومة للهب وآمنة للكهرباء الساكنة.</li>
                     </ul>
                 </div>
             </div>
             <div class="service-img">
-                <img src="../images/3d-printer.jpg" alt="FDM 3D Printing Carbon"
+                <img src="../images/3d-printer.jpg" alt="FDM 3D-Druck Carbon"
                     style="object-fit:cover; width:100%; height:100%; background:#222;">
             </div>
         </div>
@@ -111,49 +87,79 @@
         <!-- SLA Resin -->
         <div class="service-row" id="sla">
             <div class="service-text">
-                <p class="editorial-label">التصوير الحجري الفراغي</p>
-                <h2>طباعة راتنج SLA</h2>
+                <p class="editorial-label">الطباعة الحجرية المجسمة (SLA)</p>
+                <h2>طباعة الراتنج SLA</h2>
                 <p>
-                    للتفاصيل المجهرية، أو الهياكل ذات المقاسات الدقيقة المليمترية، أو النماذج الأساسية للمجوهرات.
-                    توفر تقنية SLA أسطحًا ناعمة تمامًا بصريًا.
+                    للحصول على تفاصيل مجهرية و تصميمات ذات دقة عالية، تقدم تقنية SLA أسطحًا ناعمة تمامًا وخالية من الطبقات المرئية.
                 </p>
 
                 <div style="margin-top: 2rem; display: grid; gap: 2rem;">
                     <div>
-                        <h4 style="color:var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem;">النماذج
-                            الأولية السريعة</h4>
+                        <h4 style="color:var(--text-primary); margin-bottom: 0.5rem; font-size: 0.95rem;">النماذج الأولية السريعة
+                        </h4>
                         <p style="font-size: 0.85rem; color: var(--text-secondary);">
-                            التحقق من التصميم والملاءمة قبل تنفيذ الأدوات.
+                            التحقق من التصميم والملاءمة قبل صنع الأداة والقالب.
                         </p>
                     </div>
                 </div>
             </div>
             <div class="service-img">
-                <img src="../images/cad-design.jpg" alt="SLA Resin Print">
+                <img src="../images/cad-design.jpg" alt="SLA Resin Druck">
             </div>
         </div>
 
         <!-- Galvanik & Smoothing -->
         <div class="service-row" id="galvanik">
             <div class="service-text">
-                <p class="editorial-label">معالجة ما بعد الطباعة</p>
-                <h2>التنعيم والجلفنة</h2>
+                <p class="editorial-label">المعالجة اللاحقة</p>
+                <h2>التنعيم والطلاء الكهربائي</h2>
                 <p>
-                    لا يجوز أن يبدو المطبوع ثلاثي الأبعاد كالبلاستيك. نقدم تنعيمًا كيميائيًا لبناء أجزاء مقاومة للماء
-                    ولامعة.
+                    لا يجب أن تبدو الطباعة ثلاثية الأبعاد مثل البلاستيك. نحن نقدم تنعيم البخار لغلق أجزاء FDM وجعلها مقاومة للماء مع لمعان عالي.
                 </p>
 
                 <div style="margin-top: 2rem;">
-                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">معدن على البلاستيك:
+                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">معدن على بلاستيك:
                     </h4>
                     <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem;">
-                        نحن نطلي الأجزاء المطبوعة بتقنية 3D باستخدام <strong>النحاس الحقيقي، النيكل والذهب</strong> في
-                        أحواض الجلفنة الخاصة بنا.
+                        كفاءتنا الأساسية: نقوم بطلاء الأجزاء المطبوعة ثلاثية الأبعاد (ABS/Resin) في منشأة الطلاء الكهربائي الداخلية لدينا <strong>بمعادن حقيقية متنوعة</strong>. مثالي للنماذج الأولية أو التظليل أو القطع الفردية الحصرية.
                     </p>
                 </div>
             </div>
             <div class="service-img">
-                <img src="../images/galvanic-bath.jpg" alt="Galvanic Bath Copper Nickel Gold"
+                <img src="../images/galvanic-bath.jpg" alt="Galvanik Bad Metallbeschichtung"
+                    style="object-fit:cover; width:100%; height:100%; background:#222;">
+            </div>
+        </div>
+
+        <!-- Systemintegration Header -->
+        <div class="row-separator" style="border-top: 1px solid var(--border-color); margin: 6rem 0 4rem 0;"></div>
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2>تكامل النظام و <span class="text-gold">حلول الأجهزة</span></h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 1rem auto 0 auto;">من التصميم إلى التصنيع الصناعي.</p>
+        </div>
+
+        <!-- Block 1: Planning -->
+        <div class="service-row" id="sh-planning">
+            <div class="service-text">
+                <p class="editorial-label">المفهوم والهندسة المعمارية</p>
+                <h2>تخطيط متعدد التخصصات</h2>
+                <p>يتطلب النظام الذكي بنية تحتية قوية. نحن نصمم مسارات الأسلاك، ونخطط لمواضع أجهزة الاستشعار، ونُنشئ توثيقًا لمهندس الإلكترونيات الخاص بك.</p>
+            </div>
+            <div class="service-img">
+                <img src="../images/cad-design.jpg" alt="Planning Architecture"
+                    style="object-fit:cover; width:100%; height:100%; background:#222;">
+            </div>
+        </div>
+
+        <!-- Block 2: Integration -->
+        <div class="service-row" id="sh-integration">
+            <div class="service-text">
+                <p class="editorial-label">تكامل النظام</p>
+                <h2>منطق مستقل عن المورد</h2>
+                <p>نحن نجمع بين أفضل الأجهزة الميدانية للتحكم في درجة الحرارة والإضاءة والروبوتات في كلٍ متكامل ونبرمج المنطق بمرونة تامة ليناسب متطلباتك.</p>
+            </div>
+            <div class="service-img">
+                <img src="../images/smart-home.jpg" alt="System Integration"
                     style="object-fit:cover; width:100%; height:100%; background:#222;">
             </div>
         </div>
@@ -161,19 +167,18 @@
         <!-- Smart Devices & IoT -->
         <div class="service-row" id="smart-iot">
             <div class="service-text">
-                <p class="editorial-label">دراسات الجدوى والحلول الخاصة</p>
-                <h2>أجهزة ذكية وإنترنت الأشياء</h2>
+                <p class="editorial-label">دراسات الجدوى والحلول المخصصة</p>
+                <h2>الأجهزة الذكية وإنترنت الأشياء</h2>
                 <p>
-                    هل لديك فكرة لمنتج ذكي ولا تجد حلاً جاهزاً في السوق؟ نحن نحول خبراتنا في المنزل الذكي إلى حلول أجهزة
-                    مخصصة لك.
+                    هل لديك فكرة عن منتج ذكي ولكن لا يمكنك العثور على أي شيء مناسب في السوق؟
+                    نحن نطبق خبرتنا لإنشاء حلول أجهزة فردية.
                 </p>
 
                 <div style="margin-top: 2rem;">
-                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">من اللوحة
-                        الإلكترونية إلى الهيكل:</h4>
+                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">من لوحة الدوائر إلى الغلاف:
+                    </h4>
                     <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem;">
-                        نتحقق من الجدوى الفنية، ونصمم غلاف المستشعرات (CAD) وندمج المكونات الإلكترونية لإنشاء نماذج
-                        أولية تعمل بكفاءة.
+                        سواء كانت عتبة باب ذكية متصلة بالكامل، أو أغلفة أجهزة استشعار مخصصة، أو أدوات IoT مستقلة: نتحقق من الجدوى الفنية، ونصمم الغلاف (CAD)، ونقوم بدمج الإلكترونيات في نموذج أولي وظيفي.
                     </p>
                 </div>
             </div>
@@ -186,45 +191,42 @@
         <!-- CNC & Scaling -->
         <div class="service-row" id="cnc">
             <div class="service-text">
-                <p class="editorial-label">التشغيل والتوسعة</p>
-                <h2>الإنتاج بسلسلة CNC</h2>
+                <p class="editorial-label">التصنيع وتوسيع النطاق</p>
+                <h2>التصنيع باستخدام آلات CNC والإنتاج المتسلسل</h2>
                 <p>
-                    الطباعة 3D مثالية للنماذج المبدئية. بمجرد إثبات جدوى المفهوم، نرافقك بانسيابية نحو الإنتاج المعدني
-                    الصناعي المتسلسل.
+                    تعتبر الطباعة ثلاثية الأبعاد مثالية للنماذج الأولية والقطع الفردية وسلاسل البلاستيك الصغيرة. بمجرد إثبات المفهوم، ننتقل بك بسلاسة إلى سلسلة التصنيع المعدني الصناعي.
                 </p>
 
                 <div style="margin-top: 2rem;">
-                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">التفريز والخراطة
-                        (معادن):</h4>
+                    <h4 style="color:var(--text-primary); margin-bottom:0.8rem; font-size: 0.95rem;">الطحن والخراطة (معدن):
+                    </h4>
                     <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem;">
-                        عبر شبكة شركائنا، ننفذ أجزاء <strong>CNC عالية الدقة من الألمنيوم، الصلب أو التيتانيوم</strong>،
-                        ونتولى إدارة الجودة بالكامل.
+                        من خلال شبكة شركائنا الموثوقة، نحقق <strong>أجزاء CNC عالية الدقة من مختلف المعادن شديدة القوة</strong>.
+                        نقوم بتكييف بيانات التصميم الخاصة بك لعمليات تصنيع الآلات ونتولى إدارة الجودة الكاملة.
                     </p>
                 </div>
             </div>
             <div class="service-img">
-                <img src="../images/switch-detail.jpg" alt="CNC Machined Metal Parts"
+                <img src="../images/switch-detail.jpg" alt="CNC Machining Parts"
                     style="object-fit:cover; width:100%; height:100%; background:#222;">
             </div>
         </div>
 
-    </section>
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 3NC – لويس ألتمان</p>
+                <p style="margin-top:0.75rem;">
+                    <a href="about.html">المعلومات القانونية والخصوصية</a>
+                </p>
+            </div>
+        </footer>
 
-    <footer>
-        <div class="container" style="text-align: center;">
-            <p>&copy; 2026 3NC – لويس ألتمان</p>
-            <p style="margin-top:0.75rem;">
-                <a href="../impressum.html">البصمة</a> · <a href="../datenschutz.html">سياسة الخصوصية</a>
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('navLinks').classList.toggle('active');
-            document.getElementById('hamburger').classList.toggle('active');
-        });
-    </script>
+        <script>
+            document.getElementById('hamburger').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('active');
+                document.getElementById('hamburger').classList.toggle('active');
+            });
+        </script>
 </body>
 
 </html>
