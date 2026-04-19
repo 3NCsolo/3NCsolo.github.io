@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Gadgets & Dashboards | 3NC Solo – Wenn 3D-Druck auf IoT trifft</title>
+    <meta name="description" content="Entdecke was möglich ist: Intelligente Dashboards für Führungskräfte, Teams und Kunden. Thermochrome Objekte, IoT-Automation, motorisierte Desk-Displays – alles aus dem 3D-Drucker.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #07070a;
+            --bg-surface: #0d0d14;
+            --bg-card: rgba(18, 18, 28, 0.7);
+            --glass: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.06);
+            --gold: #d4a843;
+            --gold-bright: #f0c75e;
+            --gold-dim: #a07a2f;
+            --text: #e8e6e3;
+            --text-muted: #8a8a9a;
+            --green: #34d399;
+            --blue: #4a9eff;
+            --purple: #a78bfa;
+            --red: #f87171;
+            --orange: #fb923c;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family:'Inter',-apple-system,sans-serif;
+            background:var(--bg-deep);
+            color:var(--text);
+            line-height:1.7;
+            overflow-x:hidden;
+        }
+        h1,h2,h3,h4 { font-family:'Outfit',sans-serif; font-weight:600; line-height:1.2; }
+        .gold { color:var(--gold); }
+        .muted { color:var(--text-muted); }
+        a { color:var(--gold); text-decoration:none; }
+
+        /* NAV */
+        .nav {
+            position:fixed; top:0; width:100%;
+            display:flex; justify-content:space-between; align-items:center;
+            padding:1.2rem 5%;
+            background:rgba(7,7,10,0.88); backdrop-filter:blur(14px);
+            border-bottom:1px solid var(--glass-border);
+            z-index:100;
+        }
+        .logo { font-family:'Outfit'; font-weight:800; font-size:1.4rem; color:var(--text); text-decoration:none; }
+        .logo span { color:var(--gold); font-weight:300; }
+        .nav-links { display:flex; gap:1.5rem; list-style:none; }
+        .nav-links a { color:var(--text-muted); font-size:0.9rem; transition:color .3s; }
+        .nav-links a:hover { color:var(--gold); }
+        .back-btn { color:var(--text-muted); font-size:0.85rem; border:1px solid var(--glass-border); padding:.5rem 1rem; border-radius:var(--radius-sm); transition:all .3s; }
+        .back-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+        /* HERO */
+        .hero {
+            padding:10rem 5% 4rem; text-align:center; position:relative;
+        }
+        .hero::before {
+            content:''; position:absolute; top:-40%; left:50%; transform:translateX(-50%);
+            width:900px; height:900px;
+            background:radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 65%);
+            pointer-events:none;
+        }
+        .hero h1 { font-size:clamp(2.4rem,5vw,4.2rem); font-weight:800; margin-bottom:1.2rem; }
+        .hero .sub { font-size:clamp(1rem,1.8vw,1.2rem); color:var(--text-muted); max-width:720px; margin:0 auto 2.5rem; }
+        .hero .kicker {
+            display:inline-block; font-size:.8rem; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+            color:var(--gold); margin-bottom:1.5rem;
+            padding:.4rem 1.2rem; border:1px solid rgba(212,168,67,.25); border-radius:50px;
+        }
+
+        /* CATEGORY NAV */
+        .cat-nav {
+            display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;
+            padding:2rem 5%;
+            border-top:1px solid var(--glass-border);
+            border-bottom:1px solid var(--glass-border);
+        }
+        .cat-pill {
+            padding:.7rem 1.6rem; border-radius:50px; font-size:.85rem; font-weight:500;
+            border:1px solid var(--glass-border); background:var(--bg-card);
+            cursor:pointer; transition:all .3s; color:var(--text-muted);
+            text-decoration:none;
+        }
+        .cat-pill:hover { border-color:var(--gold); color:var(--gold); background:rgba(212,168,67,.06); }
+        .cat-pill .ico { margin-right:6px; font-size:1rem; }
+
+        /* SECTIONS */
+        .section { padding:5rem 5% 3rem; max-width:1440px; margin:0 auto; }
+        .section-head { text-align:center; margin-bottom:3.5rem; }
+        .section-head h2 { font-size:clamp(1.8rem,3vw,2.6rem); margin-bottom:.6rem; }
+        .section-head p { color:var(--text-muted); max-width:620px; margin:0 auto; }
+        .section-head .badge {
+            display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+            padding:.35rem 1rem; border-radius:50px; margin-bottom:1rem;
+        }
+        .badge-mgmt { background:rgba(248,113,113,.12); color:var(--red); border:1px solid rgba(248,113,113,.25); }
+        .badge-team { background:rgba(74,158,255,.12); color:var(--blue); border:1px solid rgba(74,158,255,.25); }
+        .badge-customer { background:rgba(52,211,153,.12); color:var(--green); border:1px solid rgba(52,211,153,.25); }
+        .badge-gadget { background:rgba(167,139,250,.12); color:var(--purple); border:1px solid rgba(167,139,250,.25); }
+        .badge-iot { background:rgba(251,146,60,.12); color:var(--orange); border:1px solid rgba(251,146,60,.25); }
+        .divider { width:60px; height:2px; background:linear-gradient(90deg,var(--gold),transparent); margin:4rem auto; }
+
+        /* SHOWCASE (side-by-side) */
+        .showcase {
+            display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;
+            background:var(--bg-card); border:1px solid var(--glass-border); border-radius:var(--radius);
+            padding:2.5rem; margin-bottom:3rem;
+        }
+        .showcase.reverse { direction:rtl; }
+        .showcase.reverse > * { direction:ltr; }
+        .showcase-img { border-radius:var(--radius-sm); overflow:hidden; }
+        .showcase-img img { width:100%; display:block; border-radius:var(--radius-sm); }
+        .showcase-text h3 { font-size:1.6rem; margin-bottom:.4rem; }
+        .showcase-text .tagline { color:var(--gold); font-size:.95rem; margin-bottom:1.2rem; font-style:italic; }
+        .showcase-text p { color:var(--text-muted); margin-bottom:1rem; font-size:.92rem; }
+
+        /* FEATURE LISTS */
+        .features {
+            display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+            gap:1rem; margin:1.5rem 0;
+        }
+        .feat {
+            display:flex; align-items:flex-start; gap:.8rem;
+            padding:.8rem 1rem; background:var(--glass); border:1px solid var(--glass-border);
+            border-radius:var(--radius-sm);
+        }
+        .feat-ico { font-size:1.2rem; flex-shrink:0; margin-top:.15rem; }
+        .feat-text { font-size:.85rem; color:var(--text-muted); }
+        .feat-text strong { color:var(--text); display:block; margin-bottom:.15rem; }
+
+        /* FLOW STEPS */
+        .flow { display:flex; flex-direction:column; gap:.7rem; margin:1.2rem 0; }
+        .step {
+            display:flex; align-items:center; gap:1rem;
+            padding:.7rem 1rem; background:var(--glass); border:1px solid var(--glass-border);
+            border-radius:var(--radius-sm);
+        }
+        .step-n {
+            width:26px; height:26px; border-radius:50%;
+            background:linear-gradient(135deg,var(--gold),var(--gold-dim));
+            color:var(--bg-deep); display:flex; align-items:center; justify-content:center;
+            font-size:.75rem; font-weight:700; flex-shrink:0;
+        }
+        .step span { font-size:.88rem; color:var(--text-muted); }
+
+        /* MECHANISM GRID */
+        .mech-grid {
+            display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr));
+            gap:1.2rem; margin:2rem 0;
+        }
+        .mech-card {
+            background:var(--bg-card); border:1px solid var(--glass-border);
+            border-radius:var(--radius); padding:1.5rem;
+            transition:all .35s;
+        }
+        .mech-card:hover { border-color:rgba(212,168,67,.2); transform:translateY(-3px); }
+        .mech-card h4 { font-size:1.05rem; margin-bottom:.5rem; color:var(--text); }
+        .mech-card p { font-size:.85rem; color:var(--text-muted); }
+        .mech-card .mech-ico { font-size:1.6rem; margin-bottom:.7rem; display:block; }
+
+        /* PRODUCT CARDS (small products / gadgets) */
+        .prod-grid {
+            display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr));
+            gap:1.8rem; max-width:1400px; margin:0 auto;
+        }
+        .prod-card {
+            background:var(--bg-card); border:1px solid var(--glass-border);
+            border-radius:var(--radius); overflow:hidden;
+            transition:all .4s cubic-bezier(.25,.46,.45,.94);
+        }
+        .prod-card:hover { transform:translateY(-5px); border-color:rgba(212,168,67,.2); box-shadow:0 0 40px rgba(212,168,67,.06); }
+        .prod-card .card-img { width:100%; aspect-ratio:4/3; overflow:hidden; position:relative; }
+        .prod-card .card-img img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+        .prod-card:hover .card-img img { transform:scale(1.04); }
+        .prod-card .tier {
+            position:absolute; top:.8rem; left:.8rem;
+            padding:.3rem .8rem; border-radius:50px; font-size:.7rem; font-weight:600;
+            letter-spacing:.5px; text-transform:uppercase; backdrop-filter:blur(8px);
+        }
+        .card-body { padding:1.3rem; }
+        .card-body h3 { font-size:1.2rem; margin-bottom:.3rem; }
+        .card-body .tag { color:var(--gold-dim); font-size:.82rem; font-style:italic; margin-bottom:.8rem; }
+        .card-body p { color:var(--text-muted); font-size:.88rem; line-height:1.6; margin-bottom:.8rem; }
+        .specs { display:flex; flex-wrap:wrap; gap:.4rem; padding-top:.8rem; border-top:1px solid var(--glass-border); }
+        .spec { background:var(--glass); border:1px solid var(--glass-border); padding:.25rem .6rem; border-radius:6px; font-size:.72rem; color:var(--text-muted); }
+
+        /* DATA TABLES */
+        .data-table {
+            width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:.85rem;
+        }
+        .data-table th {
+            text-align:left; padding:.7rem 1rem; background:rgba(212,168,67,.08);
+            border-bottom:1px solid var(--glass-border); color:var(--gold); font-weight:600;
+        }
+        .data-table td {
+            padding:.6rem 1rem; border-bottom:1px solid var(--glass-border); color:var(--text-muted);
+        }
+
+        /* CTA */
+        .cta { text-align:center; padding:6rem 5%; position:relative; }
+        .cta::before {
+            content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+            width:600px; height:600px;
+            background:radial-gradient(circle, rgba(212,168,67,.04) 0%, transparent 70%);
+            pointer-events:none;
+        }
+        .cta h2 { font-size:clamp(1.8rem,3vw,2.5rem); margin-bottom:1rem; }
+        .cta p { color:var(--text-muted); max-width:550px; margin:0 auto 2rem; }
+        .btn {
+            display:inline-block; padding:.9rem 2.2rem; border-radius:var(--radius-sm);
+            font-weight:600; font-size:1rem; text-decoration:none; transition:all .3s; border:none; cursor:pointer;
+        }
+        .btn-gold { background:linear-gradient(135deg,var(--gold),var(--gold-bright)); color:var(--bg-deep); }
+        .btn-gold:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(212,168,67,.3); }
+        .btn-ghost { background:transparent; border:1px solid var(--glass-border); color:var(--text-muted); margin-left:1rem; }
+        .btn-ghost:hover { border-color:var(--gold); color:var(--gold); }
+
+        /* FOOTER */
+        .footer { text-align:center; padding:2rem 5%; color:var(--text-muted); font-size:.8rem; border-top:1px solid var(--glass-border); }
+        .footer a { color:var(--gold-dim); }
+
+        /* RESPONSIVE */
+        @media(max-width:900px){
+            .showcase, .showcase.reverse { grid-template-columns:1fr; direction:ltr; }
+            .prod-grid { grid-template-columns:1fr; }
+            .mech-grid { grid-template-columns:1fr; }
+            .nav-links { display:none; }
+            .features { grid-template-columns:1fr; }
+        }
+        @media(max-width:600px){
+            .hero { padding:8rem 5% 3rem; }
+            .cat-nav { gap:.5rem; }
+            .cat-pill { font-size:.75rem; padding:.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+    <a href="index.html" class="logo">3NC<span>Solo</span></a>
+    <ul class="nav-links">
+        <li><a href="#management">Führungskräfte</a></li>
+        <li><a href="#team">Teams</a></li>
+        <li><a href="#kunden">Kunden</a></li>
+        <li><a href="#gadgets">Gadgets</a></li>
+        <li><a href="#iot">IoT</a></li>
+    </ul>
+    <a href="index.html" class="back-btn">← Hauptseite</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <span class="kicker">Smart Hardware aus dem 3D-Drucker</span>
+    <h1>Nicht was wir machen.<br><span class="gold">Was wir möglich machen.</span></h1>
+    <p class="sub">Vergiss Kugelschreiber und Schlüsselanhänger. Hier siehst du, was passiert, wenn Materialwissenschaft, Embedded-Systeme und 3D-Druck zusammenkommen – für Führungskräfte, Teams und Kunden.</p>
+</section>
+
+<!-- CATEGORY NAV -->
+<div class="cat-nav">
+    <a href="#management" class="cat-pill"><span class="ico">📊</span> Führungskräfte</a>
+    <a href="#team" class="cat-pill"><span class="ico">👥</span> Teams & HR</a>
+    <a href="#kunden" class="cat-pill"><span class="ico">🤝</span> Kunden & Retail</a>
+    <a href="#gadgets" class="cat-pill"><span class="ico">✨</span> Promo-Gadgets</a>
+    <a href="#iot" class="cat-pill"><span class="ico">🏠</span> IoT / Custom</a>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 1: MANAGEMENT / C-SUITE -->
+<!-- ============================================ -->
+<section id="management" class="section">
+    <div class="section-head">
+        <span class="badge badge-mgmt">Für Führungskräfte</span>
+        <h2>Das <span class="gold">unsichtbare</span> Kommandozentrum</h2>
+        <p>Ein motorisiertes 7"-IPS-Touchdisplay, das vertikal aus dem Schreibtisch fährt – wie ein CD-Laufwerk. Darüber eine Reihe dedizierter Taster. Kein zweiter Monitor, kein Kabelchaos.</p>
+    </div>
+
+    <!-- Executive Desk Display -->
+    <div class="showcase">
+        <div class="showcase-img">
+            <img src="assets/b2b_exec_desk_display.png" alt="Executive Desk Display">
+        </div>
+        <div class="showcase-text">
+            <h3>Executive Desk Command</h3>
+            <p class="tagline">„Dein KPI-Dashboard, das nur du kennst."</p>
+            <p>Ein 7" kapazitives IPS-Touchdisplay (Elecrow CrowPanel / Waveshare), angetrieben von einem ESP32-S3 mit LVGL-GUI. Vertikal im Schreibtisch eingelassen wie ein CD-Laufwerk in einem liegenden Tower-PC – im Ruhezustand vollständig bündig mit der Tischplatte. Auf Befehl fährt ein 12V-Linearaktor den Screen senkrecht nach oben aus dem Slot.</p>
+            <p>Direkt oberhalb des Slots: eine Reihe flacher, bündig eingelassener Edelstahl-Drucktaster – jeder mit eigener, fest zugewiesener Funktion. Kein Suchen, kein Scrollen. Ein Tastendruck = eine Ansicht.</p>
+
+            <h4 style="margin:1.5rem 0 .8rem; color:var(--text);">Was der Screen anzeigt</h4>
+            <div class="features">
+                <div class="feat">
+                    <span class="feat-ico">📈</span>
+                    <div class="feat-text"><strong>Umsatz & Marge</strong>Tagesaktuell, MoM, YoY. Gewinnmarge, EBITDA, operativer Cashflow.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">💹</span>
+                    <div class="feat-text"><strong>Live Börsenticker</strong>Eigene Aktie, DAX, relevante Indizes. Echtzeit-Push via WiFi/REST-API.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">👥</span>
+                    <div class="feat-text"><strong>Team-Health</strong>Fluktuation, Engagement-Score, offene Stellen, Krankheitsquote.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">🎯</span>
+                    <div class="feat-text"><strong>Kunden-KPIs</strong>CAC, LTV, NRR, NPS. Farbcodiert: grün < Ziel, rot > Ziel.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">⚙️</span>
+                    <div class="feat-text"><strong>Ops Dashboard</strong>Projekt-Profitabilität, Cycle Time, Pipeline-Status, Kapazitätsauslastung.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">📊</span>
+                    <div class="feat-text"><strong>Budget vs. Ist</strong>Abweichungsanalyse, Cash Runway, Liquiditätswarnung bei < 3 Monaten.</div>
+                </div>
+            </div>
+
+            <h4 style="margin:1.5rem 0 .8rem; color:var(--text);">Bedienkonzept</h4>
+            <table class="data-table">
+                <tr><th>Bedienelement</th><th>Funktion</th></tr>
+                <tr><td>Taster 1 – 📈 Finance</td><td>Umsatz, Marge, EBITDA, Cash Flow, Budget vs. Ist</td></tr>
+                <tr><td>Taster 2 – 💹 Sales</td><td>Pipeline, Conversion, CAC, LTV, Neukundenquote</td></tr>
+                <tr><td>Taster 3 – 👥 People</td><td>Fluktuation, Engagement, Krankheitsquote, offene Stellen</td></tr>
+                <tr><td>Taster 4 – ⚙️ Ops</td><td>Projekt-Profitabilität, Cycle Time, Kapazitätsauslastung</td></tr>
+                <tr><td>Taster 5 – ⏬ Retract</td><td>Bildschirm einfahren (Panik-Button)</td></tr>
+                <tr><td>Touchscreen</td><td>Swipe für Zeiträume (Tag/Woche/Monat/Quartal), Tap für Drill-Down</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Mechanism Showcase -->
+    <div class="showcase reverse">
+        <div class="showcase-img">
+            <img src="assets/b2b_desk_lift_mechanism.png" alt="Schreibtisch-Lift-Mechanismus Schnittansicht">
+        </div>
+        <div class="showcase-text">
+            <h3>Vertikaler Lift & Sicherheit</h3>
+            <p class="tagline">„Wie ein CD-Laufwerk – nur besser."</p>
+            <p>Der Screen sitzt in einem schlanken Schlitten (ASA-Druck + Alu-Profil), der von einem 12V-Linearaktor (150mm Hub) senkrecht nach oben gedrückt wird – exakt wie ein CD-Tray aus einem liegenden Tower-PC. Im eingefahrenen Zustand verschließt eine bündige Abdeckplatte den Slot. Energiekette führt die Kabel knickfrei mit.</p>
+        </div>
+    </div>
+
+    <div class="mech-grid">
+        <div class="mech-card">
+            <span class="mech-ico">🔑</span>
+            <h4>NFC-Schlüssel</h4>
+            <p>Ein NFC-Token (Scheckkartenformat oder Ring) auf die definierte Stelle der Tischplatte legen. PN532 liest die UID → Servo löst Magnetverriegelung → Aktor fährt aus. Nur autorisierte Tags werden akzeptiert.</p>
+        </div>
+        <div class="mech-card">
+            <span class="mech-ico">🫳</span>
+            <h4>Geheimschalter</h4>
+            <p>Ein verdeckter Mikrotaster unter der Tischkante (z.B. hinter der Schubladenblende). Nur wer den exakten Ort kennt, kann den Screen aktivieren. Optional: Doppelklick-Sequenz als Sicherheitscode.</p>
+        </div>
+        <div class="mech-card">
+            <span class="mech-ico">🤛</span>
+            <h4>Klopf-Erkennung</h4>
+            <p>Ein Piezo-Sensor unter der Tischplatte erkennt ein definiertes Klopfmuster (z.B. 3× schnell). Erkennung via Timing-Analyse im ESP32. Zufälliges Anstoßen wird ignoriert.</p>
+        </div>
+        <div class="mech-card">
+            <span class="mech-ico">🧲</span>
+            <h4>Magnetischer Trigger</h4>
+            <p>Ein spezieller 3D-gedruckter Magnetstein (als Briefbeschwerer getarnt) wird auf eine definierte Stelle der Tischplatte gesetzt. Reed-Schalter darunter erkennt das Feld → Freigabe.</p>
+        </div>
+        <div class="mech-card">
+            <span class="mech-ico">⌚</span>
+            <h4>Proximity + Timeout</h4>
+            <p>mmWave-Sensor (LD2410) erkennt Person am Schreibtisch → Screen fährt automatisch aus. Verlässt die Person den Platz (>30s kein Signal), fährt der Screen ein. Zero-Interaction.</p>
+        </div>
+        <div class="mech-card">
+            <span class="mech-ico">📱</span>
+            <h4>BLE Smartphone-Trigger</h4>
+            <p>ESP32 erkennt via BLE das registrierte Smartphone des Nutzers. Automatisches Ausfahren bei Bluetooth-Nähe, Einfahren bei Entfernung. Optional mit Sicherheits-PIN auf dem Handy.</p>
+        </div>
+    </div>
+
+    <table class="data-table" style="max-width:900px; margin:2rem auto;">
+        <tr><th>Komponente</th><th>Modell</th><th>Preis</th></tr>
+        <tr><td>Display</td><td>Elecrow CrowPanel 7" IPS (ESP32-S3, kapazitiv)</td><td>~45€</td></tr>
+        <tr><td>Linearaktor</td><td>12V, 150mm Hub, 1500N, integrierte Endschalter</td><td>~25€</td></tr>
+        <tr><td>Taster (5×)</td><td>Bündige 8mm Edelstahl-Drucktaster, gravierte Icons</td><td>~15€</td></tr>
+        <tr><td>NFC Reader</td><td>PN532 (Smartphone-kompatibel)</td><td>~8€</td></tr>
+        <tr><td>Gehäuse + Schlitten</td><td>ASA 3D-Druck + 2020 Alu-Profil Linearführung</td><td>~20€</td></tr>
+        <tr><td>Netzteil + Relais</td><td>12V/3A Meanwell + Dualkanal-Relais</td><td>~15€</td></tr>
+        <tr><td>Energiekette</td><td>10×10mm Schleppkette (Kabelführung)</td><td>~5€</td></tr>
+        <tr><td colspan="2" style="font-weight:600; color:var(--text);">Materialkosten gesamt</td><td style="font-weight:600; color:var(--gold);">~133€</td></tr>
+    </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- SECTION 2: TEAM / HR -->
+<!-- ============================================ -->
+<section id="team" class="section">
+    <div class="section-head">
+        <span class="badge badge-team">Für Teams & HR</span>
+        <h2>Das Team-Board:<br><span class="gold">Spielerisch motivieren, leise analysieren.</span></h2>
+        <p>Ein wandmontiertes 10"-Display im Pausenraum, das Schichtpläne zeigt – und per NFC-Badge zu einem persönlichen Dashboard wird. Mit Gamification, die motiviert statt überwacht.</p>
+    </div>
+
+    <div class="showcase">
+        <div class="showcase-img">
+            <img src="assets/b2b_team_dashboard.png" alt="Team Dashboard im Pausenraum">
+        </div>
+        <div class="showcase-text">
+            <h3>Smart Team Board</h3>
+            <p class="tagline">„Guten Morgen, Sarah. Dein Streak: 12 Tage."</p>
+            <p>Im Ruhezustand zeigt das Board öffentliche Daten: Schichtplan, Geburtstage, Kantinen-Menü, Team-Announcements. Der mmWave-Sensor (LD2410) erkennt eine Person vor dem Board und wechselt zur Begrüßung: <em>„Wer bist du?"</em></p>
+            <p>Hält ein Mitarbeiter seinen NFC-Badge vor den PN532-Reader, erscheinen seine persönlichen KPIs – und verschwinden automatisch, sobald er weggeht.</p>
+
+            <h4 style="margin:1.5rem 0 .8rem; color:var(--text);">Ablauf</h4>
+            <div class="flow">
+                <div class="step"><div class="step-n">1</div><span><strong>Idle:</strong> Schichtplan, Team-News, Wetter, Geburtstage</span></div>
+                <div class="step"><div class="step-n">2</div><span><strong>Näherung:</strong> mmWave erkennt Person → Anzeige wechselt zu „Halte deinen Badge hoch"</span></div>
+                <div class="step"><div class="step-n">3</div><span><strong>NFC-Auth:</strong> PN532 liest Badge-UID → Persönliches Dashboard lädt (nur für diesen Tag freigegebene KPIs)</span></div>
+                <div class="step"><div class="step-n">4</div><span><strong>Interaktion:</strong> Gamification-Score, Streak-Zähler, offene Goodies, eigene Metriken</span></div>
+                <div class="step"><div class="step-n">5</div><span><strong>Abwesenheit:</strong> mmWave verliert Signal (>10s) → Auto-Logout, zurück zum Idle-Screen</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:2rem;">
+        <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:var(--radius); padding:1.5rem;">
+            <h4 style="color:var(--blue); margin-bottom:1rem;">🎮 Gamification-Layer</h4>
+            <div class="flow">
+                <div class="step"><div class="step-n">★</div><span><strong>Tages-Streak:</strong> Jeden Tag einloggen = Streak +1. Ab 5 Tagen: Badge freischalten. Ab 30: Gutschein.</span></div>
+                <div class="step"><div class="step-n">★</div><span><strong>KPI-Quests:</strong> „Erreiche 95% Pünktlichkeit diese Woche" → Belohnung: Kaffeegutschein.</span></div>
+                <div class="step"><div class="step-n">★</div><span><strong>Leaderboard:</strong> Anonymisiert oder opt-in. Team-Challenges: „Team Alpha vs. Team Bravo".</span></div>
+                <div class="step"><div class="step-n">★</div><span><strong>Meilensteine:</strong> 100 Logins, 50 Quests, 1 Jahr dabei → Physische 3D-gedruckte Trophäe.</span></div>
+            </div>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--glass-border); border-radius:var(--radius); padding:1.5rem;">
+            <h4 style="color:var(--red); margin-bottom:1rem;">📡 Stille Analytik (nur HR/Management)</h4>
+            <div class="flow">
+                <div class="step"><div class="step-n">!</div><span><strong>Nutzungsfrequenz:</strong> Wie oft loggen sich Mitarbeitende ein? Sinkende Nutzung = Warnsignal.</span></div>
+                <div class="step"><div class="step-n">!</div><span><strong>Engagement-Trend:</strong> Werden persönliche KPIs angeschaut oder ignoriert? Cluster-Analyse nach Abteilung.</span></div>
+                <div class="step"><div class="step-n">!</div><span><strong>Zeitfenster-Muster:</strong> Logins nur zu Dienstbeginn (Pflicht) vs. freiwillig in der Pause (echtes Interesse).</span></div>
+                <div class="step"><div class="step-n">!</div><span><strong>Stimmungsindex:</strong> Optional: 1-Tap-Emoji-Voting beim Logout. 5 Emojis = 5 Stimmungsstufen. Anonymisierter Trendverlauf.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <p style="text-align:center; margin-top:1.5rem; font-size:.82rem; color:var(--text-muted);">
+        ⚖️ <strong>DSGVO-Hinweis:</strong> Alle personenbezogenen Daten werden nur lokal auf dem ESP32 gespeichert oder an das firmeneigene Intranet übermittelt. Keine Cloud-Dienste, keine externen Server. Stimmungsvoting ist freiwillig und anonymisiert.
+    </p>
+
+    <table class="data-table" style="max-width:900px; margin:2rem auto;">
+        <tr><th>Komponente</th><th>Modell</th><th>Preis</th></tr>
+        <tr><td>Display</td><td>Waveshare 10.1" IPS (HDMI) + Raspberry Pi 4 / ESP32-S3</td><td>~85€</td></tr>
+        <tr><td>NFC Reader</td><td>PN532 (Mitarbeiter-Badge + Smartphone)</td><td>~8€</td></tr>
+        <tr><td>Präsenzsensor</td><td>HLK-LD2410 mmWave Radar (Erkennung durch Gehäuse)</td><td>~5€</td></tr>
+        <tr><td>NFC-Badges (50×)</td><td>NTAG215 Scheckkartenformat, bedruckbar</td><td>~25€</td></tr>
+        <tr><td>Gehäuse</td><td>ASA 3D-Druck, Wandhalterung VESA-kompatibel</td><td>~15€</td></tr>
+        <tr><td>Zeiterfassung</td><td>Software: ESPHome + InfluxDB/Grafana (Open Source)</td><td>0€</td></tr>
+        <tr><td colspan="2" style="font-weight:600; color:var(--text);">Materialkosten gesamt</td><td style="font-weight:600; color:var(--gold);">~138€</td></tr>
+    </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- SECTION 3: KUNDEN / RETAIL -->
+<!-- ============================================ -->
+<section id="kunden" class="section">
+    <div class="section-head">
+        <span class="badge badge-customer">Für Kunden & Retail</span>
+        <h2>Customer <span class="gold">Experience</span> Terminal</h2>
+        <p>Ein elegantes Theken-Display, das Stammkunden erkennt, personalisierte Angebote anzeigt und Markenbindung physisch spürbar macht.</p>
+    </div>
+
+    <div class="showcase reverse">
+        <div class="showcase-img">
+            <img src="assets/b2b_customer_terminal.png" alt="Customer Experience Terminal">
+        </div>
+        <div class="showcase-text">
+            <h3>Loyalty Terminal</h3>
+            <p class="tagline">„Willkommen zurück. Dein Lieblingskaffee wartet."</p>
+            <p>Ein 5" IPS-Touch in einem skulpturalen ASA-Gehäuse mit Gold-Akzentleiste. Auf der Theke, im Empfangsbereich oder am POS platziert. Kunden halten ihre NFC-Karte (oder Smartphone) an den Amber-Ring – das Terminal erkennt sie und zeigt:</p>
+
+            <div class="features">
+                <div class="feat">
+                    <span class="feat-ico">⭐</span>
+                    <div class="feat-text"><strong>Treuepunkte</strong>Aktueller Punktestand, nächste Belohnung, Fortschrittsbalken.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">🎁</span>
+                    <div class="feat-text"><strong>Personalisierte Angebote</strong>Rabatte basierend auf Kaufhistorie. „Du liebst Flat White? Heute 2-für-1."</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">📜</span>
+                    <div class="feat-text"><strong>Bestellhistorie</strong>Letzte Käufe, Lieblings-Items, saisonale Empfehlungen.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">🏆</span>
+                    <div class="feat-text"><strong>VIP-Status</strong>Bronze → Silber → Gold → Platin. Level-Up-Animation direkt auf dem Screen.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">📲</span>
+                    <div class="feat-text"><strong>QR Cross-Sell</strong>Dynamischer QR-Code für App-Download, Online-Gutschein oder Bewertung.</div>
+                </div>
+                <div class="feat">
+                    <span class="feat-ico">😊</span>
+                    <div class="feat-text"><strong>Feedback-Tap</strong>1-Tap Zufriedenheitsbewertung beim Verlassen. Echtzeit-NPS-Tracking.</div>
+                </div>
+            </div>
+
+            <p style="margin-top:1rem;"><strong>Einsatzorte:</strong> Cafés, Hotels, Friseure, Fitnessstudios, Handwerksbetriebe, Showrooms, Arztpraxen (Wartezeit-Display).</p>
+        </div>
+    </div>
+
+    <table class="data-table" style="max-width:900px; margin:2rem auto;">
+        <tr><th>Komponente</th><th>Modell</th><th>Preis</th></tr>
+        <tr><td>Display</td><td>Waveshare 5" IPS Touch (ESP32-S3)</td><td>~30€</td></tr>
+        <tr><td>NFC Reader</td><td>PN532 + LED-Ring (Amber Glow)</td><td>~10€</td></tr>
+        <tr><td>Gehäuse</td><td>ASA schwarz + PLA-Silk Gold-Akzent</td><td>~8€</td></tr>
+        <tr><td>Backend</td><td>ESP32 WiFi → Intranet REST-API / Google Sheets</td><td>0€</td></tr>
+        <tr><td>Kundenkarten (100×)</td><td>NTAG215 mit Logobedruckung</td><td>~40€</td></tr>
+        <tr><td colspan="2" style="font-weight:600; color:var(--text);">Materialkosten gesamt</td><td style="font-weight:600; color:var(--gold);">~88€</td></tr>
+    </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- SECTION 4: PROMOTIONAL GADGETS -->
+<!-- ============================================ -->
+<section id="gadgets" class="section">
+    <div class="section-head">
+        <span class="badge badge-gadget">Promo-Gadgets</span>
+        <h2>Physische <span class="gold">Wow-Momente</span></h2>
+        <p>Werbegeschenke, die nicht in der Schublade verschwinden. Von null Elektronik bis Biofeedback – für jedes Budget und jeden Anlass.</p>
+    </div>
+
+    <div class="prod-grid">
+
+        <div class="prod-card">
+            <div class="card-img">
+                <img src="assets/b2b_thermochrom_coin.png" alt="Thermochromer Token">
+                <span class="tier badge-customer" style="backdrop-filter:blur(8px);">Passiv · 0€ Elektronik</span>
+            </div>
+            <div class="card-body">
+                <h3>Thermochromer Token</h3>
+                <p class="tag">„Das Logo, das erst du sichtbar machst."</p>
+                <p>Mattschwarzer ASA-Token. Bei Körperwärme erscheint das versteckte Logo in Gold. Reine Materialwissenschaft.</p>
+                <div class="specs">
+                    <span class="spec">~3€/Stk.</span>
+                    <span class="spec">ASA + Pigment</span>
+                    <span class="spec">Kein Verschleiß</span>
+                    <span class="spec">Ab 500 Stk.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prod-card">
+            <div class="card-img">
+                <img src="assets/b2b_phantom_trigger.png" alt="Phantom-Trigger">
+                <span class="tier badge-team" style="backdrop-filter:blur(8px);">Reaktiv · ~5€</span>
+            </div>
+            <div class="card-body">
+                <h3>Phantom-Trigger</h3>
+                <p class="tag">„Heb es auf. Es reagiert."</p>
+                <p>Desk-Skulptur auf Magnetsockel. Abheben löst Reed-Schalter → Piezo-Sound + LED-Puls. Keine App, kein WiFi.</p>
+                <div class="specs">
+                    <span class="spec">~8€/Stk.</span>
+                    <span class="spec">Reed + Piezo</span>
+                    <span class="spec">CR2032 1+ Jahr</span>
+                    <span class="spec">Ab 100 Stk.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prod-card">
+            <div class="card-img">
+                <img src="assets/b2b_eink_kristall.png" alt="E-Ink Treue-Kristall">
+                <span class="tier badge-gadget" style="backdrop-filter:blur(8px);">Smart · ~20€</span>
+            </div>
+            <div class="card-body">
+                <h3>Treue-Kristall</h3>
+                <p class="tag">„Ein physisches Dashboard deiner Marke."</p>
+                <p>Facettierter Kristall mit E-Ink Display. Aktualisiert sich täglich per WiFi: Coupons, Punkte, Nachrichten.</p>
+                <div class="specs">
+                    <span class="spec">~24€/Stk.</span>
+                    <span class="spec">ESP32 + E-Ink</span>
+                    <span class="spec">Monate Akku</span>
+                    <span class="spec">WiFi-OTA</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prod-card">
+            <div class="card-img">
+                <img src="assets/b2b_mood_stein.png" alt="Mood-Stein">
+                <span class="tier badge-gadget" style="backdrop-filter:blur(8px);">Smart · ~18€</span>
+            </div>
+            <div class="card-body">
+                <h3>Mood-Stein</h3>
+                <p class="tag">„Ein Objekt, das dein Wohlbefinden spürt."</p>
+                <p>Desk-Stein mit BME280-Sensor. LED-Ring atmet blau = perfekt, grün = lüften, rot = zu trocken.</p>
+                <div class="specs">
+                    <span class="spec">~22€/Stk.</span>
+                    <span class="spec">BME280 + LED</span>
+                    <span class="spec">USB-C</span>
+                    <span class="spec">2 Wochen Akku</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prod-card">
+            <div class="card-img">
+                <img src="assets/b2b_meeting_sanduhr.png" alt="Meeting-Sanduhr">
+                <span class="tier badge-gadget" style="backdrop-filter:blur(8px);">Smart · ~22€</span>
+            </div>
+            <div class="card-body">
+                <h3>Meeting-Sanduhr</h3>
+                <p class="tag">„Dreh um. Die Zeit läuft."</p>
+                <p>Transluzente Sanduhr mit LED-Matrix. Gyro erkennt Umdrehen → Pixel rieseln abwärts. Timer-Buzz am Ende.</p>
+                <div class="specs">
+                    <span class="spec">~26€/Stk.</span>
+                    <span class="spec">MPU6050 Gyro</span>
+                    <span class="spec">8×8 LED</span>
+                    <span class="spec">Vibration</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prod-card">
+            <div class="card-img">
+                <img src="assets/b2b_puls_objekt.png" alt="Atem-Objekt">
+                <span class="tier badge-gadget" style="backdrop-filter:blur(8px);">Smart · ~16€</span>
+            </div>
+            <div class="card-body">
+                <h3>Atem-Objekt</h3>
+                <p class="tag">„Es spürt deinen Puls."</p>
+                <p>Handschmeichler aus TPU. Misst Puls via MAX30102, vibriert im Herzrhythmus. Bei Stress: Biofeedback-Entschleunigung.</p>
+                <div class="specs">
+                    <span class="spec">~20€/Stk.</span>
+                    <span class="spec">MAX30102</span>
+                    <span class="spec">TPU flexibel</span>
+                    <span class="spec">Biofeedback</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================ -->
+<!-- SECTION 5: IoT / CUSTOM -->
+<!-- ============================================ -->
+<section id="iot" class="section">
+    <div class="section-head">
+        <span class="badge badge-iot">IoT / Custom</span>
+        <h2>Wenn <span class="gold">deine Idee</span> das Produkt ist</h2>
+        <p>Vollständige Embedded-Systeme im 3D-gedruckten Gehäuse. Kein Standard, keine Grenzen.</p>
+    </div>
+
+    <div class="showcase">
+        <div class="showcase-img">
+            <img src="assets/b2b_hund_fontaene.png" alt="Smart Garden Controller">
+        </div>
+        <div class="showcase-text">
+            <h3>Smart Garden Controller</h3>
+            <p class="tagline">„Dein Hund betritt den Garten – die Fontäne springt an."</p>
+            <p>Ein wetterfestes ASA-Gehäuse in Steinoptik am Teichrand. ESP32 scannt BLE iBeacon am Hundehalsband. Hund im Garten? Relais schaltet die Teichpumpe ein. Kein Internet nötig – rein lokaler BLE-Scan.</p>
+
+            <div class="flow">
+                <div class="step"><div class="step-n">1</div><span>BLE iBeacon am Halsband sendet alle 2s (CR2032, ~1 Jahr)</span></div>
+                <div class="step"><div class="step-n">2</div><span>ESP32 im Stein-Gehäuse scannt passiv (RSSI < 10m)</span></div>
+                <div class="step"><div class="step-n">3</div><span>Signal erkannt → GPIO → Relais → 12V Tauchpumpe startet</span></div>
+                <div class="step"><div class="step-n">4</div><span>Signal verloren → 60s Toleranz → Pumpe stoppt</span></div>
+            </div>
+
+            <p style="margin-top:1rem;"><strong>Materialkosten:</strong> <span class="gold">~45€</span> · Kein Internet · Plug-and-Forget · IP65 Outdoor</p>
+        </div>
+    </div>
+
+    <div style="text-align:center; margin-top:2rem; padding:2rem; background:var(--bg-card); border:1px solid var(--glass-border); border-radius:var(--radius);">
+        <h3 style="margin-bottom:.5rem;">Das hier sind <span class="gold">Beispiele</span>, keine Grenzen.</h3>
+        <p class="muted" style="max-width:600px; margin:0 auto;">Bewässerungssteuerung per Bodenfeuchte. Motorisierte Katzenklappe per RFID. Automatische Rollos bei Sonneneinstrahlung. Briefkasten-Benachrichtigung aufs Handy. Wenn du es dir vorstellen kannst, können wir es bauen.</p>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Deine Idee ist <span class="gold">verrückter</span>?</h2>
+    <p>Perfekt. Jedes System auf dieser Seite wurde von einer verrückten Idee geboren. Sag uns was du dir vorstellst – wir sagen dir, ob und wie es geht.</p>
+    <a href="mailto:info@3ncsolo.de?subject=Smart%20Gadget%20Anfrage&body=Hi%20Louis,%0A%0Aich%20habe%20den%20Smart%20Gadgets%20Katalog%20gesehen%20und%20h%C3%A4tte%20eine%20Idee:%0A%0A" class="btn btn-gold">Idee einreichen</a>
+    <a href="index.html" class="btn btn-ghost">Zur Hauptseite</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>&copy; 2026 <a href="index.html">3NC Solo</a> · Premium 3D-Druck & IoT-Integration · Dresden · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+</footer>
+
+<!-- SMOOTH SCROLL -->
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const el = document.querySelector(a.getAttribute('href'));
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+</script>
+
+</body>
+</html>
