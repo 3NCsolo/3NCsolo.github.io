@@ -290,8 +290,7 @@
     </nav>
 
     <!-- Hero — Clean & Centered -->
-    <header class="hero"
-        style="background: url('images/hero-home-dark.jpg') center/cover; position: relative; padding-top: 10rem; padding-bottom: 9rem; text-align: center; border-bottom: 1px solid var(--border-color);">
+    <header class="hero hero-home">
         <div
             class="hero-overlay-dark">
         </div>
@@ -317,7 +316,7 @@
 
                 <div id="loader-overlay">
                     <div class="spinner"></div>
-                    <div style="color:var(--text-secondary); font-size: 0.9rem;" id="loader-text">Verarbeite
+                    <div class="loader-text" id="loader-text">Verarbeite
                         Mesh-Daten...</div>
                 </div>
 
@@ -331,31 +330,27 @@
                     <i class="fa-solid fa-cubes upload-icon"></i>
                     <div class="upload-text">Dateien hier ablegen</div>
                     <div class="upload-subtext">oder klicken zum Auswählen</div>
-                    <div class="upload-subtext" style="margin-top: 0.5rem; font-size: 0.8rem;">Unterstützt: .STL
+                    <div class="upload-subtext upload-subtext-sm">Unterstützt: .STL
                         (Bauteile), .JPG/.PNG (Lithophane)</div>
 
-                    <div
-                        style="margin-top: 2rem; font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <div class="privacy-notice">
                         <i class="fa-solid fa-lock text-gold"></i>
-                        <span style="letter-spacing: 0.05em;">100% Lokale Berechnung. Geheime CAD-Daten werden
+                        <span class="privacy-notice-text">100% Lokale Berechnung. Geheime CAD-Daten werden
                             <b>nicht</b> hochgeladen!</span>
                     </div>
 
                     <div class="file-status" id="file-status"></div>
                 </div>
 
-                <div id="viewer-container"
-                    style="display: none; width: 100%; height: 350px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1); position: relative;">
+                <div id="viewer-container" class="viewer-container">
                     <!-- Three.js Canvas will spawn here -->
-                    <button id="reset-upload-btn" onclick="resetUploader()"
-                        style="position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(0,0,0,0.6); color: white; border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;"><i
+                    <button id="reset-upload-btn" class="viewer-reset-btn" onclick="resetUploader()"><i
                             class="fa-solid fa-trash"></i> Neue Datei</button>
-                    <div id="viewer-label"
-                        style="position: absolute; bottom: 10px; left: 10px; z-index: 10; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">
+                    <div id="viewer-label" class="viewer-label-overlay">
                         Interaktiver 3D Viewer (Orbit via Maus/Touch)</div>
                 </div>
 
-                <div class="results-grid" style="margin-top: 1rem; margin-bottom: 0;">
+                <div class="results-grid results-grid-compact">
                     <div class="result-item">
                         <span class="result-label">Erkanntes Volumen</span>
                         <span class="result-value" id="vol-result">-- cm³</span>
@@ -368,8 +363,7 @@
             </div>
 
             <!-- RIGHT PANEL: Configuration -->
-            <div class="tool-panel" id="config-panel"
-                style="opacity: 0.4; pointer-events: none; transition: opacity 0.3s;">
+            <div class="tool-panel panel-disabled" id="config-panel">
                 <div class="panel-title">
                     <span>2. Konfiguration</span>
                     <i class="fa-solid fa-sliders text-gold"></i>
@@ -384,7 +378,7 @@
                     <!-- Dynamic material description -->
                 </div>
 
-                <div class="form-group" id="litho-size-group" style="display: none;">
+                <div class="form-group hidden" id="litho-size-group">
                     <label for="litho-size-select">Lithophane Größe</label>
                     <select class="custom-select" id="litho-size-select">
                         <option value="10x15">10 x 15 cm (Standard)</option>
@@ -404,12 +398,12 @@
                     </select>
                 </div>
 
-                <div style="flex-grow: 1;"></div>
+                <div class="flex-spacer"></div>
 
                 <div class="price-display">
                     <div class="price-label">Unverbindlicher Schätzpreis*</div>
                     <div class="price-amount" id="price-result">0,00 €</div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                    <div class="price-disclaimer">
                         *Inkl. MwSt.<span id="machine-factor-text"></span> Berechnet auf Basis von <span
                             id="weight-estimate">0</span>g Material.
                     </div>
@@ -547,8 +541,7 @@
         function resetUploader() {
             document.getElementById('drop-zone').style.display = 'flex';
             document.getElementById('viewer-container').style.display = 'none';
-            configPanel.style.opacity = '0.4';
-            configPanel.style.pointerEvents = 'none';
+            configPanel.classList.add('panel-disabled');
             fileInput.value = '';
             fileStatus.textContent = '';
             volResult.textContent = '-- cm³';
@@ -734,8 +727,7 @@
 
         function activateUI(isLitho = false) {
             isFileLoaded = true;
-            configPanel.style.opacity = '1';
-            configPanel.style.pointerEvents = 'auto';
+            configPanel.classList.remove('panel-disabled');
 
             if (!isLitho) {
                 volResult.textContent = currentVolumeCm3.toFixed(2) + ' cm³';
