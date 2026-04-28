@@ -102,6 +102,7 @@ h4 {
     z-index: 100;
     height: var(--nav-h);
     background: rgba(20, 20, 20, 0.85);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
 }
