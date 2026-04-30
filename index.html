@@ -292,26 +292,56 @@
     </nav>
 
     <!-- Hero — Clean & Centered -->
-    <header class="hero hero-home">
-        <div
-            class="hero-overlay-dark">
-        </div>
-        <div class="container fade-in relative-z2">
-            <p class="text-gold hero-overline">Dresden ·
-                Additive Manufacturing & Surface Refinement</p>
-            <h1 class="hero-heading-main">
-                Präzision aus dem Drucker.<br><span class="text-gold">Belastbarkeit aus der Industrie.</span>
+    <header class="hero" style="background-image: url('images/hero_abstract.png'); background-size: cover; background-position: center;">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content fade-in">
+            <p class="hero-label">Dresden · Additive Manufacturing & Surface Refinement</p>
+            <h1 class="hero-title">
+                Präzision aus dem Drucker.<br><span class="text-gold">Exklusivität durch Veredelung.</span>
             </h1>
-            <p
-                class="hero-subtitle-main">
-                Von der ersten CAD-Skizze über den hochbelastbaren Druck aus High-Tech Polymeren bis zur galvanischen
-                Metallbeschichtung. Testen Sie unseren Analyzer für ein sofortiges Angebot.
+            <p class="hero-sub">
+                Wir verschmelzen industriellen 3D-Druck mit handwerklicher Perfektion. Von hochbelastbaren Polymer-Bauteilen bis hin zu 24k echtvergoldeten Kunstwerken.
             </p>
+            <div class="hero-cta">
+                <a href="#analyzer" class="btn btn-gold">Zum 3D-Analyzer</a>
+                <a href="services.html" class="btn btn-ghost">Leistungen entdecken</a>
+            </div>
         </div>
     </header>
 
+    <!-- Marketing Pillars -->
+    <section class="services-compact" style="padding-bottom: 2rem;">
+        <div class="container">
+            <p class="section-label">Manufaktur-Portfolio</p>
+            <h2>Unsere Spezialgebiete</h2>
+            <div class="s-grid" style="margin-bottom: 4rem;">
+                <a href="sculptures.html" class="s-card fade-in">
+                    <img src="images/sculpture_bronze.png" alt="Skulpturen" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1.5rem;">
+                    <h3>Patinierte Skulpturen</h3>
+                    <p>Meisterhafte Kunstwerke, additiv gefertigt und mit traditionellen Techniken veredelt. Jedes Stück ein Unikat.</p>
+                </a>
+                <a href="hydroponics.html" class="s-card fade-in" style="transition-delay: 0.1s;">
+                    <img src="images/hydroponic_dark.png" alt="Hydroponik" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1.5rem;">
+                    <h3>Premium Hydroponik</h3>
+                    <p>Vertikale Pflanzsysteme im High-End Design. Maximale Erträge vereint mit ästhetischem Interior-Design.</p>
+                </a>
+                <a href="services.html" class="s-card fade-in" style="transition-delay: 0.2s;">
+                    <img src="images/tech_lab.png" alt="Additive Fertigung" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1.5rem;">
+                    <h3>Additive Fertigung & Tech</h3>
+                    <p>Industrieller FDM/SLA Druck, Oberflächenglättung und IoT-Integration für B2B-Prototypen und Kleinserien.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Mega Advisor Container -->
-    <div class="container">
+    <section id="analyzer" style="padding: 4rem 0 6rem; background: linear-gradient(to bottom, var(--bg-primary), var(--bg-elevated)); border-top: 1px solid var(--border);">
+        <div class="container" style="text-align: center; margin-bottom: 3rem;">
+            <p class="section-label">Instant Quote Engine</p>
+            <h2>3D Analyzer & Kalkulation</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Laden Sie Ihr 3D-Modell sicher hoch. Unser System berechnet sofort Volumen, Abmessungen und Preise für verschiedene Materialien und Veredelungsstufen.</p>
+        </div>
+        <div class="container">
         <div class="mega-tool-container fade-in">
             <!-- LEFT PANEL: Upload & Preview -->
             <div class="tool-panel">
@@ -418,7 +448,7 @@
                     anfordern</button>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Trust Bar -->
     <section class="trust-bar fade-in mt-neg-md">
