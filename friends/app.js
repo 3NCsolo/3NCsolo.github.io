@@ -2042,7 +2042,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const diffuseLight = document.getElementById('svg-diffuse-light');
         const specularLight = document.getElementById('svg-specular-light');
         
-        const filamentSelect = document.getElementById('filamentSelect');
         const ledTempSelect = document.getElementById('ledTempSelect');
         const frameSelect = document.getElementById('frameSelect');
         const contrastSlider = document.getElementById('contrastSlider');
@@ -2134,10 +2133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Filament change handler
-        if (filamentSelect) {
-            filamentSelect.addEventListener('change', updateFilament);
-        }
+
 
         // LED color temp change handler
         if (ledTempSelect) {
@@ -2155,28 +2151,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function updateFilament() {
-            if (!filamentSelect || !floodColor) return;
-            const val = filamentSelect.value;
-            
-            // Toggle color vs monochrome modes
-            if (val === 'color') {
-                floodColor.setAttribute('flood-color', '#ffffff');
-                floodColor.setAttribute('flood-opacity', '0.15'); // translucent white
-                lithoBacklight.classList.add('filament-color');
-            } else {
-                lithoBacklight.classList.remove('filament-color');
-                floodColor.setAttribute('flood-opacity', '1.0');
-                
-                if (val === 'white') {
-                    floodColor.setAttribute('flood-color', '#fafafa');
-                } else if (val === 'cream') {
-                    floodColor.setAttribute('flood-color', '#fef5e7');
-                } else if (val === 'silver') {
-                    floodColor.setAttribute('flood-color', '#d5d5d5');
-                } else if (val === 'sepia') {
-                    floodColor.setAttribute('flood-color', '#d2b48c');
-                }
-            }
+            if (!floodColor) return;
+            lithoBacklight.classList.remove('filament-color');
+            floodColor.setAttribute('flood-opacity', '1.0');
+            floodColor.setAttribute('flood-color', '#fafafa');
             applyFilters();
         }
 
@@ -2202,9 +2180,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function applyFilters() {
-            if (!ledTempSelect || !filamentSelect) return;
+            if (!ledTempSelect) return;
             const led = ledTempSelect.value;
-            const filament = filamentSelect.value;
 
             let filterStr = '';
 
@@ -2217,10 +2194,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 filterStr += 'saturate(0.9) contrast(1.1) brightness(1.1) hue-rotate(15deg)';
             }
 
-            // If it's a monochrome filament, convert backlight to grayscale first
-            if (filament !== 'color') {
-                filterStr = 'grayscale(1) ' + filterStr;
-            }
+            // Always convert backlight to grayscale for white filament
+            filterStr = 'grayscale(1) ' + filterStr;
 
             lithoBacklight.style.filter = filterStr;
         }
