@@ -773,14 +773,16 @@
             { counter: 'Gen/00081-1402774677.png', swapped: 'Gen/00074-3675937291-swapped.jpg' }
         ];
 
-        // Track current pool index for each of the 3 cells
-        let cellIndices = [0, 1, 2];
+        // Track current pool index and transition state for each of the 3 cells
+        let cellStates = [
+            { index: 0, swappedVisible: false, currentPairIndex: 0 },
+            { index: 1, swappedVisible: false, currentPairIndex: 1 },
+            { index: 2, swappedVisible: false, currentPairIndex: 2 }
+        ];
 
         // Timings (ms)
-        const FADE      = 2000;  // CSS transition duration (weichere 2 Sekunden)
-        const STAGGER   = 250;   // delay between cells in wave (harmonischer Welleneffekt)
-        const HOLD_CTR  = 3500;  // wie lange die Originalbilder statisch stehen bleiben (ruhigerer Bildstand)
-        const HOLD_SWP  = 4500;  // wie lange die veränderten Bilder sichtbar bleiben
+        const FADE      = 2200;  // CSS transition duration (weichere 2.2 Sekunden für Liquid-Effekt)
+        const TICK_TIME = 3200;  // Zeitabstand zwischen den Aktionen der einzelnen Spalten
 
         // Preload all images to prevent loading flashes or stutter
         IMAGE_POOL.forEach(pair => {
@@ -790,69 +792,46 @@
             img2.src = pair.swapped;
         });
 
-        // Initialize transitions
-        cells.forEach(cell => {
+        // Initialize transition curves on elements
+        cells.forEach((cell) => {
             const swapped = cell.querySelector('.cf-swapped');
-            // Statically initialized to opacity 0 via CSS. Now we only attach the transition curve.
-            swapped.style.transition = `opacity ${FADE}ms cubic-bezier(0.25, 0.8, 0.25, 1)`;
+            swapped.style.transition = `opacity ${FADE}ms cubic-bezier(0.25, 1, 0.5, 1), transform ${FADE}ms cubic-bezier(0.25, 1, 0.5, 1), filter ${FADE}ms cubic-bezier(0.25, 1, 0.5, 1)`;
         });
 
-        function waveIn(onDone) {
-            cells.forEach((cell, i) => {
+        let activeCellIndex = 0;
+
+        function tick() {
+            const cellState = cellStates[activeCellIndex];
+            const cellEl = cells[cellState.index];
+            const swapped = cellEl.querySelector('.cf-swapped');
+            const counter = cellEl.querySelector('.cf-counter');
+
+            if (!cellState.swappedVisible) {
+                // Fades in swapped image (morph/dissolve effect via class)
+                swapped.classList.add('active-transition');
+                cellState.swappedVisible = true;
+
+                // Once swapped is fully visible, update counter layer underneath
                 setTimeout(() => {
-                    cell.querySelector('.cf-swapped').style.opacity = '1';
-                }, i * STAGGER);
-            });
-            setTimeout(onDone, cells.length * STAGGER + FADE);
-        }
+                    cellState.currentPairIndex = (cellState.currentPairIndex + cells.length) % IMAGE_POOL.length;
+                    const nextPair = IMAGE_POOL[cellState.currentPairIndex];
+                    counter.style.backgroundImage = `url('${nextPair.counter}')`;
+                }, FADE);
+            } else {
+                // Fades out swapped image (morph/dissolve effect back to counter)
+                swapped.classList.remove('active-transition');
+                cellState.swappedVisible = false;
 
-        function waveOut(onDone) {
-            cells.forEach((cell, i) => {
+                // Once swapped is fully invisible, update swapped layer
                 setTimeout(() => {
-                    cell.querySelector('.cf-swapped').style.opacity = '0';
-                }, i * STAGGER);
-            });
-            setTimeout(onDone, cells.length * STAGGER + FADE);
-        }
+                    cellState.currentPairIndex = (cellState.currentPairIndex + cells.length) % IMAGE_POOL.length;
+                    const nextPair = IMAGE_POOL[cellState.currentPairIndex];
+                    swapped.style.backgroundImage = `url('${nextPair.swapped}')`;
+                }, FADE);
+            }
 
-        function updateCounterLayers() {
-            // Update counter background images for each cell to the next ones in the pool
-            cells.forEach((cell, i) => {
-                // Advance index for this cell
-                cellIndices[i] = (cellIndices[i] + cells.length) % IMAGE_POOL.length;
-                const nextPair = IMAGE_POOL[cellIndices[i]];
-                cell.querySelector('.cf-counter').style.backgroundImage = `url('${nextPair.counter}')`;
-            });
-        }
-
-        function updateSwappedLayers() {
-            // Update swapped background images for each cell to match the current index
-            cells.forEach((cell, i) => {
-                const currentPair = IMAGE_POOL[cellIndices[i]];
-                cell.querySelector('.cf-swapped').style.backgroundImage = `url('${currentPair.swapped}')`;
-            });
-        }
-
-        function loop() {
-            // 1. Fade Swapped IN (Swapped layers become visible)
-            waveIn(() => {
-                // Now swapped is fully visible (opacity 1).
-                // Under the cover of the swapped image, update the counter layer underneath.
-                updateCounterLayers();
-
-                // 2. Hold Swapped
-                setTimeout(() => {
-                    // 3. Fade Swapped OUT (Counter layers are revealed)
-                    waveOut(() => {
-                        // Now swapped is fully invisible (opacity 0).
-                        // Under the cover of invisibility, update the swapped layer to match the new cycle.
-                        updateSwappedLayers();
-
-                        // 4. Hold Counter, then repeat
-                        setTimeout(loop, HOLD_CTR);
-                    });
-                }, HOLD_SWP);
-            });
+            // Move to next cell for next tick
+            activeCellIndex = (activeCellIndex + 1) % cells.length;
         }
 
         // Show caption once after page has loaded and settled
@@ -860,8 +839,11 @@
             caption.classList.add('cf-caption--visible');
         }, 1500);
 
-        // Start the loop after page settled and user has viewed the static starting images
-        setTimeout(loop, HOLD_CTR);
+        // Start the continuous tick loop after an initial settle time
+        setTimeout(() => {
+            tick();
+            setInterval(tick, TICK_TIME);
+        }, 2500);
     })();
     </script>
 

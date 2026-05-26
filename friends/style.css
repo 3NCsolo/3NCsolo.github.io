@@ -1959,10 +1959,23 @@ input:checked + .slider:before {
     z-index: 1;
 }
 
-/* Swapped image — on top, starts hidden (fades in dynamically via JS) */
+/* Swapped image — on top, starts hidden, scaled up and blurred for liquid dissolve effect */
 .cf-swapped {
     opacity: 0;
     z-index: 2;
+    transform: scale(1.06) rotate(0.4deg);
+    filter: blur(6px);
+    transition: opacity 2.2s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 2.2s cubic-bezier(0.25, 1, 0.5, 1),
+                filter 2.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform, filter;
+}
+
+/* Active transition state — morphs/bleeds back to default crisp scale */
+.cf-swapped.active-transition {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0px);
 }
 
 /* JS sets this to 0 → counter shines through */
