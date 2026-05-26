@@ -1088,7 +1088,7 @@ input:checked + .slider:before {
     transition: background 0.1s ease-out;
 }
 
-/* Gallery Card - Two Column Layout */
+/* Gallery Card - Stacked Layout */
 .gallery-card.text-only-card {
     background: var(--bg-glass);
     backdrop-filter: var(--glass-blur);
@@ -1096,10 +1096,9 @@ input:checked + .slider:before {
     border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 2.5rem;
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 3.5rem;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
@@ -1182,6 +1181,34 @@ input:checked + .slider:before {
     width: 14px;
 }
 
+@media (min-width: 769px) {
+    .gallery-tech-table tbody {
+        display: flex;
+        gap: 2rem;
+        width: 100%;
+    }
+    .gallery-tech-table tr {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        border-right: 1px solid var(--border-color);
+        padding-right: 2rem;
+        border-bottom: none !important;
+    }
+    .gallery-tech-table tr:last-child {
+        border-right: none;
+        padding-right: 0;
+    }
+    .gallery-tech-table td {
+        border-bottom: none !important;
+        padding: 0.25rem 0 !important;
+    }
+    .gallery-tech-table td:first-child {
+        width: 100%;
+    }
+}
+
 /* Right Column: Alternative Accordion */
 .gallery-alternatives-column {
     display: flex;
@@ -1205,8 +1232,10 @@ input:checked + .slider:before {
 
 .alternatives-accordion {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: stretch;
+    width: 100%;
 }
 
 .accordion-item {
@@ -1214,7 +1243,17 @@ input:checked + .slider:before {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow: hidden;
-    transition: var(--transition);
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s, box-shadow 0.3s;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.accordion-item.active {
+    flex: 2.5;
+    border-color: rgba(253, 80, 1, 0.4);
+    box-shadow: 0 4px 15px rgba(253, 80, 1, 0.05);
 }
 
 .accordion-item:hover {
@@ -1282,6 +1321,16 @@ input:checked + .slider:before {
 
 .accordion-tech-spec span strong {
     color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+    .alternatives-accordion {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .accordion-item.active {
+        flex: none;
+    }
 }
 
 /* ==========================================================================
@@ -1985,7 +2034,11 @@ input:checked + .slider:before {
     transition: var(--transition);
     position: relative;
     overflow: hidden;
-    margin-top: 1.25rem;
+    margin-top: 2rem;
+    max-width: 500px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .gastro-sample-box-card::before {
