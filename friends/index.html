@@ -8,10 +8,10 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Leaflet Marker Cluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" integrity="sha384-lPzjPsFQL6te2x+VxmV6q1DpRxpRk0tmnl2cpwAO5y04ESyc752tnEWPKDfl1olr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" integrity="sha384-5kMSQJ6S4Qj5i09mtMNrWpSi8iXw230pKU76xTmrpezGnNJQzj0NzXjQLLg+jE7k" crossorigin="anonymous" />
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -623,7 +623,14 @@
         <div class="gallery-header">
             <h2>Virtualisierter Lithophan Simulator</h2>
             <p>
-                Erlebe die Magie des 3D-Drucks digital. Ein Lithophan offenbart sein Motiv erst, wenn Licht von hinten hindurchscheint. Bewege deine Maus über die Platte (Taschenlampen-Effekt) oder nutze den Regler für die Hintergrundbeleuchtung.
+                Ein Lithophan (aus dem Griechischen: <em>lithos</em> „Stein“ und <em>phanein</em> „erscheinen/leuchten“) ist ein kunstvolles Lichtbild-Verfahren, das durch hochpräzisen 3D-Druck neu belebt wird. Es handelt sich um ein plastisches Relief aus lichtdurchlässigem Material, das erst bei einer Durchleuchtung von hinten sein wahres Gesicht zeigt.
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.95rem; max-width: 800px; margin-left: auto; margin-right: auto; color: var(--text-secondary); line-height: 1.6;">
+                Da dünnere Schichten mehr Licht hindurchlassen als dickere Schichten, übersetzt das Relief die Helligkeitswerte eines Bildes perfekt in haptische Konturen. Ohne rückwärtiges Licht wirkt das Lithophan wie eine strukturierte weiße Oberfläche (eine reine Textur-Simulation). Schaltet man das Licht ein, entsteht ein kontrastreiches, lebendiges Bild mit faszinierender Tiefe.
+            </p>
+            <p style="margin-top: 1.25rem; font-size: 0.95rem; max-width: 800px; margin-left: auto; margin-right: auto; color: var(--text-secondary); line-height: 1.6;">
+                Neben klassischen <strong>flachen Reliefs</strong> zur Wandmontage oder in Leuchtrahmen lässt sich das Verfahren auf kreative Geometrien übertragen: 
+                <strong>Gebogene Aufsteller</strong> bieten durch ihre Wölbung Eigenstabilität und eignen sich hervorragend für Tischaufsteller, während <strong>zylindrische Formen (im Stile einer Litfaßsäule)</strong> als 360°-Lampenschirme eingesetzt werden, bei denen eine innere LED-Säule das Motiv rundherum gleichmäßig beleuchtet.
             </p>
         </div>
 
@@ -636,14 +643,14 @@
                     <label for="backlightSlider">LED-Hintergrundbeleuchtung</label>
                     <div class="slider-wrapper">
                         <i class="fa-solid fa-lightbulb" id="lightIconMin" style="opacity: 0.3;"></i>
-                        <input type="range" id="backlightSlider" min="0" max="100" value="0" class="litho-slider">
+                        <input type="range" id="backlightSlider" min="0" max="100" value="100" class="litho-slider">
                         <i class="fa-solid fa-lightbulb" id="lightIconMax" style="color: var(--accent); opacity: 0.3;"></i>
                     </div>
-                    <span class="slider-value" id="sliderValueDisplay">Helligkeit: 0%</span>
+                    <span class="slider-value" id="sliderValueDisplay">Helligkeit: 100%</span>
                 </div>
 
                 <div class="control-group">
-                    <label for="ledTempSelect">LED-Hintergrundbeleuchtung</label>
+                    <label for="ledTempSelect">LED-Lichtfarbe</label>
                     <select class="custom-select" id="ledTempSelect">
                         <option value="warm">Warmweiß (2700K)</option>
                         <option value="neutral" selected>Neutralweiß (4000K)</option>
@@ -652,7 +659,16 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="frameSelect">Rahmen-Material</label>
+                    <label for="shapeSelect">Geometrische Form</label>
+                    <select class="custom-select" id="shapeSelect">
+                        <option value="flat" selected>Flaches Wandbild (Klassisch)</option>
+                        <option value="curved">Gebogener Aufsteller (Halbbogen)</option>
+                        <option value="cylinder">Runde Litfaßsäule (360°-Zylinder)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="frameSelect">Sockel/Rahmen-Material</label>
                     <select class="custom-select" id="frameSelect">
                         <option value="oak" selected>Klassische Eiche (Dunkel)</option>
                         <option value="pine">Helle Kiefer (Natur)</option>
@@ -691,16 +707,18 @@
             <div class="lithophane-stage">
                 <!-- Der hölzerne LED-Leuchtrahmen -->
                 <div class="lithophane-wood-frame" id="lithophaneWoodFrame">
-                    <!-- Die gedruckte Kunststoffplatte (Lithofan) -->
+                    <!-- Die gedruckte Kunststoffplatte (Lithophan) -->
                     <div class="lithophane-plate" id="lithophanePlate">
                         <!-- Layer 1: Das Durchlicht-Bild (warmes Backlight) -->
                         <div class="lithophane-backlight" id="lithoBacklight"></div>
                         <!-- Layer 2: Das weiße matte Kunststoff-Relief (FDM-Druckschichten) -->
                         <div class="lithophane-relief" id="lithoRelief"></div>
+                        <!-- Layer 3: Schattenmaske für runde Zylinder-Formen -->
+                        <div class="lithophane-cylinder-overlay" id="lithoCylinderOverlay"></div>
                     </div>
                 </div>
                 <div class="lithophane-hint">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Bewege deine Maus über das Lithofan, um mit einer virtuellen Taschenlampe dahinterzuleuchten!
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Bewege deine Maus über das Lithophan, um virtuell mit einer Lichtquelle von hinten durch das Relief zu leuchten!
                 </div>
             </div>
         </div>
@@ -725,15 +743,15 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <!-- Leaflet Marker Cluster JS -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" integrity="sha384-RLIyj5q1b5XJTn0tqUhucRZe40nFTocRP91R/NkRJHwAe4XxnTV77FXy/vGLiec2" crossorigin="anonymous"></script>
     <!-- Leaflet Heatmap JS -->
-    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" integrity="sha384-mFKkGiGvT5vo1fEyGCD3hshDdKmW3wzXW/x+fWriYJArD0R3gawT6lMvLboM22c0" crossorigin="anonymous"></script>
     <!-- PapaParse (CSV) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha384-D/t0ZMqQW31H3az8ktEiNb39wyKnS82iFY52QPACM+IjKW3jDUhyIgh2PApRqJZs" crossorigin="anonymous"></script>
     <!-- SheetJS (Excel) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous"></script>
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js" integrity="sha384-e6cc9LaIG7xZ3XD5B+jtr1NhTWPQGQdRCh6xiZ+ZFUtWCpg4ycv3Sh+SkZoopvUY" crossorigin="anonymous"></script>
     
     <!-- Application Logic -->
     <script src="app.js"></script>

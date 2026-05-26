@@ -5,6 +5,17 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Helper to sanitize HTML content against XSS
+    function escapeHTML(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     // Application State
     let rawData = [];
     let headers = [];
@@ -1230,10 +1241,27 @@ document.addEventListener('DOMContentLoaded', () => {
         details.forEach(d => {
             const row = document.createElement('div');
             row.className = 'info-row';
-            row.innerHTML = `
-                <span class="info-label"><i class="fa-solid ${d.icon}" style="margin-right: 0.5rem; width: 14px;"></i>${d.label}</span>
-                <span class="info-value" style="${d.style || ''}">${d.value}</span>
-            `;
+            
+            const labelSpan = document.createElement('span');
+            labelSpan.className = 'info-label';
+            
+            const iconEl = document.createElement('i');
+            iconEl.className = `fa-solid ${d.icon}`;
+            iconEl.style.marginRight = '0.5rem';
+            iconEl.style.width = '14px';
+            
+            labelSpan.appendChild(iconEl);
+            labelSpan.appendChild(document.createTextNode(d.label));
+            
+            const valueSpan = document.createElement('span');
+            valueSpan.className = 'info-value';
+            if (d.style) {
+                valueSpan.setAttribute('style', d.style);
+            }
+            valueSpan.textContent = d.value;
+            
+            row.appendChild(labelSpan);
+            row.appendChild(valueSpan);
             detailsContent.appendChild(row);
         });
 
@@ -1254,10 +1282,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (val !== null && val !== undefined && val !== '') {
                 const row = document.createElement('div');
                 row.className = 'info-row';
-                row.innerHTML = `
-                    <span class="info-label" style="font-size: 0.75rem;">${key}</span>
-                    <span class="info-value" style="font-size: 0.75rem;">${val}</span>
-                `;
+                
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'info-label';
+                labelSpan.style.fontSize = '0.75rem';
+                labelSpan.textContent = key;
+                
+                const valueSpan = document.createElement('span');
+                valueSpan.className = 'info-value';
+                valueSpan.style.fontSize = '0.75rem';
+                valueSpan.textContent = val;
+                
+                row.appendChild(labelSpan);
+                row.appendChild(valueSpan);
                 detailsContent.appendChild(row);
             }
         });
@@ -2031,8 +2068,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const initialImg = LITHO_MOTIFS[currentMotif];
         setLithoImage(initialImg);
 
-        // Set initial CSS variables (spotlight hidden off-screen, backlight dim)
-        document.documentElement.style.setProperty('--litho-brightness', '0');
+        // Set initial CSS variables (spotlight hidden off-screen, backlight fully active by default)
+        document.documentElement.style.setProperty('--litho-brightness', '1');
         document.documentElement.style.setProperty('--torch-x', '-50%');
         document.documentElement.style.setProperty('--torch-y', '-50%');
 
@@ -2043,17 +2080,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const specularLight = document.getElementById('svg-specular-light');
         
         const ledTempSelect = document.getElementById('ledTempSelect');
+        const shapeSelect = document.getElementById('shapeSelect');
         const frameSelect = document.getElementById('frameSelect');
         const contrastSlider = document.getElementById('contrastSlider');
         const contrastDisplay = document.getElementById('contrastDisplay');
         const woodFrame = document.getElementById('lithophaneWoodFrame');
         const stage = document.querySelector('.lithophane-stage');
 
+        // Static room point light positions (so specular shine doesn't follow torch behind)
+        if (pointLight && specLight) {
+            pointLight.setAttribute('x', '150');
+            pointLight.setAttribute('y', '-100');
+            pointLight.setAttribute('z', '250');
+            specLight.setAttribute('x', '150');
+            specLight.setAttribute('y', '-100');
+            specLight.setAttribute('z', '250');
+        }
+
         // Initial settings
         updateFilament();
         updateLED();
         updateFrame();
         updateContrast();
+        updateShape();
+
+        // Set initial relief blend mode for 100% active backlight
+        if (lithoRelief) {
+            lithoRelief.style.mixBlendMode = 'multiply';
+            lithoRelief.style.opacity = '0.83';
+        }
 
         // 3D Tilt Effect on Wood Frame
         if (stage && woodFrame) {
@@ -2107,37 +2162,22 @@ document.addEventListener('DOMContentLoaded', () => {
             // Set custom properties for CSS mask
             document.documentElement.style.setProperty('--torch-x', `${x}px`);
             document.documentElement.style.setProperty('--torch-y', `${y}px`);
-
-            // Update SVG lighting point light sources dynamically
-            if (pointLight && specLight) {
-                pointLight.setAttribute('x', x.toString());
-                pointLight.setAttribute('y', y.toString());
-                specLight.setAttribute('x', x.toString());
-                specLight.setAttribute('y', y.toString());
-            }
         });
 
         // Mouse leave resets torch position out of bounds
         lithophanePlate.addEventListener('mouseleave', () => {
             document.documentElement.style.setProperty('--torch-x', '-50%');
             document.documentElement.style.setProperty('--torch-y', '-50%');
-            
-            // Reset point lights back to center default
-            const w = lithophanePlate.clientWidth / 2;
-            const h = lithophanePlate.clientHeight / 2;
-            if (pointLight && specLight) {
-                pointLight.setAttribute('x', w.toString());
-                pointLight.setAttribute('y', h.toString());
-                specLight.setAttribute('x', w.toString());
-                specLight.setAttribute('y', h.toString());
-            }
         });
-
-
 
         // LED color temp change handler
         if (ledTempSelect) {
             ledTempSelect.addEventListener('change', updateLED);
+        }
+
+        // Shape change handler
+        if (shapeSelect) {
+            shapeSelect.addEventListener('change', updateShape);
         }
 
         // Frame change handler
@@ -2160,6 +2200,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateLED() {
             applyFilters();
+        }
+
+        function updateShape() {
+            if (!shapeSelect || !woodFrame) return;
+            const val = shapeSelect.value;
+            woodFrame.classList.remove('shape-flat', 'shape-curved', 'shape-cylinder');
+            woodFrame.classList.add(`shape-${val}`);
         }
 
         function updateFrame() {

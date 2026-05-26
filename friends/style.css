@@ -1535,6 +1535,93 @@ input:checked + .slider:before {
     border-image: linear-gradient(135deg, #ffffff 0%, #b5b5b5 50%, #7c7c7c 100%) 16;
 }
 
+/* Geometrische Formen (Kombinationen für Zylinder & Halbbogen) */
+.lithophane-wood-frame.shape-cylinder {
+    max-width: 320px;
+    aspect-ratio: 2/3;
+    border-radius: 20px / 40px; /* elliptical border for 3D barrel distortion */
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 22px solid #2e1c0c;
+    border-bottom: 22px solid #2e1c0c;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+}
+
+.lithophane-wood-frame.shape-cylinder.frame-oak {
+    border-image: linear-gradient(to right, #120b04, #3d2410 25%, #1c1007 50%, #3d2410 75%, #120b04) 22 0;
+}
+.lithophane-wood-frame.shape-cylinder.frame-pine {
+    border-image: linear-gradient(to right, #352516, #d2b78b 25%, #4a3622 50%, #d2b78b 75%, #352516) 22 0;
+}
+.lithophane-wood-frame.shape-cylinder.frame-black {
+    border-image: linear-gradient(to right, #050505, #333 25%, #111 50%, #333 75%, #050505) 22 0;
+}
+.lithophane-wood-frame.shape-cylinder.frame-alu {
+    border-image: linear-gradient(to right, #1d1d1d, #b5b5b5 25%, #4a4a4a 50%, #b5b5b5 75%, #1d1d1d) 22 0;
+}
+
+.lithophane-wood-frame.shape-curved {
+    max-width: 480px;
+    aspect-ratio: 4/3;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 14px solid #2e1c0c;
+    border-bottom: 14px solid #2e1c0c;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+}
+
+.lithophane-wood-frame.shape-curved.frame-oak {
+    border-image: linear-gradient(to right, #1e1106, #3d2410 15%, #2e1c0c 50%, #3d2410 85%, #1e1106) 14 0;
+}
+.lithophane-wood-frame.shape-curved.frame-pine {
+    border-image: linear-gradient(to right, #4a3622, #d2b78b 15%, #af9263 50%, #d2b78b 85%, #4a3622) 14 0;
+}
+.lithophane-wood-frame.shape-curved.frame-black {
+    border-image: linear-gradient(to right, #0d0d0d, #333 15%, #222 50%, #333 85%, #0d0d0d) 14 0;
+}
+.lithophane-wood-frame.shape-curved.frame-alu {
+    border-image: linear-gradient(to right, #2b2b2b, #b5b5b5 15%, #7c7c7c 50%, #b5b5b5 85%, #2b2b2b) 14 0;
+}
+
+/* Zylinder-Overlay für 3D-Rundungseffekt */
+.lithophane-cylinder-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease, background 0.4s ease;
+}
+
+.shape-cylinder .lithophane-cylinder-overlay {
+    opacity: 1;
+    background: linear-gradient(to right, 
+        rgba(0,0,0,0.85) 0%, 
+        rgba(0,0,0,0.35) 12%, 
+        rgba(255,255,255,0.06) 35%, 
+        rgba(255,255,255,0) 50%, 
+        rgba(255,255,255,0.06) 65%, 
+        rgba(0,0,0,0.4) 88%, 
+        rgba(0,0,0,0.9) 100%
+    );
+}
+
+.shape-curved .lithophane-cylinder-overlay {
+    opacity: 1;
+    background: linear-gradient(to right, 
+        rgba(0,0,0,0.4) 0%, 
+        rgba(0,0,0,0.1) 12%, 
+        rgba(255,255,255,0.03) 35%, 
+        rgba(255,255,255,0) 50%, 
+        rgba(255,255,255,0.03) 65%, 
+        rgba(0,0,0,0.12) 88%, 
+        rgba(0,0,0,0.45) 100%
+    );
+}
+
 .lithophane-plate {
     position: relative;
     width: 100%;
