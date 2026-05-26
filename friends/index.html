@@ -38,26 +38,6 @@
                 <div class="cf-layer cf-swapped" style="background-image:url('Gen/00052-2221149017-swapped.png')"></div>
             </div>
 
-            <div class="cf-cell">
-                <div class="cf-layer cf-counter" style="background-image:url('Gen/00058-3675937291.png')"></div>
-                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00068-3675937291-swapped.jpg')"></div>
-            </div>
-
-            <div class="cf-cell">
-                <div class="cf-layer cf-counter" style="background-image:url('Gen/00059-3675937292.png')"></div>
-                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00069-3675937291-swapped.jpg')"></div>
-            </div>
-
-            <div class="cf-cell">
-                <div class="cf-layer cf-counter" style="background-image:url('Gen/00079-1402774675.png')"></div>
-                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00072-3675937291-swapped.jpg')"></div>
-            </div>
-
-            <div class="cf-cell">
-                <div class="cf-layer cf-counter" style="background-image:url('Gen/00081-1402774677.png')"></div>
-                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00074-3675937291-swapped.jpg')"></div>
-            </div>
-
         </div>
 
         <!-- Dezenter Overlay-Text -->
@@ -712,23 +692,31 @@
         const cells   = document.querySelectorAll('.cf-cell');
         const caption = document.getElementById('cfCaption');
 
+        // Image Pool containing all 7 pairs
+        const IMAGE_POOL = [
+            { counter: 'Gen/00001-2444813169.png', swapped: 'Gen/00017-3794025095-swapped.png' },
+            { counter: 'Gen/00046-2221149025.png', swapped: 'Gen/00045-2564953563-swapped.jpg' },
+            { counter: 'Gen/00047-2221149026.png', swapped: 'Gen/00052-2221149017-swapped.png' },
+            { counter: 'Gen/00058-3675937291.png', swapped: 'Gen/00068-3675937291-swapped.jpg' },
+            { counter: 'Gen/00059-3675937292.png', swapped: 'Gen/00069-3675937291-swapped.jpg' },
+            { counter: 'Gen/00079-1402774675.png', swapped: 'Gen/00072-3675937291-swapped.jpg' },
+            { counter: 'Gen/00081-1402774677.png', swapped: 'Gen/00074-3675937291-swapped.jpg' }
+        ];
+
+        // Track current pool index for each of the 3 cells
+        let cellIndices = [0, 1, 2];
+
         // Timings (ms)
         const FADE      = 1600;  // CSS transition duration
-        const STAGGER   = 110;   // delay between cells in wave
+        const STAGGER   = 150;   // delay between cells in wave
         const HOLD_CTR  = 2200;  // how long counter (originals) stay visible
         const HOLD_SWP  = 4500;  // how long swapped images stay visible (longer)
 
-        // Phase A: counter images visible, swapped at opacity 0
-        // Phase B: swapped wave-fade IN  → swapped fully visible
-        // Phase C: swapped stay HOLD_SWP ms
-        // Phase D: swapped wave-fade OUT → counter shows through
-        // Phase E: counter stay HOLD_CTR ms  → repeat from B
-
-        // Start: counter visible, swapped hidden
+        // Initialize transitions
         cells.forEach(cell => {
-            cell.querySelector('.cf-swapped').style.opacity = '0';
-            cell.querySelector('.cf-swapped').style.transition =
-                `opacity ${FADE}ms cubic-bezier(0.4,0,0.2,1)`;
+            const swapped = cell.querySelector('.cf-swapped');
+            swapped.style.opacity = '0';
+            swapped.style.transition = `opacity ${FADE}ms cubic-bezier(0.4,0,0.2,1)`;
         });
 
         function waveIn(onDone) {
@@ -749,20 +737,44 @@
             setTimeout(onDone, cells.length * STAGGER + FADE);
         }
 
+        function updateCounterLayers() {
+            // Update counter background images for each cell to the next ones in the pool
+            cells.forEach((cell, i) => {
+                // Advance index for this cell
+                cellIndices[i] = (cellIndices[i] + cells.length) % IMAGE_POOL.length;
+                const nextPair = IMAGE_POOL[cellIndices[i]];
+                cell.querySelector('.cf-counter').style.backgroundImage = `url('${nextPair.counter}')`;
+            });
+        }
+
+        function updateSwappedLayers() {
+            // Update swapped background images for each cell to match the current index
+            cells.forEach((cell, i) => {
+                const currentPair = IMAGE_POOL[cellIndices[i]];
+                cell.querySelector('.cf-swapped').style.backgroundImage = `url('${currentPair.swapped}')`;
+            });
+        }
+
         function loop() {
-            // B: fade swapped IN
-            setTimeout(() => {
-                waveIn(() => {
-                    // C: hold swapped
-                    setTimeout(() => {
-                        // D: fade swapped OUT
-                        waveOut(() => {
-                            // E: hold counter, then loop again
-                            setTimeout(loop, HOLD_CTR);
-                        });
-                    }, HOLD_SWP);
-                });
-            }, HOLD_CTR); // initial pause on counter before first wave
+            // 1. Fade Swapped IN (Swapped layers become visible)
+            waveIn(() => {
+                // Now swapped is fully visible (opacity 1).
+                // Under the cover of the swapped image, update the counter layer underneath.
+                updateCounterLayers();
+
+                // 2. Hold Swapped
+                setTimeout(() => {
+                    // 3. Fade Swapped OUT (Counter layers are revealed)
+                    waveOut(() => {
+                        // Now swapped is fully invisible (opacity 0).
+                        // Under the cover of invisibility, update the swapped layer to match the new cycle.
+                        updateSwappedLayers();
+
+                        // 4. Hold Counter, then repeat
+                        setTimeout(loop, HOLD_CTR);
+                    });
+                }, HOLD_SWP);
+            });
         }
 
         // Show caption once after first wave completes
@@ -770,7 +782,8 @@
             caption.classList.add('cf-caption--visible');
         }, HOLD_CTR + cells.length * STAGGER + FADE * 0.5);
 
-        loop();
+        // Start the loop after initial hold of the starting counter images
+        setTimeout(loop, HOLD_CTR);
     })();
     </script>
 

@@ -1763,10 +1763,10 @@ input:checked + .slider:before {
     /* height: viewport-based, driven by the cells */
 }
 
-/* Grid: 7 equal columns, zero gap → seamless strip */
+/* Grid: 3 equal columns, zero gap → seamless strip */
 .cf-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     width: 100%;
     height: clamp(320px, 52vh, 620px);
 }
@@ -1866,17 +1866,18 @@ input:checked + .slider:before {
 /* Responsive: fewer columns on small screens */
 @media (max-width: 900px) {
     .cf-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         height: clamp(220px, 40vw, 360px);
     }
-    /* Hide the last 3 cells on small screens */
-    .cf-cell:nth-child(n+5) { display: none; }
+    /* Hide the last cell on medium screens, showing only 2 */
+    .cf-cell:nth-child(n+3) { display: none; }
 }
 
 @media (max-width: 560px) {
     .cf-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         height: 240px;
     }
-    .cf-cell:nth-child(n+4) { display: none; }
+    /* Hide the 2nd and 3rd cells on mobile screens, showing only 1 */
+    .cf-cell:nth-child(n+2) { display: none; }
 }
