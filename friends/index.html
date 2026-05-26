@@ -777,16 +777,24 @@
         let cellIndices = [0, 1, 2];
 
         // Timings (ms)
-        const FADE      = 1600;  // CSS transition duration
-        const STAGGER   = 150;   // delay between cells in wave
-        const HOLD_CTR  = 2200;  // how long counter (originals) stay visible
-        const HOLD_SWP  = 4500;  // how long swapped images stay visible (longer)
+        const FADE      = 2000;  // CSS transition duration (weichere 2 Sekunden)
+        const STAGGER   = 250;   // delay between cells in wave (harmonischer Welleneffekt)
+        const HOLD_CTR  = 3500;  // wie lange die Originalbilder statisch stehen bleiben (ruhigerer Bildstand)
+        const HOLD_SWP  = 4500;  // wie lange die veränderten Bilder sichtbar bleiben
+
+        // Preload all images to prevent loading flashes or stutter
+        IMAGE_POOL.forEach(pair => {
+            const img1 = new Image();
+            img1.src = pair.counter;
+            const img2 = new Image();
+            img2.src = pair.swapped;
+        });
 
         // Initialize transitions
         cells.forEach(cell => {
             const swapped = cell.querySelector('.cf-swapped');
-            swapped.style.opacity = '0';
-            swapped.style.transition = `opacity ${FADE}ms cubic-bezier(0.4,0,0.2,1)`;
+            // Statically initialized to opacity 0 via CSS. Now we only attach the transition curve.
+            swapped.style.transition = `opacity ${FADE}ms cubic-bezier(0.25, 0.8, 0.25, 1)`;
         });
 
         function waveIn(onDone) {
@@ -847,12 +855,12 @@
             });
         }
 
-        // Show caption once after first wave completes
+        // Show caption once after page has loaded and settled
         setTimeout(() => {
             caption.classList.add('cf-caption--visible');
-        }, HOLD_CTR + cells.length * STAGGER + FADE * 0.5);
+        }, 1500);
 
-        // Start the loop after initial hold of the starting counter images
+        // Start the loop after page settled and user has viewed the static starting images
         setTimeout(loop, HOLD_CTR);
     })();
     </script>
