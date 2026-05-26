@@ -643,11 +643,50 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Motiv auswählen</label>
+                    <label for="filamentSelect">Filament / Druckmaterial</label>
+                    <select class="custom-select" id="filamentSelect">
+                        <option value="white" selected>PLA Standard-Weiß</option>
+                        <option value="cream">PLA Cremeweiß (Warm)</option>
+                        <option value="silver">PLA Silber-Grau (Metallisch)</option>
+                        <option value="sepia">PLA Kupfer-Sepia (Nostalgisch)</option>
+                        <option value="color">Farb-Lithophanie (Farbe)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="ledTempSelect">LED-Hintergrundbeleuchtung</label>
+                    <select class="custom-select" id="ledTempSelect">
+                        <option value="warm">Warmweiß (2700K)</option>
+                        <option value="neutral" selected>Neutralweiß (4000K)</option>
+                        <option value="cool">Kaltweiß (6500K)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="frameSelect">Rahmen-Material</label>
+                    <select class="custom-select" id="frameSelect">
+                        <option value="oak" selected>Klassische Eiche (Dunkel)</option>
+                        <option value="pine">Helle Kiefer (Natur)</option>
+                        <option value="black">Modernes Schwarz (Matt)</option>
+                        <option value="alu">Brushed Aluminium</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="contrastSlider">Relief-Tiefe (Detailstärke)</label>
+                    <div class="slider-wrapper">
+                        <i class="fa-solid fa-layer-group" style="opacity: 0.5;"></i>
+                        <input type="range" id="contrastSlider" min="2" max="12" value="5" class="litho-slider">
+                    </div>
+                    <span class="slider-value" id="contrastDisplay">Detailtiefe: 5</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Beispiel-Motiv wählen</label>
                     <div class="motif-selector">
-                        <button class="motif-btn active" data-motif="csuite">C-Suite Command</button>
-                        <button class="motif-btn" data-motif="team">Team Board</button>
-                        <button class="motif-btn" data-motif="terminal">POS Terminal</button>
+                        <button class="motif-btn active" data-motif="family">Familienfoto</button>
+                        <button class="motif-btn" data-motif="lion">Löwenporträt</button>
+                        <button class="motif-btn" data-motif="puppy">Hundewelpe</button>
                     </div>
                 </div>
 
@@ -810,6 +849,39 @@
         setTimeout(loop, HOLD_CTR);
     })();
     </script>
+
+    <!-- SVG Filter für 3D-Lithophanie-Relief -->
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" width="0" height="0">
+      <filter id="litho-bump-filter" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          0.2126 0.7152 0.0722 0 0
+          0.2126 0.7152 0.0722 0 0
+          0.2126 0.7152 0.0722 0 0
+          0      0      0      1 0" result="gray" />
+        
+        <feComponentTransfer in="gray" result="inverted">
+          <feFuncR type="linear" slope="-1" intercept="1"/>
+          <feFuncG type="linear" slope="-1" intercept="1"/>
+          <feFuncB type="linear" slope="-1" intercept="1"/>
+        </feComponentTransfer>
+        
+        <feGaussianBlur in="inverted" stdDeviation="0.8" result="heights"/>
+        
+        <feDiffuseLighting id="svg-diffuse-light" in="heights" lighting-color="#ffffff" surfaceScale="5" diffuseConstant="1.2" result="diffuse">
+          <fePointLight id="svg-point-light" x="250" y="150" z="60" />
+        </feDiffuseLighting>
+        
+        <feFlood id="svg-flood-color" flood-color="#fdfdfd" flood-opacity="1" result="plastic-color"/>
+        
+        <feBlend mode="multiply" in="diffuse" in2="plastic-color" result="lit-plastic"/>
+        
+        <feSpecularLighting id="svg-specular-light" in="heights" lighting-color="#ffffff" surfaceScale="5" specularConstant="0.5" specularExponent="22" result="specular">
+          <fePointLight id="svg-point-light-spec" x="250" y="150" z="60" />
+        </feSpecularLighting>
+        
+        <feComposite operator="arithmetic" k1="0" k2="1" k3="0.7" k4="0" in="lit-plastic" in2="specular" result="final-shaded"/>
+      </filter>
+    </svg>
 
 </body>
 </html>

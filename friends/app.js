@@ -2010,12 +2010,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Predefined motifs map
     const LITHO_MOTIFS = {
-        csuite: 'assets/b2b_exec_desk_display.png',
-        team: 'assets/b2b_team_dashboard.png',
-        terminal: 'assets/b2b_customer_terminal.png'
+        family: 'assets/family_portrait.png',
+        lion: 'assets/majestic_lion.png',
+        puppy: 'assets/playful_puppy.png'
     };
 
-    let currentMotif = 'csuite';
+    let currentMotif = 'family';
 
     function setLithoImage(src) {
         if (lithoBacklight && lithoRelief) {
@@ -2036,15 +2036,67 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--torch-x', '-50%');
         document.documentElement.style.setProperty('--torch-y', '-50%');
 
+        const pointLight = document.getElementById('svg-point-light');
+        const specLight = document.getElementById('svg-point-light-spec');
+        const floodColor = document.getElementById('svg-flood-color');
+        const diffuseLight = document.getElementById('svg-diffuse-light');
+        const specularLight = document.getElementById('svg-specular-light');
+        
+        const filamentSelect = document.getElementById('filamentSelect');
+        const ledTempSelect = document.getElementById('ledTempSelect');
+        const frameSelect = document.getElementById('frameSelect');
+        const contrastSlider = document.getElementById('contrastSlider');
+        const contrastDisplay = document.getElementById('contrastDisplay');
+        const woodFrame = document.getElementById('lithophaneWoodFrame');
+        const stage = document.querySelector('.lithophane-stage');
+
+        // Initial settings
+        updateFilament();
+        updateLED();
+        updateFrame();
+        updateContrast();
+
+        // 3D Tilt Effect on Wood Frame
+        if (stage && woodFrame) {
+            stage.addEventListener('mousemove', (e) => {
+                const rect = stage.getBoundingClientRect();
+                const x = e.clientX - (rect.left + rect.width / 2);
+                const y = e.clientY - (rect.top + rect.height / 2);
+                
+                const rotX = -y / (rect.height / 20); // Max ~10 degrees
+                const rotY = x / (rect.width / 20);
+                
+                woodFrame.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            });
+            
+            stage.addEventListener('mouseleave', () => {
+                woodFrame.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                woodFrame.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+            
+            stage.addEventListener('mouseenter', () => {
+                woodFrame.style.transition = 'none';
+            });
+        }
+
         // Backlight Slider Input Event
         backlightSlider.addEventListener('input', (e) => {
             const val = e.target.value;
             if (sliderValueDisplay) {
                 sliderValueDisplay.textContent = `Helligkeit: ${val}%`;
             }
-            // Map 0-100 to 0.0-1.0
             const opacityVal = val / 100;
             document.documentElement.style.setProperty('--litho-brightness', opacityVal);
+            
+            // Adjust relief blend mode based on backlight
+            if (opacityVal === 0) {
+                lithoRelief.style.mixBlendMode = 'normal';
+                lithoRelief.style.opacity = '0.98';
+            } else {
+                lithoRelief.style.mixBlendMode = 'multiply';
+                // Slightly fade the relief at high backlight to let colors/details shine brighter
+                lithoRelief.style.opacity = (0.98 - (opacityVal * 0.15)).toString();
+            }
         });
 
         // Mouse Move event for torch/flashlight effect
@@ -2053,16 +2105,125 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             
-            // Set custom properties
+            // Set custom properties for CSS mask
             document.documentElement.style.setProperty('--torch-x', `${x}px`);
             document.documentElement.style.setProperty('--torch-y', `${y}px`);
+
+            // Update SVG lighting point light sources dynamically
+            if (pointLight && specLight) {
+                pointLight.setAttribute('x', x.toString());
+                pointLight.setAttribute('y', y.toString());
+                specLight.setAttribute('x', x.toString());
+                specLight.setAttribute('y', y.toString());
+            }
         });
 
         // Mouse leave resets torch position out of bounds
         lithophanePlate.addEventListener('mouseleave', () => {
             document.documentElement.style.setProperty('--torch-x', '-50%');
             document.documentElement.style.setProperty('--torch-y', '-50%');
+            
+            // Reset point lights back to center default
+            const w = lithophanePlate.clientWidth / 2;
+            const h = lithophanePlate.clientHeight / 2;
+            if (pointLight && specLight) {
+                pointLight.setAttribute('x', w.toString());
+                pointLight.setAttribute('y', h.toString());
+                specLight.setAttribute('x', w.toString());
+                specLight.setAttribute('y', h.toString());
+            }
         });
+
+        // Filament change handler
+        if (filamentSelect) {
+            filamentSelect.addEventListener('change', updateFilament);
+        }
+
+        // LED color temp change handler
+        if (ledTempSelect) {
+            ledTempSelect.addEventListener('change', updateLED);
+        }
+
+        // Frame change handler
+        if (frameSelect) {
+            frameSelect.addEventListener('change', updateFrame);
+        }
+
+        // Contrast / Detail slider handler
+        if (contrastSlider) {
+            contrastSlider.addEventListener('input', updateContrast);
+        }
+
+        function updateFilament() {
+            if (!filamentSelect || !floodColor) return;
+            const val = filamentSelect.value;
+            
+            // Toggle color vs monochrome modes
+            if (val === 'color') {
+                floodColor.setAttribute('flood-color', '#ffffff');
+                floodColor.setAttribute('flood-opacity', '0.15'); // translucent white
+                lithoBacklight.classList.add('filament-color');
+            } else {
+                lithoBacklight.classList.remove('filament-color');
+                floodColor.setAttribute('flood-opacity', '1.0');
+                
+                if (val === 'white') {
+                    floodColor.setAttribute('flood-color', '#fafafa');
+                } else if (val === 'cream') {
+                    floodColor.setAttribute('flood-color', '#fef5e7');
+                } else if (val === 'silver') {
+                    floodColor.setAttribute('flood-color', '#d5d5d5');
+                } else if (val === 'sepia') {
+                    floodColor.setAttribute('flood-color', '#d2b48c');
+                }
+            }
+            applyFilters();
+        }
+
+        function updateLED() {
+            applyFilters();
+        }
+
+        function updateFrame() {
+            if (!frameSelect || !woodFrame) return;
+            const val = frameSelect.value;
+            woodFrame.classList.remove('frame-oak', 'frame-pine', 'frame-black', 'frame-alu');
+            woodFrame.classList.add(`frame-${val}`);
+        }
+
+        function updateContrast() {
+            if (!contrastSlider || !diffuseLight || !specularLight) return;
+            const val = contrastSlider.value;
+            if (contrastDisplay) {
+                contrastDisplay.textContent = `Detailtiefe: ${val}`;
+            }
+            diffuseLight.setAttribute('surfaceScale', val);
+            specularLight.setAttribute('surfaceScale', val);
+        }
+
+        function applyFilters() {
+            if (!ledTempSelect || !filamentSelect) return;
+            const led = ledTempSelect.value;
+            const filament = filamentSelect.value;
+
+            let filterStr = '';
+
+            // Apply LED color temperature tints
+            if (led === 'warm') {
+                filterStr += 'sepia(0.65) saturate(1.8) hue-rotate(-15deg) contrast(1.25) brightness(1.05)';
+            } else if (led === 'neutral') {
+                filterStr += 'sepia(0.15) saturate(1.2) contrast(1.2) brightness(1.1)';
+            } else if (led === 'cool') {
+                filterStr += 'saturate(0.9) contrast(1.1) brightness(1.1) hue-rotate(15deg)';
+            }
+
+            // If it's a monochrome filament, convert backlight to grayscale first
+            if (filament !== 'color') {
+                filterStr = 'grayscale(1) ' + filterStr;
+            }
+
+            lithoBacklight.style.filter = filterStr;
+        }
 
         // Motif Selector click handlers
         motifButtons.forEach(btn => {
@@ -2086,7 +2247,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         setLithoImage(event.target.result);
-                        // Remove active class from predefined motifs
                         motifButtons.forEach(b => b.classList.remove('active'));
                     };
                     reader.readAsDataURL(file);
