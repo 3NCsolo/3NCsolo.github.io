@@ -1881,3 +1881,89 @@ input:checked + .slider:before {
     /* Hide the 2nd and 3rd cells on mobile screens, showing only 1 */
     .cf-cell:nth-child(n+2) { display: none; }
 }
+
+/* ==========================================================================
+   Transition Divider: Digital to Physical
+   ========================================================================== */
+.digital-to-physical-divider {
+    padding: 6rem 2rem 3rem 2rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.divider-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.divider-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.divider-content h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.divider-content p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+}
+
+.divider-line {
+    width: 80px;
+    height: 3px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+    margin-top: 1.5rem;
+    box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* ==========================================================================
+   KPI Specs Badges & Lists
+   ========================================================================== */
+.kpi-specs-badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+}
+
+.spec-badge {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: var(--transition);
+}
+
+.spec-badge:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+}
+
+.spec-badge i {
+    color: var(--accent);
+}
