@@ -1879,7 +1879,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const techUX = document.getElementById('techUX');
     const techROI = document.getElementById('techROI');
     const techStory = document.getElementById('techStory');
-    const techPriceScale = document.getElementById('techPriceScale');
     const alternativesAccordion = document.getElementById('alternativesAccordion');
     const galleryContainer = document.querySelector('.gallery-container');
     const galleryCard = document.getElementById('galleryCard');
@@ -1903,7 +1902,6 @@ document.addEventListener('DOMContentLoaded', () => {
             techUX.textContent = heroItem.ux;
             techROI.textContent = heroItem.roi;
             techStory.textContent = heroItem.story;
-            techPriceScale.textContent = heroItem.priceScale;
 
             // Clear and populate alternatives accordion (indices 1, 2, 3)
             alternativesAccordion.innerHTML = '';
@@ -1924,7 +1922,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span><strong>Kunden-Interaktion (UX):</strong> ${altItem.ux}</span>
                             <span><strong>Marketing-Nutzen (ROI):</strong> ${altItem.roi}</span>
                             <span><strong>Nachhaltigkeit & Story:</strong> ${altItem.story}</span>
-                            <span><strong>Richtpreis & Skalierung:</strong> ${altItem.priceScale}</span>
                         </div>
                     </div>
                 `;
