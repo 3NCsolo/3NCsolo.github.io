@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D-Druck, Oberflächenbeschichtung & CAD | Präsentation</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Leaflet Marker Cluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== HERO: Cross-Fade Gallery ===== -->
+    <header class="hero-crossfade" id="heroCrossfade">
+
+        <!-- Each cell: swapped image on top, counter image below -->
+        <div class="cf-grid" id="cfGrid">
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00001-2444813169.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00017-3794025095-swapped.png')"></div>
+            </div>
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00046-2221149025.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00045-2564953563-swapped.jpg')"></div>
+            </div>
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00047-2221149026.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00052-2221149017-swapped.png')"></div>
+            </div>
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00058-3675937291.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00068-3675937291-swapped.jpg')"></div>
+            </div>
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00059-3675937292.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00069-3675937291-swapped.jpg')"></div>
+            </div>
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00079-1402774675.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00072-3675937291-swapped.jpg')"></div>
+            </div>
+
+            <div class="cf-cell">
+                <div class="cf-layer cf-counter" style="background-image:url('Gen/00081-1402774677.png')"></div>
+                <div class="cf-layer cf-swapped" style="background-image:url('Gen/00074-3675937291-swapped.jpg')"></div>
+            </div>
+
+        </div>
+
+        <!-- Dezenter Overlay-Text -->
+        <div class="cf-caption" id="cfCaption">
+            <span class="cf-eyebrow">Generative KI?</span>
+            <span class="cf-tagline">Ich habe einfach einen Vogel.</span>
+        </div>
+
+        <a class="slide-scroll-hint" href="#appSection" aria-label="Weiter scrollen">
+            <i class="fa-solid fa-chevron-down"></i>
+        </a>
+    </header>
+
+    <div id="appSection"></div>
+
+    <!-- App Container -->
+    <div class="app-wrapper">
+        <div class="app-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo-container">
+                        <div class="logo-icon">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h2>PromoMap Pro</h2>
+                            <span>Tabellen-Visualisierer</span>
+                        </div>
+                    </div>
+                    <button class="theme-toggle" id="themeToggle" title="Design wechseln">
+                        <i class="fa-solid fa-sun" id="themeIcon"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar-content">
+                    <!-- Drop Zone / Import Panel -->
+                    <section class="glass-card" id="importPanel">
+                        <div class="card-title">
+                            <i class="fa-solid fa-file-import"></i> Tabellen-Import
+                        </div>
+                        <div class="drop-zone" id="dropZone">
+                            <div class="drop-icon">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <p>Excel- oder CSV-Datei hier ablegen</p>
+                            <span>oder anklicken zum Auswählen</span>
+                            <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display: none;">
+                        </div>
+                        <div id="fileInfo" style="display: none; margin-top: 1rem; font-size: 0.875rem; text-align: center;">
+                            <i class="fa-solid fa-file-excel" style="color: var(--success); margin-right: 0.5rem;"></i>
+                            <span id="fileName" style="font-weight: 500;">datei.xlsx</span>
+                            <button class="btn btn-secondary" id="resetImport" style="margin-top: 0.75rem; padding: 0.5rem; font-size: 0.75rem;">
+                                <i class="fa-solid fa-rotate-left"></i> Andere Datei wählen
+                            </button>
+                        </div>
+                        <!-- Loaded State: shown after successful map render -->
+                        <div id="loadedState" style="display: none; margin-top: 0.75rem;">
+                            <div class="loaded-summary" id="loadedSummary">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span id="loadedSummaryText">0 Filialen auf der Karte</span>
+                            </div>
+                            <button class="btn btn-primary" id="addMoreFileBtn" style="width: 100%; margin-top: 0.75rem;">
+                                <i class="fa-solid fa-plus"></i> Weitere Datei hinzufügen
+                            </button>
+                            <button class="btn btn-secondary" id="resetAllBtn" style="width: 100%; margin-top: 0.5rem; padding: 0.4rem 0.75rem; font-size: 0.75rem; opacity: 0.7;">
+                                <i class="fa-solid fa-trash-can"></i> Alles zurücksetzen
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Configuration Panel (Visible after import) -->
+                    <section class="glass-card" id="configPanel" style="display: none;">
+                        <div class="card-title">
+                            <i class="fa-solid fa-gears"></i> Optionen & Steuerung
+                        </div>
+                        <div class="form-group switch-container">
+                            <span style="font-size: 0.875rem; font-weight: 500;">Cluster-Modus</span>
+                            <label class="switch">
+                                <input type="checkbox" id="clusterSwitch" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group switch-container" style="margin-top: 0.75rem;">
+                            <span style="font-size: 0.875rem; font-weight: 500;">Dichte-Heatmap</span>
+                            <label class="switch">
+                                <input type="checkbox" id="heatmapSwitch">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                            <label for="tileSourceSelect">Karten-Kacheln Quelle</label>
+                            <select class="form-select" id="tileSourceSelect">
+                                <option value="online">Online (CartoDB)</option>
+                                <option value="offline">Offline (Lokaler Pfad)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="offlinePathGroup" style="display: none;">
+                            <label for="offlinePathInput">Lokaler Kachel-Pfad</label>
+                            <input type="text" class="form-input" id="offlinePathInput" value="tiles/{z}/{x}/{y}.png" placeholder="z.B. tiles/{z}/{x}/{y}.png">
+                            <span style="font-size: 0.6875rem; color: var(--text-secondary); display: block; margin-top: 0.25rem;">
+                                Kacheln im Ordner <code>tiles/z/x/y.png</code> ablegen.
+                            </span>
+                        </div>
+                        <button class="btn" id="exportDataBtn" style="margin-top: 1rem;">
+                            <i class="fa-solid fa-download"></i> Geokodierte Tabelle exportieren
+                        </button>
+                    </section>
+
+                    <!-- Statistics Panel -->
+                    <section class="glass-card" id="statsPanel" style="display: none;">
+                        <div class="card-title">
+                            <i class="fa-solid fa-chart-pie"></i> Statistik-Übersicht
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-val" id="totalStores">0</div>
+                                <div class="stat-label">Gesamtfilialen</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-val" id="activePromos" style="color: var(--success);">0</div>
+                                <div class="stat-label">Aktiv</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.25rem;">
+                            <div>
+                                <span style="font-size: 0.75rem; font-family: var(--font-heading); color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem; text-align: center;">Status-Verteilung</span>
+                                <div style="height: 140px; position: relative;">
+                                    <canvas id="statusChart"></canvas>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+                                <span style="font-size: 0.75rem; font-family: var(--font-heading); color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 0.5rem; text-align: center;">Top 5 Städte</span>
+                                <div style="height: 140px; position: relative;">
+                                    <canvas id="cityChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Filters & Store List -->
+                    <section class="glass-card" id="filterPanel" style="display: none;">
+                        <div class="card-title">
+                            <i class="fa-solid fa-filter"></i> Filtern & Suchen
+                        </div>
+                        <div class="form-group search-container">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" class="form-input search-input" id="searchBar" placeholder="Nach Name, Ort oder PLZ suchen...">
+                        </div>
+                        <div class="form-group">
+                            <label>Nach Status filtern</label>
+                            <div class="badge-group" id="statusFilterBadges">
+                                <span class="badge active" data-status="all">Alle</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Nach Stadt filtern</label>
+                            <select class="form-select" id="cityFilter">
+                                <option value="all">Alle Städte</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Umkreissuche Section -->
+                        <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;" id="radiusSearchGroup">
+                            <label><i class="fa-solid fa-circle-dot" style="color: var(--accent); margin-right: 0.25rem;"></i> Umkreissuche</label>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <button class="btn btn-secondary" id="setRadiusCenterBtn" style="font-size: 0.75rem; padding: 0.5rem; flex: 1.2;">
+                                    <i class="fa-solid fa-crosshairs"></i> Zentrum setzen
+                                </button>
+                                <select class="form-select" id="radiusCenterSelect" style="flex: 1.8; font-size: 0.8125rem; padding: 0.5rem;">
+                                    <option value="">-- Filiale wählen --</option>
+                                </select>
+                            </div>
+                            <div id="radiusSliderWrapper" style="display: none;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span id="radiusValueText">Radius: 10 km</span>
+                                </div>
+                                <div class="slider-wrapper" style="padding: 0.4rem 0.6rem;">
+                                    <input type="range" id="filterRadiusSlider" min="1" max="150" value="10" class="litho-slider">
+                                </div>
+                                <button class="btn btn-secondary" id="resetRadiusBtn" style="margin-top: 0.5rem; font-size: 0.75rem; padding: 0.4rem;">
+                                    <i class="fa-solid fa-rotate-left"></i> Umkreissuche zurücksetzen
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Store Details Section -->
+                    <section class="glass-card" id="detailsPanel" style="display: none;">
+                        <div class="card-title" style="justify-content: space-between;">
+                            <span><i class="fa-solid fa-circle-info"></i> Filial-Details</span>
+                            <button id="closeDetails" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="info-list" id="detailsContent">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </section>
+                </div>
+            </aside>
+
+            <!-- Map Container -->
+            <main class="map-container">
+                <div id="map"></div>
+                <div class="map-overlay-controls">
+                    <button class="map-btn" id="recenterMapBtn" title="Auf Filialen zentrieren">
+                        <i class="fa-solid fa-crosshairs"></i> Zentrieren
+                    </button>
+                    <button class="map-btn" id="toggleControlTableBtn" title="Kontrolltabelle anzeigen" style="display: none;">
+                        <i class="fa-solid fa-table"></i> Kontrolltabelle
+                    </button>
+                </div>
+
+                <!-- Collapsible Control Table Drawer -->
+                <div class="control-table-drawer" id="controlTableDrawer">
+                    <div class="drawer-header">
+                        <span><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> Kontrolltabelle & GPS-Gegenprüfung</span>
+                        <button class="drawer-close-btn" id="closeDrawerBtn"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="drawer-body">
+                        <div class="table-responsive">
+                            <table class="control-table">
+                                <thead>
+                                    <tr>
+                                        <th>Filialname</th>
+                                        <th>Adresse (Eingabe)</th>
+                                        <th>GPS (Lat, Lng)</th>
+                                        <th>Geokodierung</th>
+                                        <th>Gegenprüfung</th>
+                                        <th>Aktion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="controlTableBody">
+                                    <!-- Filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mapping Column Modal -->
+    <div class="modal-backdrop" id="mappingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fa-solid fa-table-columns" style="color: var(--accent); margin-right: 0.5rem;"></i> Spaltenzuordnung</h2>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    Damit wir deine Standorte korrekt visualisieren können, weise bitte den erforderlichen Datenfeldern die entsprechenden Spalten deiner Datei zu.
+                </p>
+                <form id="mappingForm">
+                    <div class="form-group">
+                        <label for="mapName">Name der Filiale (Optional)</label>
+                        <select class="form-select" id="mapName">
+                            <option value="">-- Automatisch generieren --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapAddress">Kombinierte Adresse (z.B. "Hauptstr. 1, Berlin")</label>
+                        <select class="form-select" id="mapAddress">
+                            <option value="">-- Nicht vorhanden / Keine Zuordnung --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapStreet">Straße</label>
+                        <select class="form-select" id="mapStreet">
+                            <option value="">-- Nicht vorhanden / Keine Zuordnung --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapZip">PLZ</label>
+                        <select class="form-select" id="mapZip">
+                            <option value="">-- Nicht vorhanden / Keine Zuordnung --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapCity">Stadt</label>
+                        <select class="form-select" id="mapCity">
+                            <option value="">-- Nicht vorhanden / Keine Zuordnung --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapLat">Breitengrad (Optional, für Direkt-Laden)</label>
+                        <select class="form-select" id="mapLat">
+                            <option value="">-- Nicht vorhanden / Keine Zuordnung --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapLng">Längengrad (Optional, für Direkt-Laden)</label>
+                        <select class="form-select" id="mapLng">
+                            <option value="">-- Nicht vorhanden / Keine Zuordnung --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapStatus">Promotions-Status (Optional)</label>
+                        <select class="form-select" id="mapStatus">
+                            <option value="">-- Keine Statusspalte --</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelMappingBtn">Abbrechen</button>
+                <button class="btn" id="confirmMappingBtn" type="button">Einlesen starten</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GDPR Geocoding Consent Modal -->
+    <div class="modal-backdrop" id="gdprModal">
+        <div class="modal-content" style="max-width: 480px;">
+            <div class="modal-header">
+                <h2 class="modal-title" style="color: var(--warning);"><i class="fa-solid fa-shield-halved" style="margin-right: 0.5rem;"></i> Datenschutz-Zustimmung</h2>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9375rem; line-height: 1.5; margin-bottom: 1rem;">
+                    Deine Tabelle enthält keine GPS-Koordinaten. Um die Adressen auf der Karte anzuzeigen, müssen diese in Koordinaten umgewandelt werden (Geokodierung).
+                </p>
+                <div style="background: rgba(253, 80, 1, 0.08); border-left: 4px solid var(--accent); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.8125rem; margin-bottom: 1.25rem; color: var(--text-primary);">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>Hinweis zur DSGVO:</strong> 
+                    Die Geokodierung erfolgt über den Dienst <strong>OpenStreetMap Nominatim</strong>. Hierzu werden Adressdaten und deine IP-Adresse an OpenStreetMap-Server übertragen.
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                    Möchtest du fortfahren? Die Adressen werden nacheinander im Abstand von 1,1 Sekunden verarbeitet, um die Serverrichtlinien einzuhalten.
+                </p>
+                <div id="geocodingProgressWrapper" style="display: none; margin-top: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8125rem; margin-bottom: 0.25rem;">
+                        <span id="geoProgressText">Geokodierung läuft...</span>
+                        <span id="geoPercentText">0%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="geoProgressBar"></div>
+                    </div>
+                    <button class="btn btn-secondary" id="cancelGeocodingBtn" style="margin-top: 1rem; padding: 0.5rem; font-size: 0.75rem; width: 100%;">
+                        <i class="fa-solid fa-ban"></i> Abbrechen & Teildaten laden
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer" id="gdprModalFooter">
+                <button class="btn btn-secondary" id="declineGdprBtn">Abbrechen</button>
+                <button class="btn" id="acceptGdprBtn">Zustimmen & Starten</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" id="toastIcon" style="color: var(--success); font-size: 1.25rem;"></i>
+        <span id="toastMsg">Erfolgreich geladen!</span>
+    </div>
+
+    <!-- Interaktive Werbemittel-Konzepte -->
+    <section class="gallery-section">
+        <div class="gallery-header">
+            <h2>Individuelle Werbemittel-Konzepte</h2>
+            <p>
+                Präsentation maßgeschneiderter, FDM/SLA-3D-druckbarer Giveaways für unsere Kunden. Jedes Konzept ist für kostengünstige Produktion (passive NFC-Tags) und deutsches Recht (BattG/ElektroG-frei) optimiert.
+            </p>
+        </div>
+
+        <!-- Kunden-Selektor (Marken-Buttons) -->
+        <div class="brand-selector" id="brandSelector">
+            <button class="brand-btn active" data-brand="ADAC"><i class="fa-solid fa-car"></i> ADAC</button>
+            <button class="brand-btn" data-brand="AOK"><i class="fa-solid fa-heart-pulse"></i> AOK</button>
+            <button class="brand-btn" data-brand="Bionade"><i class="fa-solid fa-leaf"></i> Bionade</button>
+            <button class="brand-btn" data-brand="Audi"><i class="fa-solid fa-gauge-high"></i> Audi</button>
+            <button class="brand-btn" data-brand="Jever"><i class="fa-solid fa-anchor"></i> Jever</button>
+            <button class="brand-btn" data-brand="Radeberger Gruppe"><i class="fa-solid fa-beer-mug-empty"></i> Radeberger</button>
+            <button class="brand-btn" data-brand="IKEA"><i class="fa-solid fa-couch"></i> IKEA</button>
+            <button class="brand-btn" data-brand="Spreequell"><i class="fa-solid fa-droplet"></i> Spreequell</button>
+            <button class="brand-btn" data-brand="Von Eicken"><i class="fa-solid fa-filter"></i> Von Eicken</button>
+            <button class="brand-btn" data-brand="Schöfferhofer"><i class="fa-solid fa-sun"></i> Schöfferhofer</button>
+        </div>
+
+        <!-- Zweispaltiger Galerie-Container -->
+        <div class="gallery-container text-only-gallery">
+            <!-- Maus-bewegtes Parallax-Hintergrund-Element -->
+            <div class="interactive-bg" id="interactiveBg"></div>
+
+            <div class="gallery-card text-only-card" id="galleryCard">
+                <!-- Linke Spalte: Hauptkonzept (Held) -->
+                <div class="gallery-main-column">
+                    <div class="concept-hero-header">
+                        <span class="gallery-tag">Helden-Konzept</span>
+                        <h3 id="galleryTitle">Lade Daten...</h3>
+                    </div>
+                    <p id="galleryDesc">
+                        Beschreibung wird geladen...
+                    </p>
+                    
+                    <table class="gallery-tech-table">
+                        <tr>
+                            <td><i class="fa-solid fa-mobile-screen-button"></i> Kunden-Interaktion (UX)</td>
+                            <td id="techUX">Wird geladen...</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-chart-line"></i> Marketing-Nutzen (ROI)</td>
+                            <td id="techROI">Wird geladen...</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-leaf"></i> Nachhaltigkeit & Story</td>
+                            <td id="techStory">Wird geladen...</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-tags"></i> Richtpreis & Skalierung</td>
+                            <td id="techPriceScale">Wird geladen...</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Rechte Spalte: Alternativkonzepte (Akkordeon) -->
+                <div class="gallery-alternatives-column">
+                    <h4>Alternative Umsetzungsideen</h4>
+                    <div class="alternatives-accordion" id="alternativesAccordion">
+                        <!-- Dynamisch erzeugt -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proprietäre KPI- & IoT-Konzepte Sektion -->
+    <section class="kpi-section">
+        <div class="kpi-section-header">
+            <h2>Proprietäre KPI- &amp; IoT-Konzepte</h2>
+            <p>
+                Inhouse-Entwicklungen und geschützte Systemkonzepte zur physischen Visualisierung von KPIs und Datenströmen. Jedes System wird individuell gefertigt und an bestehende Infrastrukturen angebunden.
+            </p>
+        </div>
+
+        <!-- 1. Executive Desk Command -->
+        <div class="kpi-showcase">
+            <div class="kpi-showcase-img">
+                <img src="assets/b2b_exec_desk_display.png" alt="Executive Desk Command">
+            </div>
+            <div class="kpi-showcase-text">
+                <span class="kpi-badge mgmt">Für Führungskräfte</span>
+                <h3>Executive Desk Command</h3>
+                <p class="tagline">„Dein KPI-Dashboard, das nur du kennst."</p>
+                <p>
+                    Ein 7" kapazitives IPS-Touchdisplay, das im Ruhezustand vollständig bündig in der Schreibtischplatte versenkt ist. Durch einen verdeckten Trigger fährt ein 12V-Linearaktor den Bildschirm geräuschlos senkrecht nach oben. Flach integrierte Edelstahltaster oberhalb ermöglichen den schnellen Direktwechsel zwischen vordefinierten KPI-Ansichten (Finanzen, Vertrieb, HR, Operations).
+                </p>
+                <div class="kpi-features-grid">
+                    <div class="kpi-feature">
+                        <span class="kpi-feature-icon">🔑</span>
+                        <div class="kpi-feature-content">
+                            <h4>Diskreter Zugriff</h4>
+                            <p>Aktivierung wahlweise via NFC-Schlüssel, mmWave-Präsenzerkennung, Klopf-Muster oder Geheimtaster.</p>
+                        </div>
+                    </div>
+                    <div class="kpi-feature">
+                        <span class="kpi-feature-icon">🛡️</span>
+                        <div class="kpi-feature-content">
+                            <h4>Panik-Button</h4>
+                            <p>Ein dedizierter physischer Taster fährt den Bildschirm bei Bedarf blitzschnell und lautlos wieder ein.</p>
+                        </div>
+                    </div>
+                </div>
+                <table class="kpi-specs-table">
+                    <thead>
+                        <tr>
+                            <th>Bedienelement</th>
+                            <th>Funktion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Taster 1 – Finance</td>
+                            <td>Umsatz, EBITDA, operativer Cashflow, Budget vs. Ist</td>
+                        </tr>
+                        <tr>
+                            <td>Taster 2 – Sales</td>
+                            <td>Pipeline-Status, Conversion-Rate, CAC &amp; LTV</td>
+                        </tr>
+                        <tr>
+                            <td>Taster 3 – People</td>
+                            <td>Fluktuationsquote, Engagement-Score, offene Vakanzen</td>
+                        </tr>
+                        <tr>
+                            <td>Taster 4 – Ops</td>
+                            <td>Projekt-Profitabilität, Kapazitätsauslastung, Cycle Time</td>
+                        </tr>
+                        <tr>
+                            <td>Taster 5 – Retract</td>
+                            <td>Bildschirm einfahren &amp; verriegeln</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. Smart Team Board -->
+        <div class="kpi-showcase reverse">
+            <div class="kpi-showcase-img">
+                <img src="assets/b2b_team_dashboard.png" alt="Smart Team Board">
+            </div>
+            <div class="kpi-showcase-text">
+                <span class="kpi-badge team">Für Teams &amp; HR</span>
+                <h3>Smart Team Board</h3>
+                <p class="tagline">„Spielerisch motivieren, leise analysieren."</p>
+                <p>
+                    Ein wandmontiertes 10"-Display im Pausenraum für Schichtpläne, Team-Ankündigungen und Geburtstage. Sobald sich eine Person nähert und ihren NFC-Badge scannt, wechselt das System auf ein personalisiertes Mitarbeiter-Dashboard. Gamification-Elemente fördern das Engagement, während das System HR wertvolle Nutzungsstatistiken bereitstellt.
+                </p>
+                <div class="kpi-features-grid">
+                    <div class="kpi-feature">
+                        <span class="kpi-feature-icon">🎮</span>
+                        <div class="kpi-feature-content">
+                            <h4>Gamification-Layer</h4>
+                            <p>Tages-Streaks, KPI-Quests (z.B. Pünktlichkeit) und Leaderboards zur spielerischen Motivation.</p>
+                        </div>
+                    </div>
+                    <div class="kpi-feature">
+                        <span class="kpi-feature-icon">📊</span>
+                        <div class="kpi-feature-content">
+                            <h4>HR-Analytik &amp; DSGVO</h4>
+                            <p>Anonymisierte Auswertung von Logins, Stimmungsindex via 1-Tap-Logout-Emoji. 100% lokal ohne Cloud.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Loyalty Terminal -->
+        <div class="kpi-showcase">
+            <div class="kpi-showcase-img">
+                <img src="assets/b2b_customer_terminal.png" alt="Loyalty Terminal">
+            </div>
+            <div class="kpi-showcase-text">
+                <span class="kpi-badge customer">Für Kunden &amp; Retail</span>
+                <h3>Loyalty Terminal</h3>
+                <p class="tagline">„Kundenbindung physisch erlebbar machen."</p>
+                <p>
+                    Ein elegantes Theken-Display (5" IPS-Touch im skulpturalen 3D-Druck-Gehäuse) mit leuchtendem NFC-Ring zur Erkennung von Kundenkarten oder Smartphones. Es verbindet den physischen POS direkt mit digitalen Kundentreueprogrammen, zeigt personalisierte Angebote und ermöglicht schnelles Echtzeit-Feedback.
+                </p>
+                <div class="kpi-features-grid">
+                    <div class="kpi-feature">
+                        <span class="kpi-feature-icon">⭐</span>
+                        <div class="kpi-feature-content">
+                            <h4>Echtzeit-Treuepunkte</h4>
+                            <p>Live-Fortschrittsbalken und direkte Anzeige der nächsten Treuestufe oder Belohnung.</p>
+                        </div>
+                    </div>
+                    <div class="kpi-feature">
+                        <span class="kpi-feature-icon">🎁</span>
+                        <div class="kpi-feature-content">
+                            <h4>Kaufhistorie &amp; Feedback</h4>
+                            <p>Anzeige von Lieblingsprodukten, Cross-Selling-QR-Codes und 1-Tap NPS-Zufriedenheitsabfrage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interaktiver Lithophanie-Simulator -->
+    <section class="lithophane-section">
+        <div class="gallery-header">
+            <h2>Virtualisierter Lithophanie-Simulator</h2>
+            <p>
+                Erlebe die Magie des 3D-Drucks digital. Ein Lithofan (Lithophanie) offenbart sein Motiv erst, wenn Licht von hinten hindurchscheint. Bewege deine Maus über die Platte (Taschenlampen-Effekt) oder nutze den Regler für die Hintergrundbeleuchtung.
+            </p>
+        </div>
+
+        <div class="lithophane-simulator-container">
+            <!-- Controller Panel (Links) -->
+            <div class="lithophane-controls">
+                <h3>Simulator-Steuerung</h3>
+                
+                <div class="control-group">
+                    <label for="backlightSlider">LED-Hintergrundbeleuchtung</label>
+                    <div class="slider-wrapper">
+                        <i class="fa-solid fa-lightbulb" id="lightIconMin" style="opacity: 0.3;"></i>
+                        <input type="range" id="backlightSlider" min="0" max="100" value="0" class="litho-slider">
+                        <i class="fa-solid fa-lightbulb" id="lightIconMax" style="color: var(--accent); opacity: 0.3;"></i>
+                    </div>
+                    <span class="slider-value" id="sliderValueDisplay">Helligkeit: 0%</span>
+                </div>
+
+                <div class="control-group">
+                    <label>Motiv auswählen</label>
+                    <div class="motif-selector">
+                        <button class="motif-btn active" data-motif="csuite">C-Suite Command</button>
+                        <button class="motif-btn" data-motif="team">Team Board</button>
+                        <button class="motif-btn" data-motif="terminal">POS Terminal</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="customImageInput" class="custom-file-upload">
+                        <i class="fa-solid fa-upload"></i> Eigenes Bild hochladen
+                    </label>
+                    <input type="file" id="customImageInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Simulator-Bühne (Rechts) -->
+            <div class="lithophane-stage">
+                <!-- Der hölzerne LED-Leuchtrahmen -->
+                <div class="lithophane-wood-frame" id="lithophaneWoodFrame">
+                    <!-- Die gedruckte Kunststoffplatte (Lithofan) -->
+                    <div class="lithophane-plate" id="lithophanePlate">
+                        <!-- Layer 1: Das Durchlicht-Bild (warmes Backlight) -->
+                        <div class="lithophane-backlight" id="lithoBacklight"></div>
+                        <!-- Layer 2: Das weiße matte Kunststoff-Relief (FDM-Druckschichten) -->
+                        <div class="lithophane-relief" id="lithoRelief"></div>
+                    </div>
+                </div>
+                <div class="lithophane-hint">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Bewege deine Maus über das Lithofan, um mit einer virtuellen Taschenlampe dahinterzuleuchten!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer mit Kontaktdaten des Nutzers -->
+    <footer class="footer-section">
+        <h2>Kontakt</h2>
+        <div class="footer-contact-grid" style="max-width: 600px; margin: 0 auto 2.5rem auto; line-height: 1.8;">
+            <p><strong>Opa Raider</strong></p>
+            <p>E-Mail: <a href="mailto:opa.raider@example.com" style="color: var(--accent); text-decoration: none;">opa.raider@example.com</a></p>
+            <p>Telefon: +49 (0) 123 456789</p>
+            <p>Marthastraße 7, 12205 Berlin</p>
+        </div>
+        <div class="footer-links">
+            <a href="../impressum.html" target="_blank">Impressum</a>
+            <a href="#" target="_blank">Datenschutz</a>
+        </div>
+    </footer>
+
+    <!-- Libraries via CDN -->
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet Marker Cluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Leaflet Heatmap JS -->
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <!-- PapaParse (CSV) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- SheetJS (Excel) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Application Logic -->
+    <script src="app.js"></script>
+
+    <!-- Cross-Fade Gallery Logic -->
+    <script>
+    (function () {
+        const cells   = document.querySelectorAll('.cf-cell');
+        const caption = document.getElementById('cfCaption');
+
+        // Timings (ms)
+        const FADE      = 1600;  // CSS transition duration
+        const STAGGER   = 110;   // delay between cells in wave
+        const HOLD_CTR  = 2200;  // how long counter (originals) stay visible
+        const HOLD_SWP  = 4500;  // how long swapped images stay visible (longer)
+
+        // Phase A: counter images visible, swapped at opacity 0
+        // Phase B: swapped wave-fade IN  → swapped fully visible
+        // Phase C: swapped stay HOLD_SWP ms
+        // Phase D: swapped wave-fade OUT → counter shows through
+        // Phase E: counter stay HOLD_CTR ms  → repeat from B
+
+        // Start: counter visible, swapped hidden
+        cells.forEach(cell => {
+            cell.querySelector('.cf-swapped').style.opacity = '0';
+            cell.querySelector('.cf-swapped').style.transition =
+                `opacity ${FADE}ms cubic-bezier(0.4,0,0.2,1)`;
+        });
+
+        function waveIn(onDone) {
+            cells.forEach((cell, i) => {
+                setTimeout(() => {
+                    cell.querySelector('.cf-swapped').style.opacity = '1';
+                }, i * STAGGER);
+            });
+            setTimeout(onDone, cells.length * STAGGER + FADE);
+        }
+
+        function waveOut(onDone) {
+            cells.forEach((cell, i) => {
+                setTimeout(() => {
+                    cell.querySelector('.cf-swapped').style.opacity = '0';
+                }, i * STAGGER);
+            });
+            setTimeout(onDone, cells.length * STAGGER + FADE);
+        }
+
+        function loop() {
+            // B: fade swapped IN
+            setTimeout(() => {
+                waveIn(() => {
+                    // C: hold swapped
+                    setTimeout(() => {
+                        // D: fade swapped OUT
+                        waveOut(() => {
+                            // E: hold counter, then loop again
+                            setTimeout(loop, HOLD_CTR);
+                        });
+                    }, HOLD_SWP);
+                });
+            }, HOLD_CTR); // initial pause on counter before first wave
+        }
+
+        // Show caption once after first wave completes
+        setTimeout(() => {
+            caption.classList.add('cf-caption--visible');
+        }, HOLD_CTR + cells.length * STAGGER + FADE * 0.5);
+
+        loop();
+    })();
+    </script>
+
+</body>
+</html>
