@@ -1232,9 +1232,8 @@ input:checked + .slider:before {
 
 .alternatives-accordion {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 1rem;
-    align-items: stretch;
     width: 100%;
 }
 
@@ -2015,79 +2014,4 @@ input:checked + .slider:before {
 
 .spec-badge i {
     color: var(--accent);
-}
-
-/* ==========================================================================
-   Gastro Sample Box Card
-   ========================================================================== */
-.gastro-sample-box-card {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    padding: 1.25rem;
-    background: var(--bg-glass);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    margin-top: 2rem;
-    max-width: 500px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.gastro-sample-box-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--accent-gradient);
-    opacity: 0.8;
-}
-
-.gastro-sample-box-card:hover {
-    transform: translateY(-3px) translateZ(20px);
-    border-color: rgba(253, 80, 1, 0.3);
-    box-shadow: 0 12px 30px rgba(253, 80, 1, 0.08), var(--card-shadow);
-}
-
-.sample-box-icon {
-    font-size: 1.75rem;
-    color: var(--accent);
-    background: rgba(253, 80, 1, 0.08);
-    padding: 0.8rem;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-}
-
-.gastro-sample-box-card:hover .sample-box-icon {
-    transform: scale(1.1) rotate(5deg);
-    background: rgba(253, 80, 1, 0.12);
-}
-
-.sample-box-text h5 {
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    letter-spacing: 0.02em;
-}
-
-.sample-box-text p {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    margin: 0;
 }
