@@ -1988,11 +1988,13 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     z-index: 10;
-    padding: 2rem 2.5rem 1.8rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+    padding: 1.5rem 2.5rem 1.8rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
     display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.2rem;
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 1.2s ease, transform 1.2s ease;
@@ -2004,22 +2006,59 @@ input:checked + .slider:before {
     transform: translateY(0);
 }
 
-.cf-eyebrow {
-    font-family: var(--font-heading);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
+.cf-badge {
+    background: rgba(253, 80, 1, 0.18);
+    border: 1.5px solid #FD5001;
     color: #FD5001;
+    padding: 0.45rem 1rem;
+    border-radius: 30px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 0 15px rgba(253, 80, 1, 0.35);
+    display: inline-block;
+    backdrop-filter: blur(4px);
 }
 
 .cf-tagline {
     font-family: var(--font-body);
-    font-size: clamp(0.95rem, 2vw, 1.45rem);
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.80);
+    font-size: clamp(0.85rem, 1.6vw, 1.25rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.95);
     letter-spacing: 0.01em;
+    display: inline-block;
+    border-right: 2px solid #FD5001;
+    padding-right: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.cf-tagline.typing-active {
+    animation: blink-cursor 0.75s step-end infinite;
+}
+
+@keyframes blink-cursor {
+    from, to { border-color: transparent }
+    50% { border-color: #FD5001 }
+}
+
+/* Mobile Optimierung für Caption */
+@media (max-width: 768px) {
+    .cf-caption {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 1.2rem 1.5rem;
+    }
+    .cf-tagline {
+        white-space: normal;
+        border-right: none;
+        padding-right: 0;
+    }
 }
 
 /* Scroll hint */

@@ -42,8 +42,8 @@
 
         <!-- Dezenter Overlay-Text -->
         <div class="cf-caption" id="cfCaption">
-            <span class="cf-eyebrow">Schieß den Vogel nicht ab.</span>
-            <span class="cf-tagline">Lass deine Daten im eigenen Nest – mit maßgeschneiderter KI hinter deiner Firewall.</span>
+            <span class="cf-badge">Schieß den Vogel nicht ab</span>
+            <span class="cf-tagline typing-active" data-text="Lass deine Daten im eigenen Nest – mit maßgeschneiderter KI hinter deiner Firewall."></span>
         </div>
 
         <a class="slide-scroll-hint" href="#appSection" aria-label="Weiter scrollen">
@@ -834,9 +834,32 @@
             activeCellIndex = (activeCellIndex + 1) % cells.length;
         }
 
-        // Show caption once after page has loaded and settled
+        // Show caption and start typewriter effect
         setTimeout(() => {
             caption.classList.add('cf-caption--visible');
+            
+            const taglineEl = caption.querySelector('.cf-tagline');
+            if (taglineEl) {
+                const textToType = taglineEl.getAttribute('data-text') || '';
+                let charIdx = 0;
+                taglineEl.textContent = '';
+                
+                function typeTagline() {
+                    if (charIdx < textToType.length) {
+                        taglineEl.textContent += textToType.charAt(charIdx);
+                        charIdx++;
+                        setTimeout(typeTagline, 45); // 45ms per character typing speed
+                    } else {
+                        // Keep cursor blinking for 3 seconds then stop it
+                        setTimeout(() => {
+                            taglineEl.classList.remove('typing-active');
+                            taglineEl.style.borderRight = 'none';
+                        }, 3000);
+                    }
+                }
+                
+                setTimeout(typeTagline, 600); // Wait 600ms after caption enters
+            }
         }, 1500);
 
         // Start the continuous tick loop after an initial settle time
