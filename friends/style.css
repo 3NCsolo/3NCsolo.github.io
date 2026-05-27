@@ -1988,13 +1988,11 @@ input:checked + .slider:before {
     left: 0;
     right: 0;
     z-index: 10;
-    padding: 1.5rem 2.5rem 1.8rem;
+    padding: 1.5rem 2rem 1.8rem;
     background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1.2rem;
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 1.2s ease, transform 1.2s ease;
@@ -2006,35 +2004,21 @@ input:checked + .slider:before {
     transform: translateY(0);
 }
 
-.cf-badge {
-    background: rgba(253, 80, 1, 0.18);
-    border: 1.5px solid #FD5001;
-    color: #FD5001;
-    padding: 0.45rem 1rem;
-    border-radius: 30px;
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    box-shadow: 0 0 15px rgba(253, 80, 1, 0.35);
-    display: inline-block;
-    backdrop-filter: blur(4px);
-}
-
 .cf-tagline {
     font-family: var(--font-body);
-    font-size: clamp(0.85rem, 1.6vw, 1.25rem);
+    font-size: clamp(0.9rem, 1.8vw, 1.35rem);
     font-weight: 400;
     color: rgba(255, 255, 255, 0.95);
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
+    text-align: center;
     display: inline-block;
     border-right: 2px solid #FD5001;
     padding-right: 6px;
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;
+    width: auto;
+    max-width: 100%;
 }
 
 .cf-tagline.typing-active {
@@ -2049,15 +2033,13 @@ input:checked + .slider:before {
 /* Mobile Optimierung für Caption */
 @media (max-width: 768px) {
     .cf-caption {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.6rem;
         padding: 1.2rem 1.5rem;
     }
     .cf-tagline {
         white-space: normal;
         border-right: none;
         padding-right: 0;
+        text-align: center;
     }
 }
 
